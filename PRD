@@ -1,207 +1,3973 @@
-# PRD V1 — Product Foundation
+# PRODUCT REQUIREMENTS DOCUMENT
 
-## Product
-CTOS Portfolio Platform (ctos.web.id)
+# CTOS.WEB.ID
 
-## Positioning
-Digital Systems Architect specializing in Infrastructure, AI Workflows, Automation, and Product Engineering.
+## Personal Portfolio Platform
 
-## Vision
-Create a premium portfolio platform that demonstrates systems thinking, technical architecture, infrastructure expertise, and AI-powered workflows.
+### Version 1.0
 
-## Audience
-- Recruiters
-- Hiring Managers
-- CTOs
-- Founders
-- Developers
-- AI Enthusiasts
+---
 
-## Goals
-1. Personal Branding
-2. Authority Building
-3. Portfolio Showcase
-4. Professional Opportunities
+# PRODUCT OVERVIEW
 
-## Design Philosophy
+## Product Name
+
+CTOS Portfolio Platform
+
+## Domain
+
+ctos.web.id
+
+## Product Type
+
+Personal Branding Platform
+
+Portfolio Website
+
+Case Study Showcase
+
+Technical Knowledge Hub
+
+Professional Identity System
+
+---
+
+# PRODUCT VISION
+
+Create a modern portfolio platform that represents not only technical capabilities but the ability to architect, integrate, and operate complex digital systems.
+
+The website should communicate credibility, systems thinking, technical depth, infrastructure expertise, AI workflow knowledge, and product architecture capabilities.
+
+The experience must feel premium, intentional, interactive, and highly polished without sacrificing performance.
+
+---
+
+# PRIMARY POSITIONING
+
+Digital Systems Architect
+
+Specializing in:
+
+* Infrastructure
+* AI Workflows
+* Product Engineering
+* Automation
+* System Architecture
+
+---
+
+# PERSONAL BRAND STATEMENT
+
+Bridging Infrastructure, AI, and Product Engineering.
+
+Designing reliable digital systems through architecture, automation, and AI-powered workflows.
+
+---
+
+# TARGET AUDIENCE
+
+## Primary
+
+Recruiters
+
+Technical Hiring Managers
+
+Engineering Leads
+
+CTOs
+
+Startup Founders
+
+---
+
+## Secondary
+
+Developers
+
+AI Enthusiasts
+
+Infrastructure Engineers
+
+Self-Hosted Enthusiasts
+
+Product Builders
+
+---
+
+## Tertiary
+
+Educational Institutions
+
+SMEs
+
+Technology Communities
+
+---
+
+# PRODUCT GOALS
+
+## Goal 1
+
+Establish authority and credibility.
+
+---
+
+## Goal 2
+
+Showcase real-world systems.
+
+---
+
+## Goal 3
+
+Differentiate from traditional portfolios.
+
+---
+
+## Goal 4
+
+Provide an immersive experience.
+
+---
+
+## Goal 5
+
+Generate professional opportunities.
+
+---
+
+# DESIGN PHILOSOPHY
+
 70% Vercel
+
 20% Cloudflare
+
 10% Antigravity
 
-## Core Sections
-- Home
-- About
-- Projects
-- Case Studies
-- Resume
-- Certificates
-- Notes
-- Contact
+---
 
-## Key Features
-- Custom SVG System
-- Morphing SVG
-- Visitor Globe
-- Case Studies
-- Certificate Vault
-- Bilingual Support
-- Dark/Light Theme
+# DESIGN PRINCIPLES
 
-# PRD V2 — Information Architecture & UX System
+## Principle 1
 
-## UX Goals
-Users should understand:
-- Who you are
-- What you do
-- Why you're different
-- Proof of expertise
-- How to contact you
-
-## Sitemap
-/
-/about
-/projects
-/case-studies
-/resume
-/certificates
-/notes
-/contact
-
-## Homepage Structure
-1. Hero
-2. System Overview
-3. Featured Case Study
-4. Selected Projects
-5. Architecture Philosophy
-6. Notes Preview
-7. Certificate Preview
-8. Contact
-9. Visitor Globe
-10. Footer
-
-## Navigation
-Desktop:
-- Floating Navigation
-- Command Palette (CMD/CTRL + K)
-
-Mobile:
-- Bottom Navigation
-
-## Case Study Structure
-- Overview
-- Problem
-- Requirements
-- Architecture
-- Solution
-- Results
-- Lessons Learned
-
-## Accessibility
-- WCAG AA
-- Reduced Motion
-- Keyboard Navigation
-
-# PRD V3 — Design System & Motion System
-
-## Visual Direction
-- Vercel Inspired
-- Cloudflare Inspired
-- Antigravity Inspired
-
-## Typography
-Primary: Geist
-Fallback: Inter
-Code: JetBrains Mono
-
-## Color System
-Dark-first design system.
-
-## SVG System
-- No icon libraries
-- Custom SVG only
-- Morphing SVG architecture
-
-## Motion Philosophy
 Motion Has Purpose
 
-## Motion Tokens
-Fast: 120ms
-Normal: 220ms
-Slow: 400ms
-Reveal: 600ms
+Every animation must communicate information.
 
-## Micro Interactions
-- Magnetic Buttons
-- SVG Morphing
-- Card Tilt
-- Scroll Reveal
-- Command Palette
-- Visitor Globe
-- Cursor Awareness
-- Theme Morphing
+---
 
-## Performance Targets
-- Lighthouse 90+
-- LCP < 2.5s
-- CLS < 0.1
+## Principle 2
 
-# PRD V4 — Astro + Vue Technical Architecture
+Architecture First
 
-## Stack
-- Astro 5+
-- Vue 3
-- TypeScript
-- Tailwind CSS 4
-- GSAP
-- Motion One
-- Lenis
-- MDX
+Systems before technologies.
 
-## Architecture Principles
-- Content First
-- Performance First
-- Island Architecture
-- Progressive Enhancement
+---
 
-## Structure
+## Principle 3
+
+Story Before Features
+
+Show impact rather than technology stacks.
+
+---
+
+## Principle 4
+
+Minimal Yet Technical
+
+Avoid visual clutter.
+
+---
+
+## Principle 5
+
+Professional Over Trendy
+
+Recruiter-first experience.
+
+---
+
+# BRAND ATTRIBUTES
+
+Professional
+
+Systematic
+
+Architectural
+
+Technical
+
+Reliable
+
+Thoughtful
+
+Modern
+
+Innovative
+
+Precise
+
+Trustworthy
+
+---
+
+# INFORMATION ARCHITECTURE
+
+Home
+
+About
+
+Projects
+
+Case Studies
+
+Resume
+
+Certificates
+
+Technical Notes
+
+Contact
+
+---
+
+# NAVIGATION STRUCTURE
+
+Top Navigation
+
+Logo
+
+Home
+
+Projects
+
+Case Studies
+
+Resume
+
+Notes
+
+Contact
+
+Theme Toggle
+
+Language Toggle
+
+---
+
+# HOMEPAGE
+
+## Hero
+
+Interactive System Visualization
+
+Animated SVG Network
+
+Infrastructure Nodes
+
+AI Nodes
+
+Automation Nodes
+
+Product Nodes
+
+---
+
+## Headline
+
+Bridging Infrastructure, AI, and Product Engineering.
+
+---
+
+## Subheadline
+
+Designing reliable digital systems through architecture, automation, and AI-powered workflows.
+
+---
+
+## CTA
+
+Explore Projects
+
+View Case Studies
+
+---
+
+# ABOUT PAGE
+
+## Personal Introduction
+
+Name
+
+Professional Identity
+
+Years of Experience
+
+Current Focus Areas
+
+---
+
+## Expertise Matrix
+
+Infrastructure
+
+Automation
+
+AI Workflows
+
+Product Engineering
+
+System Design
+
+Cloud Platforms
+
+Self Hosting
+
+Architecture
+
+---
+
+## Philosophy
+
+Systems Thinking
+
+Continuous Learning
+
+Pragmatic Engineering
+
+AI Assisted Development
+
+---
+
+# PROJECTS PAGE
+
+Grid Layout
+
+Advanced Filtering
+
+Search
+
+Animated Cards
+
+Category Filters
+
+---
+
+# PROJECT CATEGORIES
+
+Infrastructure
+
+Automation
+
+AI
+
+Education
+
+Web Applications
+
+Cloud
+
+Open Source
+
+Experiments
+
+---
+
+# FEATURED PROJECT
+
+SMK Teknovo Ecosystem
+
+---
+
+# CASE STUDY PAGE
+
+Long-form Storytelling
+
+Problem
+
+Architecture
+
+Solution
+
+Challenges
+
+Results
+
+Lessons Learned
+
+---
+
+# CASE STUDY FORMAT
+
+Overview
+
+Problem Statement
+
+Requirements
+
+Architecture
+
+Technology Decisions
+
+Implementation
+
+Results
+
+Future Improvements
+
+---
+
+# RESUME PAGE
+
+Interactive Resume
+
+Timeline-Free Layout
+
+Skills
+
+Projects
+
+Achievements
+
+Education
+
+Download Resume
+
+---
+
+# CERTIFICATE VAULT
+
+Premium Certificate Experience
+
+Animated Folder System
+
+Interactive Viewer
+
+Fullscreen Preview
+
+Search
+
+Filtering
+
+Tagging
+
+---
+
+# TECHNICAL NOTES
+
+Not Blog Focused
+
+Knowledge Base Style
+
+Categories
+
+Infrastructure
+
+AI
+
+Cloudflare
+
+Automation
+
+Lessons Learned
+
+Troubleshooting
+
+---
+
+# CONTACT PAGE
+
+Email
+
+LinkedIn
+
+GitHub
+
+Contact Form
+
+---
+
+# CONTACT CHANNELS
+
+LinkedIn
+
+Saepulhusna234
+
+Email
+
+[Saepulhusna70@gmail.com](mailto:Saepulhusna70@gmail.com)
+
+GitHub
+
+SaenaAsColeAllStar
+
+---
+
+# MICRO INTERACTION STRATEGY
+
+Level 3.5
+
+Premium SaaS
+
+Selective Immersion
+
+---
+
+# INTERACTION LIBRARY
+
+Magnetic Buttons
+
+Morphing SVG Icons
+
+Cursor Awareness
+
+Text Reveal
+
+Section Reveal
+
+Card Tilt
+
+Dynamic Grid Hover
+
+Connection Line Animation
+
+Scroll Progress Indicators
+
+Animated Counters
+
+Adaptive Navigation
+
+Depth Effects
+
+Contextual Cursor
+
+---
+
+# SVG SYSTEM
+
+No Icon Library
+
+No Lucide
+
+No Heroicons
+
+No Tabler
+
+---
+
+# Custom SVG Categories
+
+Infrastructure
+
+Cloud
+
+AI
+
+Architecture
+
+Projects
+
+Documents
+
+Certificates
+
+Navigation
+
+Contact
+
+---
+
+# SVG MORPHING
+
+Infrastructure ↔ Cloud
+
+Cloud ↔ Automation
+
+Automation ↔ AI
+
+AI ↔ Product
+
+Product ↔ Architecture
+
+---
+
+# VISITOR ANALYTICS
+
+Extreme Mode
+
+---
+
+# FEATURES
+
+Visitor Count
+
+Country Count
+
+Live Visitors
+
+Traffic Sources
+
+---
+
+# VISITOR GLOBE
+
+Lazy Loaded
+
+Client Side Only
+
+Visible Near Footer
+
+Never Affect Initial Load
+
+---
+
+# MOTION SYSTEM
+
+GSAP
+
+Motion One
+
+Lenis
+
+Intersection Observer
+
+---
+
+# PERFORMANCE TARGETS
+
+Lighthouse
+
+90+
+
+---
+
+# Core Web Vitals
+
+Green
+
+---
+
+# Bundle Size
+
+Minimal
+
+---
+
+# Loading Strategy
+
+Lazy Loading
+
+Route Based Splitting
+
+Component Based Splitting
+
+Animation Deferral
+
+---
+
+# TECHNOLOGY STACK
+
+Astro
+
+Vue 3
+
+TypeScript
+
+Tailwind CSS
+
+GSAP
+
+Lenis
+
+Motion One
+
+MDX
+
+Cloudflare Analytics
+
+---
+
+# ACCESSIBILITY
+
+WCAG AA
+
+Keyboard Navigation
+
+Focus States
+
+Reduced Motion Support
+
+Screen Reader Support
+
+Semantic HTML
+
+---
+
+# SEO
+
+Structured Data
+
+Open Graph
+
+Twitter Cards
+
+Sitemap
+
+Robots
+
+Canonical URLs
+
+Schema Markup
+
+---
+
+# SUCCESS CRITERIA
+
+Visitors understand positioning within 10 seconds.
+
+Projects are discoverable within 2 clicks.
+
+Case studies are readable on mobile.
+
+Animations never block interaction.
+
+Performance remains above target.
+
+Website feels premium and memorable.
+
+Portfolio differentiates from traditional developer portfolios.
+
+---
+
+# NON GOALS
+
+Do not become a blog platform.
+
+Do not become a SaaS dashboard.
+
+Do not become a social network.
+
+Do not become animation-first.
+
+Do not prioritize visual effects over usability.
+
+
+# PRD V2
+
+# INFORMATION ARCHITECTURE & UX SYSTEM
+
+Project:
+CTOS Portfolio Platform
+
+Domain:
+ctos.web.id
+
+---
+
+# UX STRATEGY
+
+## Core UX Goal
+
+Dalam waktu maksimal 15 detik, pengunjung harus memahami:
+
+1. Siapa Anda
+2. Apa yang Anda kerjakan
+3. Apa yang membuat Anda berbeda
+4. Bukti kemampuan Anda
+5. Cara menghubungi Anda
+
+---
+
+# UX PRINCIPLES
+
+## Principle 1
+
+Clarity Before Complexity
+
+Animasi tidak boleh mengorbankan pemahaman.
+
+---
+
+## Principle 2
+
+Systems Before Skills
+
+Menampilkan hasil dan arsitektur sistem lebih penting daripada daftar teknologi.
+
+---
+
+## Principle 3
+
+Story Driven Navigation
+
+Pengguna diarahkan secara natural menuju case study.
+
+---
+
+## Principle 4
+
+Progressive Disclosure
+
+Informasi kompleks ditampilkan bertahap.
+
+---
+
+## Principle 5
+
+Motion Supports Understanding
+
+Animasi harus memperjelas konteks.
+
+---
+
+# PRIMARY USER JOURNEY
+
+## Recruiter Flow
+
+Landing
+
+↓
+
+Hero
+
+↓
+
+About Snapshot
+
+↓
+
+Featured Case Study
+
+↓
+
+Projects
+
+↓
+
+Resume
+
+↓
+
+Contact
+
+---
+
+Expected Duration
+
+3-5 menit
+
+---
+
+# Technical Audience Flow
+
+Landing
+
+↓
+
+Architecture Overview
+
+↓
+
+Case Studies
+
+↓
+
+Technical Notes
+
+↓
+
+Projects
+
+↓
+
+GitHub
+
+---
+
+Expected Duration
+
+5-15 menit
+
+---
+
+# Founder Flow
+
+Landing
+
+↓
+
+Systems Overview
+
+↓
+
+Featured Projects
+
+↓
+
+Case Studies
+
+↓
+
+Contact
+
+---
+
+Expected Duration
+
+3-10 menit
+
+---
+
+# INFORMATION HIERARCHY
+
+Level 1
+
+Identity
+
+---
+
+Level 2
+
+Capabilities
+
+---
+
+Level 3
+
+Proof
+
+---
+
+Level 4
+
+Technical Depth
+
+---
+
+Level 5
+
+Contact
+
+---
+
+# GLOBAL SITE MAP
+
+Home
+
+About
+
+Projects
+
+Case Studies
+
+Resume
+
+Certificates
+
+Notes
+
+Contact
+
+404
+
+Privacy
+
+---
+
+# NAVIGATION SYSTEM
+
+## Desktop
+
+Floating Glass Navigation
+
+Sticky
+
+Auto Hide On Scroll Down
+
+Reveal On Scroll Up
+
+---
+
+Navigation Items
+
+Home
+
+Projects
+
+Case Studies
+
+Resume
+
+Notes
+
+Contact
+
+---
+
+Right Actions
+
+Language Switcher
+
+Theme Switcher
+
+Command Palette
+
+---
+
+# COMMAND PALETTE
+
+Keyboard Shortcut
+
+CMD + K
+
+CTRL + K
+
+---
+
+Functions
+
+Navigate
+
+Search Project
+
+Search Notes
+
+Open Resume
+
+Contact
+
+Theme Switch
+
+Language Switch
+
+---
+
+# MOBILE NAVIGATION
+
+Bottom Sheet Navigation
+
+Not Hamburger
+
+---
+
+Why
+
+Faster Reachability
+
+Modern Feel
+
+Premium Experience
+
+---
+
+Items
+
+Home
+
+Projects
+
+Resume
+
+Notes
+
+Contact
+
+---
+
+# HOME PAGE ARCHITECTURE
+
+Section Count
+
+8-10 Sections Maximum
+
+---
+
+SECTION 01
+
+Hero
+
+---
+
+Purpose
+
+Identity
+
+Positioning
+
+First Impression
+
+---
+
+Content
+
+Interactive System Visualization
+
+Headline
+
+Subheadline
+
+Primary CTA
+
+Secondary CTA
+
+---
+
+SECTION 02
+
+System Overview
+
+---
+
+Purpose
+
+Quickly explain expertise areas.
+
+---
+
+Cards
+
+Infrastructure
+
+AI Workflows
+
+Automation
+
+Product Systems
+
+---
+
+SECTION 03
+
+Featured Case Study
+
+---
+
+SMK Teknovo Ecosystem
+
+---
+
+Content
+
+Problem
+
+Architecture
+
+Results
+
+CTA
+
+---
+
+SECTION 04
+
+Selected Projects
+
+---
+
+3-6 Projects
+
+---
+
+SECTION 05
+
+Architecture Philosophy
+
+---
+
+Explain approach
+
+Without buzzwords
+
+---
+
+SECTION 06
+
+Technical Notes Preview
+
+---
+
+Latest Articles
+
+Maximum 3
+
+---
+
+SECTION 07
+
+Certificate Vault Preview
+
+---
+
+Top Certifications
+
+---
+
+SECTION 08
+
+Contact
+
+---
+
+SECTION 09
+
+Visitor Globe
+
+---
+
+SECTION 10
+
+Footer
+
+---
+
+# ABOUT PAGE
+
+Purpose
+
+Humanize Identity
+
+---
+
+Layout
+
+Hero
+
+↓
+
+Professional Summary
+
+↓
+
+Expertise Matrix
+
+↓
+
+Approach
+
+↓
+
+Technology Ecosystem
+
+↓
+
+Contact CTA
+
+---
+
+# EXPERTISE MATRIX
+
+Not Progress Bars
+
+Never Use Progress Bars
+
+---
+
+Use
+
+Capability Cards
+
+---
+
+Example
+
+Infrastructure Design
+
+Cloud Operations
+
+Automation Systems
+
+AI Workflows
+
+Product Architecture
+
+Technical Documentation
+
+---
+
+# PROJECT PAGE
+
+Purpose
+
+Show breadth
+
+---
+
+Layout
+
+Header
+
+↓
+
+Filter System
+
+↓
+
+Search
+
+↓
+
+Project Grid
+
+↓
+
+Load More
+
+---
+
+# FILTER SYSTEM
+
+Categories
+
+Infrastructure
+
+Automation
+
+AI
+
+Education
+
+Cloud
+
+Experiments
+
+Open Source
+
+---
+
+# PROJECT CARD UX
+
+Hover
+
+Depth
+
+Glow
+
+SVG Morph
+
+Preview Metadata
+
+---
+
+Click
+
+Open Detail Page
+
+---
+
+# CASE STUDIES PAGE
+
+Purpose
+
+Show depth
+
+---
+
+Layout
+
+Featured Case Study
+
+↓
+
+Case Study List
+
+↓
+
+Filters
+
+---
+
+# CASE STUDY TEMPLATE
+
+Hero
+
+Overview
+
+Problem
+
+Requirements
+
+Architecture
+
+Solution
+
+Challenges
+
+Results
+
+Lessons Learned
+
+Future Opportunities
+
+---
+
+# RESUME PAGE
+
+Purpose
+
+Recruiter Friendly
+
+---
+
+Layout
+
+Summary
+
+↓
+
+Key Achievements
+
+↓
+
+Skills
+
+↓
+
+Projects
+
+↓
+
+Education
+
+↓
+
+Download Resume
+
+---
+
+# CERTIFICATE VAULT UX
+
+Purpose
+
+Premium Presentation
+
+---
+
+Default View
+
+Vault Grid
+
+---
+
+Hover
+
+Folder Opens
+
+Certificate Preview Appears
+
+---
+
+Click
+
+Fullscreen Modal
+
+---
+
+Modal Contains
+
+Preview
+
+Issuer
+
+Date
+
+Description
+
+Skills
+
+Credential Link
+
+---
+
+# NOTES PAGE
+
+Purpose
+
+Knowledge Sharing
+
+---
+
+Layout
+
+Search
+
+↓
+
+Tags
+
+↓
+
+Article List
+
+---
+
+Tag Categories
+
+Infrastructure
+
+AI
+
+Cloudflare
+
+Automation
+
+Lessons Learned
+
+Troubleshooting
+
+---
+
+# CONTACT PAGE
+
+Purpose
+
+Conversion
+
+---
+
+Layout
+
+Hero
+
+↓
+
+Contact Channels
+
+↓
+
+Form
+
+↓
+
+Availability
+
+↓
+
+Footer
+
+---
+
+# CONTACT FORM
+
+Fields
+
+Name
+
+Email
+
+Subject
+
+Message
+
+---
+
+Validation
+
+Realtime
+
+Inline
+
+---
+
+# SEARCH UX
+
+Global Search
+
+---
+
+Accessible Through
+
+Command Palette
+
+Search Button
+
+Keyboard Shortcut
+
+---
+
+Search Scope
+
+Projects
+
+Case Studies
+
+Notes
+
+Certificates
+
+---
+
+# LANGUAGE SYSTEM
+
+Default
+
+English
+
+---
+
+Alternative
+
+Bahasa Indonesia
+
+---
+
+Storage
+
+Local Storage
+
+Cookie
+
+---
+
+# DARK MODE UX
+
+Modes
+
+Light
+
+Dark
+
+System
+
+---
+
+Transitions
+
+Animated
+
+Smooth
+
+Not Instant
+
+---
+
+# SCROLL EXPERIENCE
+
+Lenis
+
+Smooth
+
+Accessible
+
+Reduced Motion Support
+
+---
+
+# CONTENT DENSITY
+
+Desktop
+
+Medium
+
+---
+
+Tablet
+
+Medium-Low
+
+---
+
+Mobile
+
+Low
+
+---
+
+# GRID SYSTEM
+
+Desktop
+
+12 Columns
+
+---
+
+Tablet
+
+8 Columns
+
+---
+
+Mobile
+
+4 Columns
+
+---
+
+# MAX CONTENT WIDTH
+
+1440px
+
+---
+
+Readable Content Width
+
+760px
+
+---
+
+# ACCESSIBILITY UX
+
+Keyboard Navigation
+
+Focus Indicators
+
+ARIA Labels
+
+Reduced Motion
+
+Color Contrast
+
+Screen Reader Support
+
+Semantic Structure
+
+---
+
+# EMPTY STATES
+
+Projects
+
+Certificates
+
+Search
+
+Notes
+
+---
+
+Must Contain
+
+Illustration
+
+Message
+
+Action
+
+---
+
+# ERROR PAGES
+
+404
+
+500
+
+Offline
+
+---
+
+404 Concept
+
+System Node Not Found
+
+Instead of
+
+Page Not Found
+
+---
+
+# USER SUCCESS CRITERIA
+
+User understands positioning within 15 seconds.
+
+User reaches featured project within 1 scroll.
+
+User reaches contact within 3 clicks.
+
+Resume accessible within 2 clicks.
+
+Project searchable within 5 seconds.
+
+Navigation usable on mobile with one hand.
+
+Case study readable without fatigue.
+
+Website remains understandable with animations disabled.
+
+
+# PRD V3
+
+# DESIGN SYSTEM & MOTION SYSTEM
+
+Project:
+CTOS Portfolio Platform
+
+Version:
+3.0
+
+---
+
+# DESIGN DIRECTION
+
+Primary Influence
+
+Vercel
+
+---
+
+Secondary Influence
+
+Cloudflare
+
+---
+
+Accent Influence
+
+Antigravity
+
+---
+
+# VISUAL PHILOSOPHY
+
+The interface should feel like:
+
+A modern operating system for a digital architect.
+
+Not a personal blog.
+
+Not a startup landing page.
+
+Not a portfolio template.
+
+---
+
+# VISUAL ATTRIBUTES
+
+Clean
+
+Technical
+
+Structured
+
+Architectural
+
+Premium
+
+Purposeful
+
+Interactive
+
+Minimal
+
+Data-Aware
+
+Modern
+
+---
+
+# DESIGN LANGUAGE
+
+Everything should feel connected.
+
+Every component must look like part of the same ecosystem.
+
+No random effects.
+
+No decorative animations.
+
+No visual noise.
+
+---
+
+# COLOR SYSTEM
+
+## PRIMARY COLORS
+
+Dark Mode First
+
+---
+
+Background Primary
+
+#050816
+
+---
+
+Background Secondary
+
+#0B1020
+
+---
+
+Background Surface
+
+#121A2C
+
+---
+
+Background Elevated
+
+#18243A
+
+---
+
+# TEXT COLORS
+
+Primary
+
+#FFFFFF
+
+---
+
+Secondary
+
+#A7B0C3
+
+---
+
+Muted
+
+#6E7890
+
+---
+
+Disabled
+
+#495066
+
+---
+
+# ACCENT COLORS
+
+Primary Accent
+
+#4F8CFF
+
+---
+
+Secondary Accent
+
+#7D5FFF
+
+---
+
+Success
+
+#00D26A
+
+---
+
+Warning
+
+#FFB648
+
+---
+
+Danger
+
+#FF5C6C
+
+---
+
+# LIGHT MODE
+
+Not Pure White
+
+Never Use #FFFFFF Background
+
+---
+
+Background
+
+#F7F9FC
+
+---
+
+Surface
+
+#FFFFFF
+
+---
+
+Text
+
+#111827
+
+---
+
+# TYPOGRAPHY SYSTEM
+
+Primary Font
+
+Geist
+
+---
+
+Fallback
+
+Inter
+
+---
+
+Code Font
+
+JetBrains Mono
+
+---
+
+# TYPE SCALE
+
+Display XL
+
+72
+
+---
+
+Display L
+
+64
+
+---
+
+Heading 1
+
+48
+
+---
+
+Heading 2
+
+40
+
+---
+
+Heading 3
+
+32
+
+---
+
+Heading 4
+
+24
+
+---
+
+Body Large
+
+18
+
+---
+
+Body
+
+16
+
+---
+
+Caption
+
+14
+
+---
+
+Micro
+
+12
+
+---
+
+# TYPOGRAPHY RULES
+
+Maximum line width
+
+75 characters
+
+---
+
+Body line height
+
+1.7
+
+---
+
+Heading line height
+
+1.2
+
+---
+
+Never center long text.
+
+---
+
+# SPACING SYSTEM
+
+Base Unit
+
+8px
+
+---
+
+Scale
+
+8
+
+16
+
+24
+
+32
+
+48
+
+64
+
+96
+
+128
+
+160
+
+192
+
+---
+
+# BORDER RADIUS
+
+Small
+
+12
+
+---
+
+Medium
+
+18
+
+---
+
+Large
+
+24
+
+---
+
+Hero Elements
+
+32
+
+---
+
+# SHADOW SYSTEM
+
+Minimal
+
+Soft
+
+Layered
+
+---
+
+Never use harsh shadows.
+
+---
+
+# GLASSMORPHISM RULES
+
+Used Sparingly
+
+---
+
+Allowed Areas
+
+Navigation
+
+Command Palette
+
+Floating Controls
+
+Visitor Globe Controls
+
+---
+
+Forbidden Areas
+
+Cards
+
+Main Content
+
+Case Study Body
+
+Forms
+
+---
+
+# GRID SYSTEM
+
+Desktop
+
+12 Columns
+
+---
+
+Tablet
+
+8 Columns
+
+---
+
+Mobile
+
+4 Columns
+
+---
+
+Container Width
+
+1440px
+
+---
+
+Reading Width
+
+760px
+
+---
+
+# ICON SYSTEM
+
+NO ICON LIBRARIES
+
+---
+
+All Icons
+
+Custom SVG
+
+---
+
+# SVG DESIGN LANGUAGE
+
+Stroke Based
+
+Consistent Weight
+
+Rounded Corners
+
+Geometric Construction
+
+---
+
+# SVG CATEGORIES
+
+Infrastructure
+
+Servers
+
+Networks
+
+AI
+
+Automation
+
+Projects
+
+Documents
+
+Certificates
+
+Navigation
+
+Contact
+
+Analytics
+
+---
+
+# SVG MORPHING SYSTEM
+
+Purpose
+
+Represent evolution.
+
+---
+
+Morph Chains
+
+Infrastructure
+
+↓
+
+Cloud
+
+↓
+
+Automation
+
+↓
+
+AI
+
+↓
+
+Architecture
+
+---
+
+Project
+
+↓
+
+Case Study
+
+↓
+
+Documentation
+
+---
+
+Certificate
+
+↓
+
+Knowledge
+
+↓
+
+Capability
+
+---
+
+# MOTION SYSTEM
+
+Principle
+
+Motion Has Purpose
+
+---
+
+No decorative motion.
+
+---
+
+No infinite distractions.
+
+---
+
+# MOTION TOKENS
+
+Fast
+
+120ms
+
+---
+
+Normal
+
+220ms
+
+---
+
+Slow
+
+400ms
+
+---
+
+Reveal
+
+600ms
+
+---
+
+Story
+
+800ms
+
+---
+
+# EASING TOKENS
+
+Standard
+
+ease-out
+
+---
+
+Premium
+
+cubic-bezier(0.22,1,0.36,1)
+
+---
+
+# PAGE TRANSITIONS
+
+Fade
+
+Scale
+
+Blur
+
+---
+
+Duration
+
+400ms
+
+---
+
+# SCROLL SYSTEM
+
+Lenis
+
+---
+
+Smooth
+
+Enabled
+
+---
+
+Reduced Motion
+
+Supported
+
+---
+
+# HERO INTERACTION SYSTEM
+
+Interactive Architecture Map
+
+---
+
+Elements
+
+Nodes
+
+Connections
+
+Signals
+
+Clusters
+
+---
+
+Hover
+
+Activate Node
+
+---
+
+Click
+
+Expand Information
+
+---
+
+Mouse Move
+
+Parallax Depth
+
+---
+
+# CURSOR SYSTEM
+
+Default
+
+Minimal
+
+---
+
+Interactive Areas
+
+Context Cursor
+
+---
+
+Examples
+
+View Project
+
+Open Case Study
+
+Explore
+
+Download
+
+---
+
+# BUTTON SYSTEM
+
+Primary
+
+Filled
+
+---
+
+Secondary
+
+Ghost
+
+---
+
+Tertiary
+
+Text
+
+---
+
+# BUTTON MICRO INTERACTIONS
+
+Magnetic Hover
+
+---
+
+Glow Pulse
+
+---
+
+Arrow Motion
+
+---
+
+Depth Shift
+
+---
+
+# CARD SYSTEM
+
+Project Cards
+
+Case Study Cards
+
+Certificate Cards
+
+Note Cards
+
+---
+
+# CARD INTERACTIONS
+
+Tilt
+
+Depth
+
+Glow
+
+SVG Morph
+
+---
+
+# TEXT ANIMATION SYSTEM
+
+Word Reveal
+
+Line Reveal
+
+Character Reveal
+
+---
+
+Restrictions
+
+Never animate body paragraphs.
+
+---
+
+Only
+
+Hero
+
+Section Headers
+
+Highlights
+
+---
+
+# SECTION TRANSITIONS
+
+Fade Up
+
+Scale Reveal
+
+Mask Reveal
+
+---
+
+# CASE STUDY STORYTELLING
+
+Scroll Based
+
+---
+
+Architecture Appears Gradually
+
+---
+
+Diagrams Animate
+
+---
+
+Data Highlights Animate
+
+---
+
+# VISITOR GLOBE
+
+Lazy Loaded
+
+---
+
+Load After User Reaches Footer
+
+---
+
+Globe Interactions
+
+Rotate
+
+Hover Country
+
+View Stats
+
+---
+
+# ANALYTICS VISUALIZATION
+
+Animated Counters
+
+---
+
+Country Distribution
+
+---
+
+Visit Timeline
+
+---
+
+# COMMAND PALETTE
+
+Glass Surface
+
+---
+
+Blur
+
+20px
+
+---
+
+Keyboard First
+
+---
+
+# FORMS
+
+Minimal
+
+---
+
+Real Time Validation
+
+---
+
+No Multi Step Forms
+
+---
+
+# CERTIFICATE VAULT
+
+Folder Inspired
+
+---
+
+Hover
+
+Open Folder
+
+---
+
+Click
+
+Fullscreen Certificate
+
+---
+
+# MOBILE MOTION RULES
+
+Reduce Motion By 40%
+
+---
+
+Disable Heavy Effects
+
+---
+
+Disable Globe Auto Rotation
+
+---
+
+Reduce Particle Counts
+
+---
+
+# ACCESSIBILITY MOTION RULES
+
+prefers-reduced-motion
+
+Must Be Supported
+
+---
+
+Disable
+
+Parallax
+
+Morphing
+
+Depth Motion
+
+---
+
+Keep
+
+Opacity
+
+Fade
+
+---
+
+# MICRO INTERACTION INVENTORY
+
+01 Magnetic Button
+
+02 Dynamic Arrow
+
+03 Hover Glow
+
+04 Card Tilt
+
+05 Card Depth
+
+06 SVG Morph
+
+07 Scroll Reveal
+
+08 Line Reveal
+
+09 Word Reveal
+
+10 Number Counter
+
+11 Cursor Label
+
+12 Cursor Scale
+
+13 Navigation Hide
+
+14 Navigation Reveal
+
+15 Theme Morph
+
+16 Language Switch
+
+17 Project Filter
+
+18 Search Expand
+
+19 Search Suggestion
+
+20 Command Palette Open
+
+21 Command Palette Search
+
+22 Certificate Hover
+
+23 Certificate Open
+
+24 Case Study Reveal
+
+25 Architecture Diagram Animate
+
+26 Skill Card Hover
+
+27 Expertise Matrix Hover
+
+28 Timeline Progress
+
+29 Scroll Indicator
+
+30 Globe Rotation
+
+31 Globe Hover
+
+32 Visitor Counter
+
+33 Footer Reveal
+
+34 Contact Form Validation
+
+35 Contact Submit Success
+
+36 Loading Skeleton
+
+37 Page Transition
+
+38 Route Transition
+
+39 Section Indicator
+
+40 CTA Pulse
+
+41 CTA Magnetic
+
+42 SVG Connection Pulse
+
+43 System Node Hover
+
+44 System Node Expand
+
+45 Project Preview
+
+46 Metadata Reveal
+
+47 Dark Mode Morph
+
+48 Light Mode Morph
+
+49 Floating Action Expand
+
+50 Architecture Map Interaction
+
+---
+
+# PERFORMANCE BUDGET
+
+Initial JS
+
+<150KB
+
+---
+
+LCP
+
+<2.5s
+
+---
+
+CLS
+
+<0.1
+
+---
+
+INP
+
+<200ms
+
+---
+
+Lighthouse
+
+90+
+
+---
+
+# DESIGN SYSTEM ACCEPTANCE CRITERIA
+
+All icons are custom SVG.
+
+All motion has purpose.
+
+Dark mode is first-class.
+
+Animations never block interaction.
+
+Mobile experience remains smooth.
+
+Website feels premium without becoming distracting.
+
+Visual identity remains consistent across every page.
+
+
+# PRD V4
+
+# ASTRO + VUE TECHNICAL ARCHITECTURE
+
+Project:
+CTOS Portfolio Platform
+
+Stack:
+Astro + Vue + TypeScript
+
+Version:
+4.0
+
+---
+
+# ARCHITECTURE PRINCIPLES
+
+1. Content First
+
+2. Performance First
+
+3. Island Architecture
+
+4. Progressive Enhancement
+
+5. Component Reusability
+
+6. Accessibility First
+
+7. Motion Without Performance Debt
+
+8. Static First Dynamic Second
+
+---
+
+# TECH STACK
+
+Framework
+
+Astro 5+
+
+---
+
+UI Layer
+
+Vue 3
+
+---
+
+Language
+
+TypeScript
+
+---
+
+Styling
+
+Tailwind CSS 4
+
+---
+
+Animation
+
+GSAP
+
+Motion One
+
+Lenis
+
+---
+
+Content
+
+MDX
+
+Astro Content Collections
+
+---
+
+Analytics
+
+Cloudflare Analytics
+
+---
+
+Forms
+
+Serverless Endpoint
+
+---
+
+Deployment
+
+Cloudflare Pages
+
+---
+
+# PROJECT STRUCTURE
+
 src/
-- assets
-- components
-- content
-- layouts
-- pages
-- lib
-- stores
-- utils
 
-## Content Collections
-- projects
-- case-studies
-- notes
-- certificates
-- resume
+├── assets/
 
-## Island Strategy
-Vue only for:
-- Hero System Map
-- Visitor Globe
-- Command Palette
-- Search
-- Certificate Vault
+├── components/
 
-Everything else:
-- Astro Static
+├── content/
 
-## SEO
-- Structured Data
-- Sitemap
-- Open Graph
-- Canonical URLs
+├── data/
 
-## Definition of Done
-- Responsive
-- Accessible
-- SEO Ready
-- Lighthouse 90+
-- Dark Mode
-- Localization
+├── layouts/
+
+├── lib/
+
+├── pages/
+
+├── services/
+
+├── stores/
+
+├── styles/
+
+├── types/
+
+├── utils/
+
+└── composables/
+
+---
+
+# COMPONENT ARCHITECTURE
+
+components/
+
+├── ui/
+
+├── layout/
+
+├── navigation/
+
+├── hero/
+
+├── project/
+
+├── case-study/
+
+├── certificate/
+
+├── notes/
+
+├── contact/
+
+├── analytics/
+
+├── globe/
+
+├── animation/
+
+├── svg/
+
+└── shared/
+
+---
+
+# UI COMPONENTS
+
+ui/
+
+Button
+
+Input
+
+Textarea
+
+Select
+
+Modal
+
+Drawer
+
+Tooltip
+
+Badge
+
+Card
+
+Tabs
+
+Accordion
+
+Skeleton
+
+Separator
+
+---
+
+# LAYOUT COMPONENTS
+
+layout/
+
+Header
+
+Footer
+
+Container
+
+Section
+
+Grid
+
+PageWrapper
+
+ThemeProvider
+
+LanguageProvider
+
+---
+
+# HERO COMPONENTS
+
+hero/
+
+HeroSystemMap
+
+HeroHeadline
+
+HeroStats
+
+HeroCTA
+
+HeroBackground
+
+HeroNodes
+
+HeroConnections
+
+---
+
+# PROJECT COMPONENTS
+
+project/
+
+ProjectGrid
+
+ProjectCard
+
+ProjectFilter
+
+ProjectSearch
+
+ProjectPreview
+
+ProjectMetadata
+
+---
+
+# CASE STUDY COMPONENTS
+
+case-study/
+
+CaseStudyHero
+
+CaseStudySection
+
+CaseStudyArchitecture
+
+CaseStudyGallery
+
+CaseStudyMetrics
+
+CaseStudyNavigation
+
+---
+
+# CERTIFICATE COMPONENTS
+
+certificate/
+
+CertificateGrid
+
+CertificateCard
+
+CertificateVault
+
+CertificateModal
+
+CertificateFilter
+
+---
+
+# ANALYTICS COMPONENTS
+
+analytics/
+
+VisitorCounter
+
+CountryCounter
+
+TrafficWidget
+
+AnalyticsOverview
+
+---
+
+# GLOBE COMPONENTS
+
+globe/
+
+VisitorGlobe
+
+CountryTooltip
+
+GlobeControls
+
+---
+
+# SVG COMPONENTS
+
+svg/
+
+InfrastructureSVG
+
+CloudSVG
+
+AutomationSVG
+
+AISVG
+
+ArchitectureSVG
+
+ProjectSVG
+
+CertificateSVG
+
+NavigationSVG
+
+---
+
+# CONTENT ARCHITECTURE
+
+content/
+
+projects/
+
+case-studies/
+
+notes/
+
+certificates/
+
+resume/
+
+---
+
+# PROJECT SCHEMA
+
+title
+
+slug
+
+summary
+
+description
+
+cover
+
+technologies
+
+category
+
+featured
+
+publishedAt
+
+links
+
+metrics
+
+---
+
+# CASE STUDY SCHEMA
+
+title
+
+slug
+
+overview
+
+problem
+
+requirements
+
+architecture
+
+solution
+
+results
+
+lessons
+
+images
+
+metrics
+
+---
+
+# NOTES SCHEMA
+
+title
+
+slug
+
+excerpt
+
+tags
+
+publishedAt
+
+updatedAt
+
+---
+
+# CERTIFICATE SCHEMA
+
+title
+
+issuer
+
+issuedAt
+
+credentialId
+
+credentialUrl
+
+skills
+
+cover
+
+---
+
+# DATA DIRECTORY
+
+data/
+
+navigation.ts
+
+socials.ts
+
+skills.ts
+
+metrics.ts
+
+settings.ts
+
+technologies.ts
+
+---
+
+# STATE MANAGEMENT
+
+Use Vue State Only
+
+No Pinia Initially
+
+---
+
+Global States
+
+theme
+
+language
+
+search
+
+commandPalette
+
+---
+
+# COMPOSABLES
+
+useTheme
+
+useLanguage
+
+useScroll
+
+useAnimation
+
+useCursor
+
+useSearch
+
+useGlobe
+
+useViewport
+
+---
+
+# LIB DIRECTORY
+
+lib/
+
+animations/
+
+seo/
+
+analytics/
+
+content/
+
+svg/
+
+---
+
+# GSAP STRUCTURE
+
+lib/animations/
+
+hero.ts
+
+reveal.ts
+
+cards.ts
+
+svg.ts
+
+cursor.ts
+
+navigation.ts
+
+globe.ts
+
+---
+
+# ANIMATION RULES
+
+No animation logic inside page files.
+
+---
+
+All animations
+
+Reusable
+
+Composable
+
+Isolated
+
+---
+
+# SVG PIPELINE
+
+assets/svg/
+
+raw/
+
+optimized/
+
+morph/
+
+---
+
+# SVG RULES
+
+All SVG optimized.
+
+All SVG reusable.
+
+No inline duplication.
+
+---
+
+# ROUTING STRUCTURE
+
+/
+
+/about
+
+/projects
+
+/projects/[slug]
+
+/case-studies
+
+/case-studies/[slug]
+
+/resume
+
+/certificates
+
+/notes
+
+/notes/[slug]
+
+/contact
+
+---
+
+# SEO STRUCTURE
+
+lib/seo/
+
+meta.ts
+
+schema.ts
+
+openGraph.ts
+
+robots.ts
+
+sitemap.ts
+
+---
+
+# SEO SCHEMA
+
+Person
+
+Website
+
+Article
+
+Breadcrumb
+
+Project
+
+CaseStudy
+
+---
+
+# META STRATEGY
+
+Unique title
+
+Unique description
+
+Unique OG image
+
+Every page
+
+---
+
+# IMAGE STRATEGY
+
+Astro Image
+
+---
+
+Formats
+
+AVIF
+
+WebP
+
+---
+
+Fallback
+
+PNG
+
+---
+
+# IMAGE RULES
+
+Lazy Load
+
+Default
+
+---
+
+Priority
+
+Hero
+
+Above Fold
+
+---
+
+# INTERNATIONALIZATION
+
+Default
+
+English
+
+---
+
+Secondary
+
+Bahasa Indonesia
+
+---
+
+Structure
+
+/en/
+
+/id/
+
+---
+
+Translation Files
+
+locales/
+
+en.json
+
+id.json
+
+---
+
+# SEARCH ARCHITECTURE
+
+Static Search
+
+---
+
+Fuse.js
+
+Client Side
+
+---
+
+Search Index Generated During Build
+
+---
+
+# COMMAND PALETTE
+
+Technology
+
+Vue Island
+
+---
+
+Features
+
+Navigation
+
+Search
+
+Theme
+
+Language
+
+Quick Actions
+
+---
+
+# ANALYTICS ARCHITECTURE
+
+Cloudflare Analytics
+
+---
+
+Custom Metrics
+
+Visitor Count
+
+Country Count
+
+Popular Pages
+
+---
+
+# VISITOR GLOBE STRATEGY
+
+Do Not Load On Initial Render
+
+---
+
+Trigger
+
+Intersection Observer
+
+---
+
+Load Only When Visible
+
+---
+
+# PERFORMANCE STRATEGY
+
+Astro First
+
+---
+
+Vue Only Where Needed
+
+---
+
+Hydration Rules
+
+client:visible
+
+client:idle
+
+client:media
+
+---
+
+Avoid
+
+client:load
+
+Unless Required
+
+---
+
+# ISLAND STRATEGY
+
+Interactive Components Only
+
+---
+
+Hero System Map
+
+Command Palette
+
+Visitor Globe
+
+Certificate Vault
+
+Theme Switcher
+
+Language Switcher
+
+Search
+
+---
+
+Everything Else
+
+Static Astro
+
+---
+
+# ACCESSIBILITY
+
+WCAG AA
+
+---
+
+Keyboard Navigation
+
+Required
+
+---
+
+Focus States
+
+Required
+
+---
+
+Reduced Motion
+
+Required
+
+---
+
+# ERROR HANDLING
+
+404
+
+500
+
+Offline
+
+Search Empty State
+
+---
+
+# LOGGING
+
+Development Only
+
+---
+
+No Console Logs In Production
+
+---
+
+# SECURITY
+
+No exposed API keys
+
+---
+
+Environment Variables
+
+Server Side Only
+
+---
+
+# CODE STANDARDS
+
+TypeScript Strict Mode
+
+---
+
+No Any Types
+
+---
+
+Component Size
+
+Maximum 300 Lines
+
+---
+
+Page Size
+
+Maximum 200 Lines
+
+---
+
+Extract Complex Logic
+
+Into Composables
+
+---
+
+# NAMING CONVENTIONS
+
+PascalCase
+
+Components
+
+---
+
+camelCase
+
+Functions
+
+---
+
+kebab-case
+
+Routes
+
+---
+
+UPPER_CASE
+
+Constants
+
+---
+
+# AI AGENT IMPLEMENTATION RULES
+
+Rule 01
+
+Never build animation before content.
+
+---
+
+Rule 02
+
+Build IA before UI.
+
+---
+
+Rule 03
+
+Build static version before interactive version.
+
+---
+
+Rule 04
+
+Use Astro whenever interactivity is not required.
+
+---
+
+Rule 05
+
+Prefer SVG over Canvas.
+
+---
+
+Rule 06
+
+Prefer Canvas over ThreeJS.
+
+---
+
+Rule 07
+
+Do not sacrifice performance for visual effects.
+
+---
+
+Rule 08
+
+Every component must support dark mode.
+
+---
+
+Rule 09
+
+Every animation must support reduced motion.
+
+---
+
+Rule 10
+
+Every page must be SEO ready.
+
+---
+
+# DEFINITION OF DONE
+
+All pages implemented.
+
+All content collections working.
+
+Dark mode working.
+
+Language switching working.
+
+Accessibility audit passed.
+
+Lighthouse score above 90.
+
+No layout shifts.
+
+Animations optimized.
+
+Mobile responsive.
+
+SEO implemented.
+
+Command palette functional.
+
+Visitor globe functional.
+
+Contact form functional.
+
+Custom SVG system implemented.
+
+Certificate vault implemented.
+
+Case study system implemented.
+
+Project system implemented.
+
+---
+
+# QA CHECKLIST
+
+Navigation
+
+Responsive
+
+Performance
+
+Accessibility
+
+SEO
+
+Dark Mode
+
+Light Mode
+
+Animation
+
+Search
+
+Command Palette
+
+Contact Form
+
+Content Collections
+
+Visitor Globe
+
+Certificates
+
+Projects
+
+Case Studies
+
+Notes
+
+Localization
+
+Error Pages
+
+Analytics
+
+Cross Browser Testing
