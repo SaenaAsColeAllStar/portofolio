@@ -1,0 +1,207 @@
+# PRD V1 — Product Foundation
+
+## Product
+CTOS Portfolio Platform (ctos.web.id)
+
+## Positioning
+Digital Systems Architect specializing in Infrastructure, AI Workflows, Automation, and Product Engineering.
+
+## Vision
+Create a premium portfolio platform that demonstrates systems thinking, technical architecture, infrastructure expertise, and AI-powered workflows.
+
+## Audience
+- Recruiters
+- Hiring Managers
+- CTOs
+- Founders
+- Developers
+- AI Enthusiasts
+
+## Goals
+1. Personal Branding
+2. Authority Building
+3. Portfolio Showcase
+4. Professional Opportunities
+
+## Design Philosophy
+70% Vercel
+20% Cloudflare
+10% Antigravity
+
+## Core Sections
+- Home
+- About
+- Projects
+- Case Studies
+- Resume
+- Certificates
+- Notes
+- Contact
+
+## Key Features
+- Custom SVG System
+- Morphing SVG
+- Visitor Globe
+- Case Studies
+- Certificate Vault
+- Bilingual Support
+- Dark/Light Theme
+
+# PRD V2 — Information Architecture & UX System
+
+## UX Goals
+Users should understand:
+- Who you are
+- What you do
+- Why you're different
+- Proof of expertise
+- How to contact you
+
+## Sitemap
+/
+/about
+/projects
+/case-studies
+/resume
+/certificates
+/notes
+/contact
+
+## Homepage Structure
+1. Hero
+2. System Overview
+3. Featured Case Study
+4. Selected Projects
+5. Architecture Philosophy
+6. Notes Preview
+7. Certificate Preview
+8. Contact
+9. Visitor Globe
+10. Footer
+
+## Navigation
+Desktop:
+- Floating Navigation
+- Command Palette (CMD/CTRL + K)
+
+Mobile:
+- Bottom Navigation
+
+## Case Study Structure
+- Overview
+- Problem
+- Requirements
+- Architecture
+- Solution
+- Results
+- Lessons Learned
+
+## Accessibility
+- WCAG AA
+- Reduced Motion
+- Keyboard Navigation
+
+# PRD V3 — Design System & Motion System
+
+## Visual Direction
+- Vercel Inspired
+- Cloudflare Inspired
+- Antigravity Inspired
+
+## Typography
+Primary: Geist
+Fallback: Inter
+Code: JetBrains Mono
+
+## Color System
+Dark-first design system.
+
+## SVG System
+- No icon libraries
+- Custom SVG only
+- Morphing SVG architecture
+
+## Motion Philosophy
+Motion Has Purpose
+
+## Motion Tokens
+Fast: 120ms
+Normal: 220ms
+Slow: 400ms
+Reveal: 600ms
+
+## Micro Interactions
+- Magnetic Buttons
+- SVG Morphing
+- Card Tilt
+- Scroll Reveal
+- Command Palette
+- Visitor Globe
+- Cursor Awareness
+- Theme Morphing
+
+## Performance Targets
+- Lighthouse 90+
+- LCP < 2.5s
+- CLS < 0.1
+
+# PRD V4 — Astro + Vue Technical Architecture
+
+## Stack
+- Astro 5+
+- Vue 3
+- TypeScript
+- Tailwind CSS 4
+- GSAP
+- Motion One
+- Lenis
+- MDX
+
+## Architecture Principles
+- Content First
+- Performance First
+- Island Architecture
+- Progressive Enhancement
+
+## Structure
+src/
+- assets
+- components
+- content
+- layouts
+- pages
+- lib
+- stores
+- utils
+
+## Content Collections
+- projects
+- case-studies
+- notes
+- certificates
+- resume
+
+## Island Strategy
+Vue only for:
+- Hero System Map
+- Visitor Globe
+- Command Palette
+- Search
+- Certificate Vault
+
+Everything else:
+- Astro Static
+
+## SEO
+- Structured Data
+- Sitemap
+- Open Graph
+- Canonical URLs
+
+## Definition of Done
+- Responsive
+- Accessible
+- SEO Ready
+- Lighthouse 90+
+- Dark Mode
+- Localization
