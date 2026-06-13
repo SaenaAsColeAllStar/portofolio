@@ -1,0 +1,266 @@
+# Definition of Done (DoD)
+
+## Purpose
+
+This document defines the minimum quality bar required before any work is considered complete in the CTOS Portfolio repository.
+
+Applies to:
+
+- Features
+- Components
+- Pages
+- Documentation
+- Refactors
+- AI Agent Contributions
+- Human Contributions
+
+---
+
+# Philosophy
+
+Done does not mean:
+
+- Code exists
+- UI renders
+- Build passes
+
+Done means:
+
+- Requirement satisfied
+- Quality validated
+- Experience validated
+- Documentation updated
+- Ready for production
+
+---
+
+# Source Of Truth
+
+Before marking work complete, verify:
+
+1. PRD Requirements
+2. Roadmap Layer Requirements
+3. AI Agent Operating System
+4. Coding Standards
+5. Architecture Decisions
+
+---
+
+# Universal Completion Criteria
+
+Every task must satisfy:
+
+- Requirement Complete
+- Code Complete
+- UX Complete
+- Accessibility Complete
+- Performance Complete
+- Documentation Complete
+
+---
+
+# Feature Definition of Done
+
+## Functional
+
+- Feature works as expected
+- Edge cases handled
+- Empty states handled
+- Error states handled
+
+---
+
+## Technical
+
+- No console errors
+- No hydration errors
+- No TypeScript errors
+- Build passes
+
+---
+
+## Experience
+
+- UX validated
+- Mobile validated
+- Accessibility validated
+
+---
+
+# Component Definition of Done
+
+Every component must:
+
+- Have single responsibility
+- Be reusable
+- Be accessible
+- Be documented
+- Follow naming conventions
+
+---
+
+# Page Definition of Done
+
+Every page must:
+
+- Match roadmap intent
+- Support primary user journey
+- Contain required SEO metadata
+- Be mobile friendly
+- Be accessible
+
+---
+
+# Documentation Definition of Done
+
+Documentation must:
+
+- Be accurate
+- Be updated
+- Reflect implementation
+- Avoid contradictions
+
+---
+
+# Accessibility Checklist
+
+Required:
+
+- Keyboard Navigation
+- Focus States
+- Semantic HTML
+- Screen Reader Support
+- Reduced Motion Support
+- Contrast Compliance
+
+---
+
+# Performance Checklist
+
+Targets:
+
+- Lighthouse Performance >= 95
+- Accessibility >= 100
+- Best Practices >= 100
+- SEO >= 100
+
+---
+
+# Motion Checklist
+
+Every animation must:
+
+- Have purpose
+- Support understanding
+- Respect reduced motion
+- Maintain performance budget
+
+---
+
+# Authority Checklist
+
+Verify:
+
+- Evidence exists
+- Claims are supported
+- Projects are documented
+- Trust signals are visible
+
+---
+
+# Content Checklist
+
+Content must:
+
+- Be concise
+- Be professional
+- Be evidence-based
+- Avoid buzzwords
+
+---
+
+# Git Checklist
+
+Before commit:
+
+- Files organized
+- Naming conventions followed
+- No dead code
+- No duplicate logic
+
+---
+
+# Pull Request Checklist
+
+Every PR must include:
+
+- Objective
+- Scope
+- Impact
+- Validation Results
+
+---
+
+# Launch Readiness Checklist
+
+Verify:
+
+- Build Success
+- Route Validation
+- SEO Validation
+- Accessibility Validation
+- Performance Validation
+- Analytics Validation
+
+---
+
+# AI Agent Completion Rules
+
+Rule DOD-01
+
+Never mark work complete without validation.
+
+Rule DOD-02
+
+Never skip accessibility checks.
+
+Rule DOD-03
+
+Never skip performance review.
+
+Rule DOD-04
+
+Documentation must be updated.
+
+Rule DOD-05
+
+Roadmap requirements must be satisfied.
+
+---
+
+# Rejection Criteria
+
+Work is NOT DONE if:
+
+- Requirement incomplete
+- Accessibility missing
+- Performance regression exists
+- Documentation outdated
+- UX degraded
+- Technical debt introduced
+
+---
+
+# Final Definition of Done
+
+A task is complete only when:
+
+- Requirements satisfied
+- Quality validated
+- UX validated
+- Accessibility validated
+- Performance validated
+- Documentation updated
+- Production readiness confirmed
+
+Only then may the task be considered DONE.
