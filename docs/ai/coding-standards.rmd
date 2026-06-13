@@ -1,0 +1,369 @@
+# Coding Standards
+
+## Purpose
+
+This document defines engineering standards for the CTOS Portfolio repository.
+
+Applies to:
+
+- Human Developers
+- Claude Code
+- Codex
+- Cursor Agent
+- Roo Code
+- Windsurf
+
+---
+
+# Engineering Philosophy
+
+Build for:
+
+- Maintainability
+- Readability
+- Scalability
+- Accessibility
+- Performance
+
+Avoid building for short-term convenience.
+
+---
+
+# Source Of Truth
+
+Priority Order:
+
+1. PRD Documents
+2. Roadmap Layers
+3. AI Agent Operating System
+4. Coding Standards
+5. Existing Code
+
+---
+
+# Architecture Rules
+
+## Rule CS-01
+
+Astro First.
+
+Use Astro whenever hydration is not required.
+
+---
+
+## Rule CS-02
+
+Vue Islands Only.
+
+Vue is reserved for interactive experiences.
+
+---
+
+## Rule CS-03
+
+Static First.
+
+Prefer build-time generation.
+
+---
+
+## Rule CS-04
+
+Server Rendering Only When Necessary.
+
+---
+
+# File Structure Rules
+
+Every file must have a clear ownership.
+
+Example:
+
+src/
+├── components/
+├── features/
+├── layouts/
+├── pages/
+├── content/
+├── lib/
+└── types/
+
+---
+
+# Naming Conventions
+
+## Components
+
+PascalCase
+
+Examples:
+
+HeroSection.astro
+ProjectCard.vue
+CertificateVault.vue
+
+---
+
+## Composables
+
+camelCase with use prefix
+
+Examples:
+
+useSearch.ts
+useTheme.ts
+useMotion.ts
+
+---
+
+## Utilities
+
+camelCase
+
+Examples:
+
+formatDate.ts
+calculateReadingTime.ts
+
+---
+
+## Constants
+
+UPPER_SNAKE_CASE
+
+Examples:
+
+MAX_SEARCH_RESULTS
+DEFAULT_LANGUAGE
+
+---
+
+# TypeScript Rules
+
+## Required
+
+Strict Mode
+
+Explicit Types
+
+Shared Interfaces
+
+---
+
+## Forbidden
+
+any
+
+ts-ignore
+
+Untyped API Responses
+
+---
+
+# Component Standards
+
+Every component must:
+
+- Have a single responsibility
+- Be reusable
+- Be accessible
+- Be documented
+
+---
+
+# Props Rules
+
+Required:
+
+- Explicit typing
+- Default values where appropriate
+
+Forbidden:
+
+- Unbounded props
+- Implicit contracts
+
+---
+
+# Styling Standards
+
+Primary:
+
+Tailwind CSS
+
+---
+
+Avoid:
+
+Inline styles
+
+Magic numbers
+
+Duplicated utilities
+
+---
+
+# Design Token Rules
+
+Colors must come from tokens.
+
+Spacing must come from scale.
+
+Typography must come from system definitions.
+
+---
+
+# Accessibility Standards
+
+Required:
+
+Keyboard Navigation
+
+Focus States
+
+ARIA Labels
+
+Reduced Motion Support
+
+Semantic HTML
+
+---
+
+# Motion Standards
+
+Motion must:
+
+- Support meaning
+- Guide attention
+- Improve understanding
+
+---
+
+Motion must not:
+
+- Distract
+- Reduce performance
+
+---
+
+# Performance Standards
+
+Targets:
+
+Lighthouse >= 95
+
+Accessibility >= 100
+
+SEO >= 100
+
+Best Practices >= 100
+
+---
+
+# Content Standards
+
+Content must be:
+
+- Concise
+- Evidence-based
+- Professional
+
+Avoid:
+
+Buzzwords
+
+Marketing fluff
+
+Exaggerated claims
+
+---
+
+# Git Standards
+
+Commit Format:
+
+feat(scope): description
+fix(scope): description
+docs(scope): description
+refactor(scope): description
+
+---
+
+Examples:
+
+feat(hero): add architecture graph
+
+docs(roadmap): update motion layer
+
+---
+
+# Pull Request Standards
+
+Every PR must include:
+
+- Objective
+- Scope
+- Impact
+- Validation
+
+---
+
+# Review Checklist
+
+Before Merge:
+
+- Build passes
+- Types pass
+- Accessibility validated
+- Performance validated
+- No dead code
+- No duplicated logic
+
+---
+
+# Anti-Patterns
+
+Forbidden:
+
+- Massive components
+- God objects
+- Deep prop drilling
+- Duplicate utilities
+- Unused dependencies
+- Premature abstractions
+
+---
+
+# AI Agent Rules
+
+Rule CS-AI-01
+
+Read roadmap before implementation.
+
+Rule CS-AI-02
+
+Optimize for maintainability.
+
+Rule CS-AI-03
+
+Prefer simple solutions.
+
+Rule CS-AI-04
+
+Document architectural decisions.
+
+Rule CS-AI-05
+
+Reject changes that reduce UX, accessibility, or performance.
+
+---
+
+# Definition Of Compliance
+
+A contribution is compliant when:
+
+- It follows roadmap requirements.
+- It follows architecture rules.
+- It passes quality validation.
+- It improves the repository.
+- It does not introduce technical debt.
