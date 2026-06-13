@@ -1,0 +1,107 @@
+# CTOS Portfolio Roadmap
+# 04 — Experience Layer (RMD v1.0)
+
+## Objective
+Define recruiter-first, founder-friendly, and developer-focused user experience architecture for the portfolio.
+
+## Experience Vision
+Create a portfolio that feels like a premium product experience rather than a personal website.
+
+## User Journeys
+### Recruiter Journey
+Hero → Proof Signals → Featured Case Study → Resume → Contact
+
+### Founder Journey
+Hero → Architecture Philosophy → Flagship Project → Contact
+
+### Developer Journey
+Hero → Projects → Case Studies → Technical Notes → GitHub
+
+## Homepage Experience Architecture
+1. Hero
+2. Proof Signals
+3. System Overview
+4. Featured Case Study
+5. Projects
+6. Architecture Philosophy
+7. Notes
+8. Certificates
+9. Contact
+10. Visitor Globe
+
+## Navigation Psychology
+- Minimize cognitive load
+- Surface primary actions first
+- Command Palette always available
+
+## Information Density Strategy
+- Hero: Low
+- Project Cards: Medium
+- Case Studies: High
+- Technical Notes: Medium
+
+## CTA Strategy
+Primary: Explore Projects
+Secondary: View Case Studies
+Tertiary: Contact
+
+## Search Experience
+Sources:
+- Projects
+- Case Studies
+- Notes
+- Certificates
+
+## Command Palette UX
+Shortcut:
+- CTRL + K
+- CMD + K
+
+Functions:
+- Search
+- Navigate
+- Theme Switch
+- Language Switch
+- Resume Access
+
+## Certificate Vault UX
+- Grid View
+- Preview Modal
+- Verification Links
+
+## Visitor Globe UX
+Purpose: Trust Signal
+Placement: Near Footer
+
+## Accessibility Rules
+- Keyboard Navigation
+- Focus States
+- Reduced Motion Support
+- Screen Reader Compatibility
+
+## Mobile Experience
+- One-Hand Reachability
+- Fast Loading
+- Reduced Motion
+
+## Conversion Goals
+- Resume Download
+- Contact Click
+- GitHub Visit
+- Case Study Read
+
+## AI Agent Rules
+- Clarity before complexity
+- Experience before animation
+- Recruiter journey has highest priority
+
+## Definition of Done
+- Homepage UX finalized
+- Navigation finalized
+- Search UX finalized
+- Command Palette UX finalized
+- Accessibility validated
+- Mobile UX validated
+
+## Next Layer
+05-motion-layer.rmd
