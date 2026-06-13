@@ -13,17 +13,7 @@ let error = null;
 let time = null;
 
 try {
-  // Debug locals and env keys
-  const keysLocals = Astro.locals ? Object.keys(Astro.locals) : [];
-  const runtime = (Astro.locals as any).runtime;
-  const keysRuntime = runtime ? Object.keys(runtime) : [];
-  const keysEnv = runtime?.env ? Object.keys(runtime.env) : [];
-  
-  console.log('Locals keys:', keysLocals);
-  console.log('Runtime keys:', keysRuntime);
-  console.log('Env keys:', keysEnv);
-
-  const env = runtime?.env;
+  const env = Astro.locals.runtime?.env;
   const { db, close } = await connectDb(env);
 
   try {
@@ -44,8 +34,7 @@ try {
     causeMsg = `\n\n[Underlying Cause]\n${cause.message || String(cause)}\n${cause.stack || ''}`;
   }
 
-  const localsDebug = `Locals: ${JSON.stringify(Object.keys(Astro.locals || {}))}\nRuntime: ${JSON.stringify(Object.keys((Astro.locals as any).runtime || {}))}\nEnv Keys: ${JSON.stringify(Object.keys((Astro.locals as any).runtime?.env || {}))}`;
-  error = e instanceof Error ? `${e.message}\n${e.stack}${causeMsg}\n\n[Debug Info]\n${localsDebug}` : String(e);
+  error = e instanceof Error ? `${e.message}\n${e.stack}${causeMsg}` : String(e);
 }
 ---
 <!doctype html>
