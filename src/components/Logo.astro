@@ -6,25 +6,31 @@ interface Props {
 }
 
 const { variant = 'default', class: className = '', size = '100%' } = Astro.props;
+
+// Generate unique IDs for SVG defs to avoid collisions when multiple logos are rendered on a single page
+const uniqueId = Math.random().toString(36).substring(2, 9);
+const goldGradId = `logo-gold-${uniqueId}`;
+const sweepGradId = `logo-sweep-${uniqueId}`;
+const shapesMaskId = `logo-shapes-mask-${uniqueId}`;
 ---
 
 <div class={`ctos-logo-container ${variant} ${className}`} style={`width: ${size};`}>
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 120" fill="none" class="ctos-svg">
 		<defs>
-			<linearGradient id="logo-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+			<linearGradient id={goldGradId} x1="0%" y1="0%" x2="100%" y2="100%">
 				<stop offset="0%" stop-color="#F4C46A" />
 				<stop offset="50%" stop-color="#D4A54A" />
 				<stop offset="100%" stop-color="#B3862E" />
 			</linearGradient>
 			
-			<linearGradient id="logo-sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+			<linearGradient id={sweepGradId} x1="0%" y1="0%" x2="100%" y2="0%">
 				<stop offset="0%" stop-color="rgba(255, 255, 255, 0)" />
 				<stop offset="30%" stop-color="rgba(255, 255, 255, 0.45)" />
 				<stop offset="70%" stop-color="rgba(255, 255, 255, 0.45)" />
 				<stop offset="100%" stop-color="rgba(255, 255, 255, 0)" />
 			</linearGradient>
 
-			<mask id="logo-shapes-mask">
+			<mask id={shapesMaskId}>
 				<g fill="white">
 					<!-- C Path -->
 					<path d="M 85 28 L 45 28 A 32 32 0 0 0 45 92 L 85 92 L 71 78 L 45 78 A 18 18 0 0 1 45 42 L 71 42 Z" />
@@ -42,7 +48,7 @@ const { variant = 'default', class: className = '', size = '100%' } = Astro.prop
 		<circle class="ctos-c-ring" cx="45" cy="60" r="32" stroke="#D4A54A" stroke-width="2" fill="none" opacity="0" />
 
 		<!-- Letter C -->
-		<path class="ctos-c" d="M 85 28 L 45 28 A 32 32 0 0 0 45 92 L 85 92 L 71 78 L 45 78 A 18 18 0 0 1 45 42 L 71 42 Z" fill="url(#logo-gold)" />
+		<path class="ctos-c" d="M 85 28 L 45 28 A 32 32 0 0 0 45 92 L 85 92 L 71 78 L 45 78 A 18 18 0 0 1 45 42 L 71 42 Z" fill={`url(#${goldGradId})`} />
 
 		<!-- Letter T -->
 		<path class="ctos-t" d="M 104 28 L 170 28 L 156 42 L 136 42 L 136 92 L 128 92 L 122 86 L 122 42 L 90 42 Z" fill="currentColor" />
@@ -54,7 +60,7 @@ const { variant = 'default', class: className = '', size = '100%' } = Astro.prop
 		<path class="ctos-s" d="M 244 42 L 276 42 L 276 56 L 258 56 L 236 78 L 262 78 L 276 92 L 230 92 L 230 78 L 248 78 L 270 56 L 244 56 L 230 56 Z" fill="currentColor" />
 
 		<!-- Animated Sweep Rect (masked to shapes) -->
-		<rect class="ctos-sweep-rect" x="-150" y="0" width="100" height="120" fill="url(#logo-sweep)" mask="url(#logo-shapes-mask)" transform="skewX(-20)" />
+		<rect class="ctos-sweep-rect" x="-150" y="0" width="100" height="120" fill={`url(#${sweepGradId})`} mask={`url(#${shapesMaskId})`} transform="skewX(-20)" />
 	</svg>
 </div>
 
