@@ -1,6 +1,7 @@
 ---
 import { socials } from "../data/socials";
 import { SITE_TITLE } from "../consts";
+import CommandPalette from "./CommandPalette.astro";
 
 const today = new Date();
 ---
@@ -13,8 +14,10 @@ const today = new Date();
 	<div class="social-links">
 		{socials.map((social) => <a href={social.href}>{social.label}</a>)}
 	</div>
-	<p class="copyright">&copy; {today.getFullYear()} CTOS. All rights reserved.</p>
+	<p class="copyright">&copy; {today.getFullYear()} CTOS. All rights reserved. <span class="cmd-hint">Press <kbd>CMD</kbd>+<kbd>K</kbd> or <kbd>CTRL</kbd>+<kbd>K</kbd> to search.</span></p>
 </footer>
+
+<CommandPalette />
 
 <style>
 	footer {
@@ -45,5 +48,25 @@ const today = new Date();
 	.copyright {
 		color: var(--subtle);
 		font-size: 0.9rem;
+	}
+	
+	.cmd-hint {
+		margin-left: 1rem;
+		opacity: 0.6;
+	}
+	
+	kbd {
+		background: rgba(255, 255, 255, 0.1);
+		padding: 0.15rem 0.35rem;
+		border-radius: 4px;
+		font-family: monospace;
+		font-size: 0.85em;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+	
+	@media (max-width: 768px) {
+		.cmd-hint {
+			display: none;
+		}
 	}
 </style>

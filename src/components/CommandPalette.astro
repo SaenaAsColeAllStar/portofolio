@@ -1,0 +1,189 @@
+---
+---
+
+<dialog id="command-palette" class="command-palette">
+	<div class="palette-container">
+		<div class="search-bar">
+			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+			<input type="text" id="palette-input" placeholder="Type a command or search..." autocomplete="off" />
+			<button id="close-palette" aria-label="Close command palette">ESC</button>
+		</div>
+		<ul id="palette-results" class="palette-results">
+			<!-- Results populated by JS -->
+		</ul>
+	</div>
+</dialog>
+
+<script>
+	const ROUTES = [
+		{ name: 'Home', url: '/', icon: '🏠' },
+		{ name: 'Projects', url: '/projects', icon: '🚀' },
+		{ name: 'Case Studies', url: '/case-studies', icon: '📄' },
+		{ name: 'Notes', url: '/notes', icon: '📝' },
+		{ name: 'Certificates', url: '/certificates', icon: '🏅' },
+		{ name: 'Resume', url: '/resume', icon: '💼' },
+		{ name: 'Contact', url: '/contact', icon: '✉️' },
+	];
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const dialog = document.getElementById('command-palette') as HTMLDialogElement;
+		const input = document.getElementById('palette-input') as HTMLInputElement;
+		const resultsList = document.getElementById('palette-results') as HTMLUListElement;
+		const closeBtn = document.getElementById('close-palette') as HTMLButtonElement;
+
+		function renderResults(query = '') {
+			resultsList.innerHTML = '';
+			const filtered = ROUTES.filter(r => r.name.toLowerCase().includes(query.toLowerCase()));
+			
+			if (filtered.length === 0) {
+				resultsList.innerHTML = '<li class="empty-state">No results found</li>';
+				return;
+			}
+
+			filtered.forEach((route, index) => {
+				const li = document.createElement('li');
+				const a = document.createElement('a');
+				a.href = route.url;
+				a.innerHTML = `<span class="icon">${route.icon}</span> <span class="name">${route.name}</span>`;
+				
+				// Keyboard navigation via tabindex
+				a.setAttribute('tabindex', '0');
+				a.addEventListener('keydown', (e) => {
+					if (e.key === 'ArrowDown') {
+						e.preventDefault();
+						(li.nextElementSibling?.querySelector('a') as HTMLElement)?.focus();
+					} else if (e.key === 'ArrowUp') {
+						e.preventDefault();
+						if (index === 0) input.focus();
+						else (li.previousElementSibling?.querySelector('a') as HTMLElement)?.focus();
+					}
+				});
+				
+				li.appendChild(a);
+				resultsList.appendChild(li);
+			});
+		}
+
+		function openPalette() {
+			if (!dialog.open) {
+				dialog.showModal();
+				input.value = '';
+				renderResults();
+				input.focus();
+			}
+		}
+
+		function closePalette() {
+			if (dialog.open) {
+				dialog.close();
+			}
+		}
+
+		// Keyboard shortcuts
+		document.addEventListener('keydown', (e) => {
+			if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+				e.preventDefault();
+				openPalette();
+			}
+		});
+
+		input?.addEventListener('input', (e) => {
+			renderResults((e.target as HTMLInputElement).value);
+		});
+
+		input?.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowDown') {
+				e.preventDefault();
+				(resultsList.firstElementChild?.querySelector('a') as HTMLElement)?.focus();
+			}
+		});
+
+		closeBtn?.addEventListener('click', closePalette);
+
+		// Close on backdrop click
+		dialog?.addEventListener('click', (e) => {
+			const rect = dialog.getBoundingClientRect();
+			const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+			if (!isInDialog) {
+				closePalette();
+			}
+		});
+	});
+</script>
+
+<style>
+	.command-palette {
+		padding: 0;
+		border: 1px solid var(--border, rgba(255,255,255,0.1));
+		border-radius: 12px;
+		background: #111;
+		color: #fff;
+		box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+		max-width: 600px;
+		width: 90vw;
+		margin: 10vh auto auto;
+		overflow: hidden;
+	}
+	.command-palette::backdrop {
+		background: rgba(0,0,0,0.6);
+		backdrop-filter: blur(4px);
+	}
+	.palette-container {
+		display: flex;
+		flex-direction: column;
+	}
+	.search-bar {
+		display: flex;
+		align-items: center;
+		padding: 1rem;
+		border-bottom: 1px solid rgba(255,255,255,0.1);
+		gap: 1rem;
+	}
+	.search-bar svg {
+		opacity: 0.5;
+	}
+	.search-bar input {
+		flex: 1;
+		background: transparent;
+		border: none;
+		color: inherit;
+		font-size: 1.1rem;
+		outline: none;
+	}
+	.search-bar button {
+		background: rgba(255,255,255,0.1);
+		border: none;
+		color: #fff;
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+	.palette-results {
+		list-style: none;
+		margin: 0;
+		padding: 0.5rem;
+		max-height: 300px;
+		overflow-y: auto;
+	}
+	.palette-results li a {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.75rem 1rem;
+		color: inherit;
+		text-decoration: none;
+		border-radius: 6px;
+		transition: background 0.2s;
+	}
+	.palette-results li a:hover,
+	.palette-results li a:focus {
+		background: rgba(255,255,255,0.05);
+		outline: none;
+	}
+	.empty-state {
+		padding: 1rem;
+		text-align: center;
+		opacity: 0.5;
+	}
+</style>

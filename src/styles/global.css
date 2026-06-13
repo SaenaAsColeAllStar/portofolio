@@ -233,6 +233,72 @@ code {
 	}
 }
 
+/* --- Phase 3: Motion System --- */
+@media (prefers-reduced-motion: no-preference) {
+	/* Tier 1: Essential Hover & Focus States */
+	a {
+		transition: color 0.2s ease, opacity 0.2s ease;
+	}
+	a:hover {
+		opacity: 0.8;
+	}
+
+	.button {
+		transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease, box-shadow 0.2s ease;
+	}
+	.button:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+	}
+	.button:active {
+		transform: translateY(0);
+	}
+	.button.secondary:hover {
+		background: rgba(255, 255, 255, 0.12);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+	}
+
+	.card {
+		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.project-card:hover, .note-card:hover, .certificate-list li.card:hover {
+		transform: translateY(-4px);
+		border-color: rgba(167, 176, 195, 0.3);
+		box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Tier 2: Section Reveal (Lightweight) */
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.section, .page-hero {
+		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+	
+	.hero-copy > * {
+		opacity: 0;
+		animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+	.hero-copy .eyebrow { animation-delay: 0.1s; }
+	.hero-copy h1 { animation-delay: 0.2s; }
+	.hero-copy .lede { animation-delay: 0.3s; }
+	.hero-copy .button-row { animation-delay: 0.4s; }
+	.system-card {
+		opacity: 0;
+		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		animation-delay: 0.5s;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
