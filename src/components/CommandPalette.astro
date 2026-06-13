@@ -1,7 +1,43 @@
 ---
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+const notes = await getCollection("notes");
+const certificates = await getCollection("certificates");
+
+const searchData = [
+	{ name: 'Home', url: '/', icon: '🏠', type: 'Navigation', description: 'Go to homepage' },
+	{ name: 'Projects', url: '/projects', icon: '🚀', type: 'Navigation', description: 'View professional projects and code portfolios' },
+	{ name: 'Case Studies', url: '/case-studies', icon: '📄', type: 'Navigation', description: 'In-depth engineering write-ups and architecture details' },
+	{ name: 'Notes', url: '/notes', icon: '📝', type: 'Navigation', description: 'Technical notes, thoughts, and quick guides' },
+	{ name: 'Certificates', url: '/certificates', icon: '🏅', type: 'Navigation', description: 'Professional certifications and credentials vault' },
+	{ name: 'Resume', url: '/resume', icon: '💼', type: 'Navigation', description: 'Detailed work experience and summary' },
+	{ name: 'Contact', url: '/contact', icon: '✉️', type: 'Navigation', description: 'Get in touch for opportunities or collaborations' },
+	...projects.map(p => ({
+		name: p.data.title,
+		url: `/projects/${p.id}`,
+		icon: '🚀',
+		type: 'Project',
+		description: p.data.excerpt || p.data.category
+	})),
+	...notes.map(n => ({
+		name: n.data.title,
+		url: `/notes/${n.id}`,
+		icon: '📝',
+		type: 'Note',
+		description: n.data.excerpt || n.data.category
+	})),
+	...certificates.map(c => ({
+		name: c.data.title,
+		url: `/certificates/${c.id}`,
+		icon: '🏅',
+		type: 'Certificate',
+		description: c.data.issuer
+	}))
+];
 ---
 
-<dialog id="command-palette" class="command-palette">
+<dialog id="command-palette" class="command-palette" data-items={JSON.stringify(searchData)}>
 	<div class="palette-container">
 		<div class="search-bar">
 			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -15,15 +51,13 @@
 </dialog>
 
 <script>
-	const ROUTES = [
-		{ name: 'Home', url: '/', icon: '🏠' },
-		{ name: 'Projects', url: '/projects', icon: '🚀' },
-		{ name: 'Case Studies', url: '/case-studies', icon: '📄' },
-		{ name: 'Notes', url: '/notes', icon: '📝' },
-		{ name: 'Certificates', url: '/certificates', icon: '🏅' },
-		{ name: 'Resume', url: '/resume', icon: '💼' },
-		{ name: 'Contact', url: '/contact', icon: '✉️' },
-	];
+	interface SearchItem {
+		name: string;
+		url: string;
+		icon: string;
+		type: string;
+		description: string;
+	}
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const dialog = document.getElementById('command-palette') as HTMLDialogElement;
@@ -31,20 +65,46 @@
 		const resultsList = document.getElementById('palette-results') as HTMLUListElement;
 		const closeBtn = document.getElementById('close-palette') as HTMLButtonElement;
 
+		if (!dialog) return;
+
+		let items: SearchItem[] = [];
+		try {
+			items = JSON.parse(dialog.dataset.items || '[]');
+		} catch (e) {
+			console.error('Failed to parse search items', e);
+		}
+
 		function renderResults(query = '') {
 			resultsList.innerHTML = '';
-			const filtered = ROUTES.filter(r => r.name.toLowerCase().includes(query.toLowerCase()));
+			const trimmed = query.trim().toLowerCase();
+			
+			const filtered = items.filter(item => 
+				item.name.toLowerCase().includes(trimmed) ||
+				item.description.toLowerCase().includes(trimmed) ||
+				item.type.toLowerCase().includes(trimmed)
+			);
 			
 			if (filtered.length === 0) {
 				resultsList.innerHTML = '<li class="empty-state">No results found</li>';
 				return;
 			}
 
-			filtered.forEach((route, index) => {
+			// Render at most 8 items for a cleaner UI
+			filtered.slice(0, 8).forEach((item, index) => {
 				const li = document.createElement('li');
 				const a = document.createElement('a');
-				a.href = route.url;
-				a.innerHTML = `<span class="icon">${route.icon}</span> <span class="name">${route.name}</span>`;
+				a.href = item.url;
+				
+				a.innerHTML = `
+					<span class="icon">${item.icon}</span>
+					<div class="result-details">
+						<div class="result-header">
+							<span class="name">${item.name}</span>
+							<span class="badge-type">${item.type}</span>
+						</div>
+						${item.description ? `<span class="description">${item.description}</span>` : ''}
+					</div>
+				`;
 				
 				// Keyboard navigation via tabindex
 				a.setAttribute('tabindex', '0');
@@ -116,9 +176,9 @@
 		padding: 0;
 		border: 1px solid var(--border, rgba(255,255,255,0.1));
 		border-radius: 12px;
-		background: #111;
-		color: #fff;
-		box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+		background: var(--surface, #121a2c);
+		color: var(--text, #fff);
+		box-shadow: var(--shadow);
 		max-width: 600px;
 		width: 90vw;
 		margin: 10vh auto auto;
@@ -136,11 +196,12 @@
 		display: flex;
 		align-items: center;
 		padding: 1rem;
-		border-bottom: 1px solid rgba(255,255,255,0.1);
+		border-bottom: 1px solid var(--border);
 		gap: 1rem;
 	}
 	.search-bar svg {
 		opacity: 0.5;
+		color: var(--muted);
 	}
 	.search-bar input {
 		flex: 1;
@@ -152,8 +213,8 @@
 	}
 	.search-bar button {
 		background: rgba(255,255,255,0.1);
-		border: none;
-		color: #fff;
+		border: 1px solid var(--border);
+		color: var(--muted);
 		font-size: 0.75rem;
 		padding: 0.25rem 0.5rem;
 		border-radius: 4px;
@@ -163,12 +224,12 @@
 		list-style: none;
 		margin: 0;
 		padding: 0.5rem;
-		max-height: 300px;
+		max-height: 350px;
 		overflow-y: auto;
 	}
 	.palette-results li a {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		gap: 0.75rem;
 		padding: 0.75rem 1rem;
 		color: inherit;
@@ -178,12 +239,49 @@
 	}
 	.palette-results li a:hover,
 	.palette-results li a:focus {
-		background: rgba(255,255,255,0.05);
+		background: rgba(255, 255, 255, 0.05);
 		outline: none;
 	}
+	.icon {
+		font-size: 1.25rem;
+		margin-top: 0.1rem;
+	}
+	.result-details {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: 0.2rem;
+	}
+	.result-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		gap: 0.5rem;
+	}
+	.name {
+		font-weight: 500;
+		font-size: 0.95rem;
+		color: var(--text);
+	}
+	.badge-type {
+		font-size: 0.75rem;
+		padding: 0.1rem 0.4rem;
+		background: var(--surface-elevated, #18243a);
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		color: var(--accent);
+		font-weight: 600;
+	}
+	.description {
+		font-size: 0.8rem;
+		color: var(--muted);
+		line-height: 1.4;
+	}
 	.empty-state {
-		padding: 1rem;
+		padding: 1.5rem;
 		text-align: center;
-		opacity: 0.5;
+		color: var(--muted);
+		font-size: 0.9rem;
 	}
 </style>

@@ -10,16 +10,44 @@ import { SITE_TITLE } from "../consts";
 			<span class="brand-mark">CT</span>
 			<span>{SITE_TITLE}</span>
 		</a>
-		<div class="internal-links">
-			{navigationItems.map((item) => <HeaderLink href={item.href}>{item.label}</HeaderLink>)}
+		<div class="nav-actions">
+			<div class="internal-links">
+				{navigationItems.map((item) => <HeaderLink href={item.href}>{item.label}</HeaderLink>)}
+			</div>
+			<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+				<svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+				<svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+			</button>
 		</div>
 	</nav>
 </header>
 
+<script>
+	const toggle = document.getElementById('theme-toggle');
+	const root = document.documentElement;
+
+	function getTheme(): string {
+		return localStorage.getItem('theme') || 'dark';
+	}
+
+	function setTheme(theme: string) {
+		root.setAttribute('data-theme', theme);
+		localStorage.setItem('theme', theme);
+	}
+
+	// Initialize
+	setTheme(getTheme());
+
+	toggle?.addEventListener('click', () => {
+		const current = getTheme();
+		setTheme(current === 'dark' ? 'light' : 'dark');
+	});
+</script>
+
 <style>
 	.site-header {
 		backdrop-filter: blur(18px);
-		background: rgba(5, 8, 22, 0.78);
+		background: var(--header-bg);
 		border-bottom: 1px solid var(--border);
 		position: sticky;
 		top: 0;
@@ -55,6 +83,12 @@ import { SITE_TITLE } from "../consts";
 		width: 2.1rem;
 	}
 
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
 	.internal-links {
 		display: flex;
 		flex-wrap: wrap;
@@ -75,6 +109,37 @@ import { SITE_TITLE } from "../consts";
 		background: rgba(255, 255, 255, 0.08);
 		color: var(--text);
 	}
+
+	.theme-toggle {
+		align-items: center;
+		background: rgba(255, 255, 255, 0.06);
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		color: var(--muted);
+		cursor: pointer;
+		display: inline-flex;
+		height: 2.2rem;
+		justify-content: center;
+		transition: color 0.2s, background 0.2s;
+		width: 2.2rem;
+		flex-shrink: 0;
+	}
+
+	.theme-toggle:hover {
+		background: rgba(255, 255, 255, 0.12);
+		color: var(--text);
+	}
+
+	/* Dark mode: show sun, hide moon */
+	:global([data-theme="dark"]) .icon-sun { display: block; }
+	:global([data-theme="dark"]) .icon-moon { display: none; }
+
+	/* Light mode: show moon, hide sun */
+	:global([data-theme="light"]) .icon-sun { display: none; }
+	:global([data-theme="light"]) .icon-moon { display: block; }
+
+	/* Default (no JS yet) */
+	.icon-moon { display: none; }
 
 	@media (max-width: 760px) {
 		nav {

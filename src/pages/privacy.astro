@@ -1,0 +1,49 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`Privacy Policy | ${SITE_TITLE}`} description="Privacy policy and analytics usage." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">Legal</p>
+				<h1>Privacy Policy</h1>
+			</section>
+			
+			<section class="section prose card">
+				<h2>Analytics and Tracking</h2>
+				<p>This portfolio uses a lightweight, custom, and cookieless analytics solution. The sole purpose of this tracking is to understand user engagement with specific call-to-action buttons (e.g., clicking on "View Resume" or "Contact").</p>
+				
+				<h3>What data is collected?</h3>
+				<ul>
+					<li>Click events on specific buttons or links.</li>
+					<li>Timestamp of the event.</li>
+					<li>Basic referrer information (if available).</li>
+				</ul>
+				
+				<h3>What data is NOT collected?</h3>
+				<ul>
+					<li>Personal Identifiable Information (PII) such as IP addresses.</li>
+					<li>Tracking cookies.</li>
+					<li>Cross-site tracking data.</li>
+				</ul>
+
+				<h2>Contact</h2>
+				<p>If you have any questions regarding this policy, feel free to reach out via the <a href="/contact">contact page</a>.</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.prose a {
+		color: var(--accent);
+	}
+</style>

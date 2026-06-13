@@ -4,6 +4,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Icon from "../components/Icon.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import { proofSignals } from "../data/metrics";
 import { positioning } from "../data/positioning";
@@ -11,6 +12,8 @@ import { capabilityMatrix } from "../data/skills";
 
 const projects = await getCollection("projects");
 const caseStudies = await getCollection("caseStudies");
+const notes = (await getCollection("notes")).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0, 3);
+const certificates = (await getCollection("certificates")).sort((a, b) => b.data.issuedAt.valueOf() - a.data.issuedAt.valueOf()).slice(0, 3);
 const featuredProjects = projects.filter((project) => project.data.featured).slice(0, 3);
 const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-ecosystem") ?? caseStudies[0];
 ---
@@ -29,8 +32,8 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 					<h1>{positioning.headline}</h1>
 					<p class="lede">{positioning.subheadline}</p>
 					<div class="button-row">
-						<a class="button" href={positioning.primaryCta.href}>{positioning.primaryCta.label}</a>
-						<a class="button secondary" href={positioning.secondaryCta.href}>{positioning.secondaryCta.label}</a>
+						<a class="button" href={positioning.primaryCta.href} data-track="hero-primary-cta">{positioning.primaryCta.label}</a>
+						<a class="button secondary" href={positioning.secondaryCta.href} data-track="hero-secondary-cta">{positioning.secondaryCta.label}</a>
 					</div>
 				</div>
 				<div class="system-card card hero-nodes" aria-label="System capability map">
@@ -117,6 +120,48 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 				</div>
 			</section>
 
+			{notes.length > 0 && (
+				<section class="section">
+					<div class="section-heading">
+						<div>
+							<p class="eyebrow">Technical Notes</p>
+							<h2>Lessons, patterns, and technical insights.</h2>
+						</div>
+						<a href="/notes">View all notes</a>
+					</div>
+					<div class="grid grid-3">
+						{notes.map((note) => (
+							<article class="card note-card">
+								<p class="eyebrow">{note.data.category}</p>
+								<h3><a href={`/notes/${note.id}`}>{note.data.title}</a></h3>
+								<p>{note.data.excerpt}</p>
+							</article>
+						))}
+					</div>
+				</section>
+			)}
+
+			{certificates.length > 0 && (
+				<section class="section">
+					<div class="section-heading">
+						<div>
+							<p class="eyebrow">Certificate Vault</p>
+							<h2>Verified credentials and certifications.</h2>
+						</div>
+						<a href="/certificates">View all certificates</a>
+					</div>
+					<div class="grid grid-3">
+						{certificates.map((cert) => (
+							<article class="card cert-preview-card">
+								<h3><a href={`/certificates/${cert.id}`}>{cert.data.title}</a></h3>
+								<p class="cert-issuer">{cert.data.issuer}</p>
+								<p class="cert-date"><FormattedDate date={cert.data.issuedAt} /></p>
+							</article>
+						))}
+					</div>
+				</section>
+			)}
+
 			<section class="section cta card">
 				<div>
 					<p class="eyebrow">Resume & Contact</p>
@@ -124,8 +169,8 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 					<p>Review the resume summary or reach out directly through email, LinkedIn, or GitHub.</p>
 				</div>
 				<div class="button-row">
-					<a class="button" href="/resume">View Resume</a>
-					<a class="button secondary" href="/contact">Contact</a>
+					<a class="button" href="/resume" data-track="footer-resume-cta">View Resume</a>
+					<a class="button secondary" href="/contact" data-track="footer-contact-cta">Contact</a>
 				</div>
 			</section>
 		</main>
@@ -241,13 +286,27 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 	}
 
 	.section-heading a,
-	.project-card a {
+	.project-card a,
+	.note-card a,
+	.cert-preview-card a {
 		text-decoration: none;
 	}
 
-	.project-card {
+	.project-card,
+	.note-card,
+	.cert-preview-card {
 		display: grid;
 		gap: 1rem;
+	}
+
+	.cert-issuer {
+		color: var(--accent);
+		font-weight: 500;
+	}
+
+	.cert-date {
+		font-size: 0.9rem;
+		opacity: 0.7;
 	}
 
 	@media (max-width: 860px) {

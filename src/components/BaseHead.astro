@@ -61,6 +61,13 @@ const websiteSchema = {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<!-- JSON-LD Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
+<!-- Theme initialization script to prevent flash -->
+<script is:inline>
+	(function() {
+		const theme = localStorage.getItem('theme') || 'dark';
+		document.documentElement.setAttribute('data-theme', theme);
+	})();
+</script>

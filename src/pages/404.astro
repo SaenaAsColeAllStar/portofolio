@@ -1,0 +1,61 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`404 — System Node Not Found | ${SITE_TITLE}`} description="The node you're looking for doesn't exist in this system architecture." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero error-page">
+				<p class="eyebrow">Error 404</p>
+				<h1 class="error-code">404</h1>
+				<h2 class="error-title">System Node Not Found</h2>
+				<p class="error-description">The node you're looking for doesn't exist in this system architecture.</p>
+				<div class="button-row">
+					<a href="/" class="button">Return to Base</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.error-page {
+		text-align: center;
+		justify-items: center;
+		min-height: 60vh;
+		align-content: center;
+		padding: 6rem 0;
+	}
+
+	.error-code {
+		font-size: clamp(6rem, 15vw, 12rem);
+		font-weight: 800;
+		line-height: 1;
+		letter-spacing: -0.04em;
+		background: linear-gradient(180deg, var(--text) 30%, var(--muted) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		margin: 0;
+	}
+
+	.error-title {
+		font-size: clamp(1.25rem, 3vw, 1.75rem);
+		font-weight: 600;
+		color: var(--text);
+		margin: 0;
+	}
+
+	.error-description {
+		color: var(--muted);
+		font-size: 1.05rem;
+		max-width: 420px;
+	}
+</style>
