@@ -1,7 +1,9 @@
 ---
 import { db } from '../db';
 import { sql } from 'drizzle-orm';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 let connectionStatus = 'Connecting...';
 let error = null;
@@ -17,20 +19,27 @@ try {
   error = e instanceof Error ? e.message : String(e);
 }
 ---
-
-<BaseLayout title="Database Test" description="Test the Aiven PostgreSQL database connection">
-  <main class="db-test-container">
-    <div class="content-wrapper">
-      <h1>Database Connection Test</h1>
-      
-      <div class={`status-card ${error ? 'error' : 'success'}`}>
-        <h2>{connectionStatus}</h2>
-        {time && <p>Server time: <strong>{new Date(time as string).toLocaleString()}</strong></p>}
-        {error && <pre class="error-msg">{error}</pre>}
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title="Database Test" description="Test the Aiven PostgreSQL database connection" />
+  </head>
+  <body>
+    <Header />
+    <main class="db-test-container">
+      <div class="content-wrapper">
+        <h1>Database Connection Test</h1>
+        
+        <div class={`status-card ${error ? 'error' : 'success'}`}>
+          <h2>{connectionStatus}</h2>
+          {time && <p>Server time: <strong>{new Date(time as string).toLocaleString()}</strong></p>}
+          {error && <pre class="error-msg">{error}</pre>}
+        </div>
       </div>
-    </div>
-  </main>
-</BaseLayout>
+    </main>
+    <Footer />
+  </body>
+</html>
 
 <style>
   .db-test-container {
