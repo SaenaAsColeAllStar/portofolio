@@ -26,25 +26,29 @@ import SplashScreen from "./SplashScreen.astro";
 </header>
 
 <script>
-	const toggle = document.getElementById('theme-toggle');
-	const root = document.documentElement;
+	function initTheme() {
+		const toggle = document.getElementById('theme-toggle');
+		const root = document.documentElement;
 
-	function getTheme(): string {
-		return localStorage.getItem('theme') || 'dark';
+		function getTheme(): string {
+			return localStorage.getItem('theme') || 'dark';
+		}
+
+		function setTheme(theme: string) {
+			root.setAttribute('data-theme', theme);
+			localStorage.setItem('theme', theme);
+		}
+
+		// Initialize
+		setTheme(getTheme());
+
+		toggle?.addEventListener('click', () => {
+			const current = getTheme();
+			setTheme(current === 'dark' ? 'light' : 'dark');
+		});
 	}
 
-	function setTheme(theme: string) {
-		root.setAttribute('data-theme', theme);
-		localStorage.setItem('theme', theme);
-	}
-
-	// Initialize
-	setTheme(getTheme());
-
-	toggle?.addEventListener('click', () => {
-		const current = getTheme();
-		setTheme(current === 'dark' ? 'light' : 'dark');
-	});
+	document.addEventListener('astro:page-load', initTheme);
 </script>
 
 <style>

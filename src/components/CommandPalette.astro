@@ -59,7 +59,7 @@ const searchData = [
 		description: string;
 	}
 
-	document.addEventListener('DOMContentLoaded', () => {
+	document.addEventListener('astro:page-load', () => {
 		const dialog = document.getElementById('command-palette') as HTMLDialogElement;
 		const input = document.getElementById('palette-input') as HTMLInputElement;
 		const resultsList = document.getElementById('palette-results') as HTMLUListElement;

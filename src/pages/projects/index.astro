@@ -51,7 +51,7 @@ const allCategories = [...new Set(projects.map((p) => p.data.category))].sort();
 		<Footer />
 
 		<script>
-			document.addEventListener('DOMContentLoaded', () => {
+			document.addEventListener('astro:page-load', () => {
 				const searchInput = document.getElementById('projectSearch') as HTMLInputElement;
 				const categorySelect = document.getElementById('categoryFilter') as HTMLSelectElement;
 				const projectCards = document.querySelectorAll('.project-card');

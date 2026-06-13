@@ -21,7 +21,7 @@ const today = new Date();
 
 <script>
 	import { initAnalytics } from "../utils/analytics";
-	document.addEventListener("DOMContentLoaded", initAnalytics);
+	document.addEventListener("astro:page-load", initAnalytics);
 </script>
 
 <style>

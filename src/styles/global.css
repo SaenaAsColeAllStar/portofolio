@@ -330,6 +330,25 @@ code {
 	}
 }
 
+/* --- Custom View Transition: 45° Momentum Wipe --- */
+@keyframes ctosWipeIn {
+	0% {
+		clip-path: polygon(140% -20%, 140% -20%, 100% 120%, 100% 120%);
+	}
+	100% {
+		clip-path: polygon(-20% -20%, 140% -20%, 100% 120%, -60% 120%);
+	}
+}
+
+::view-transition-old(root) {
+	animation: none;
+	opacity: 1;
+}
+
+::view-transition-new(root) {
+	animation: ctosWipeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,

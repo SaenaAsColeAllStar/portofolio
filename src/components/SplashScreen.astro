@@ -3,13 +3,18 @@ import Logo from "./Logo.astro";
 ---
 
 <div id="ctos-splash-screen" class="ctos-splash-screen">
+	<script is:inline>
+		if (sessionStorage.getItem('ctos-splash-played')) {
+			document.getElementById('ctos-splash-screen').style.display = 'none';
+		}
+	</script>
 	<div class="splash-logo-wrapper">
 		<Logo variant="splash" size="180px" />
 	</div>
 </div>
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
+	document.addEventListener('astro:page-load', () => {
 		const splash = document.getElementById('ctos-splash-screen');
 		if (!splash) return;
 
