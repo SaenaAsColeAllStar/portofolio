@@ -15,7 +15,12 @@ export function getDb(env?: any) {
   }
 
   // postgres.js automatically uses the optimized cloudflare:sockets driver on Workers
-  clientInstance = postgres(connectionString as string, { prepare: false });
+  clientInstance = postgres(connectionString as string, { 
+    prepare: false,
+    max: 1,           // Serverless environment: only need 1 connection
+    max_retries: 0,   // Fail immediately on connection error to avoid subrequest loops
+    connect_timeout: 5 // Timeout after 5 seconds
+  });
   dbInstance = drizzle(clientInstance, { schema });
   
   return dbInstance;
