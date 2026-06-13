@@ -10,7 +10,7 @@ import { socials } from "../../data/socials";
 <html lang="en">
 	<head>
 		<BaseHead title={`Contact | ${SITE_TITLE}`} description="Contact CTOS for professional opportunities, collaboration, or technical discussion." />
-		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer is:inline></script>
 	</head>
 	<body>
 		<Header />
@@ -236,7 +236,26 @@ import { socials } from "../../data/socials";
 </style>
 
 <script>
+	function renderTurnstile() {
+		if ((window as any).turnstile) {
+			const containers = document.querySelectorAll('.cf-turnstile:not([data-rendered])');
+			containers.forEach(container => {
+				if (container.hasChildNodes()) return;
+				(window as any).turnstile.render(container, {
+					sitekey: container.getAttribute('data-sitekey') || '0x4AAAAAADkIUxBJqfBfxBXy',
+					theme: container.getAttribute('data-theme') || 'dark'
+				});
+				container.setAttribute('data-rendered', 'true');
+			});
+		}
+	}
+
+	// Bind global callback
+	(window as any).onloadTurnstileCallback = renderTurnstile;
+
 	document.addEventListener('astro:page-load', () => {
+		renderTurnstile();
+		
 		const form = document.getElementById('contact-form') as HTMLFormElement | null;
 		if (!form) return;
 

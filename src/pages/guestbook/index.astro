@@ -28,7 +28,7 @@ try {
 <html lang="en">
   <head>
     <BaseHead title={`Guestbook | ${SITE_TITLE}`} description="Sign the CTOS guestbook, leave a message, or say hello." />
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer is:inline></script>
   </head>
   <body>
     <Header />
@@ -286,7 +286,26 @@ try {
 </style>
 
 <script>
+  function renderTurnstile() {
+    if ((window as any).turnstile) {
+      const containers = document.querySelectorAll('.cf-turnstile:not([data-rendered])');
+      containers.forEach(container => {
+        if (container.hasChildNodes()) return;
+        (window as any).turnstile.render(container, {
+          sitekey: container.getAttribute('data-sitekey') || '0x4AAAAAADkIUxBJqfBfxBXy',
+          theme: container.getAttribute('data-theme') || 'dark'
+        });
+        container.setAttribute('data-rendered', 'true');
+      });
+    }
+  }
+
+  // Bind global callback
+  (window as any).onloadTurnstileCallback = renderTurnstile;
+
   document.addEventListener('astro:page-load', () => {
+    renderTurnstile();
+    
     const form = document.getElementById('guestbook-form') as HTMLFormElement | null;
     const feed = document.getElementById('guestbook-feed-list');
     const emptyState = document.getElementById('empty-state-msg');
