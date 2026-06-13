@@ -113,13 +113,13 @@ import SplashScreen from "./SplashScreen.astro";
 
 	.internal-links a:hover,
 	.internal-links a.active {
-		background: rgba(255, 255, 255, 0.08);
+		background: var(--hover-bg);
 		color: var(--text);
 	}
 
 	.theme-toggle {
 		align-items: center;
-		background: rgba(255, 255, 255, 0.06);
+		background: var(--btn-secondary-bg);
 		border: 1px solid var(--border);
 		border-radius: 999px;
 		color: var(--muted);
@@ -133,7 +133,7 @@ import SplashScreen from "./SplashScreen.astro";
 	}
 
 	.theme-toggle:hover {
-		background: rgba(255, 255, 255, 0.12);
+		background: var(--btn-secondary-hover);
 		color: var(--text);
 	}
 

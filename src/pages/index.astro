@@ -213,7 +213,7 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		background: rgba(255, 255, 255, 0.03);
+		background: var(--btn-secondary-bg);
 		border: 1px solid var(--border);
 		border-radius: 8px;
 		padding: 1rem 1.25rem;
@@ -225,8 +225,8 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 
 	.node:hover {
 		transform: translateX(10px);
-		background: rgba(255, 255, 255, 0.08);
-		border-color: rgba(255, 255, 255, 0.3);
+		background: var(--hover-bg);
+		border-color: var(--accent);
 	}
 
 	.node::after {
