@@ -18,7 +18,7 @@ import { socials } from "../../data/socials";
 				<p class="lede">Use email, LinkedIn, or GitHub to reach out about professional opportunities, product engineering, automation, or infrastructure work.</p>
 			</section>
 			<section class="grid grid-3 section">
-				{socials.map((social) => <article class="card"><p class="eyebrow">{social.label}</p><h2>{social.username}</h2><a class="button secondary" href={social.href}>Open {social.label}</a></article>)}
+				{socials.map((social) => <article class="card"><p class="eyebrow">{social.label}</p><h2 class="social-username">{social.username}</h2><a class="button secondary" href={social.href}>Open {social.label}</a></article>)}
 			</section>
 
 			<section class="contact-form-section section">
@@ -169,6 +169,15 @@ import { socials } from "../../data/socials";
 
 	.submit-button:active {
 		transform: scale(0.97);
+	}
+
+	.social-username {
+		font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		word-break: break-word;
+		line-height: 1.2;
+		margin: 0.5rem 0 1rem;
 	}
 </style>
 
