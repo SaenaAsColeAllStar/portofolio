@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+
+const projects = await getCollection("projects");
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`Projects | ${SITE_TITLE}`} description="Selected CTOS projects organized by category, role, stack, and impact." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">Projects</p>
+				<h1>Systems, workflows, and product evidence.</h1>
+				<p class="lede">Projects are framed around context, role, architecture, stack, and impact rather than screenshots alone.</p>
+			</section>
+			<section class="grid grid-2 section">
+				{projects.map((project) => (
+					<article class="card project-card">
+						<p class="eyebrow">{project.data.category} · {project.data.year}</p>
+						<h2><a href={`/projects/${project.id}`}>{project.data.title}</a></h2>
+						<p>{project.data.excerpt}</p>
+						<p><strong>Role:</strong> {project.data.role}</p>
+						{project.data.impact && <p><strong>Impact:</strong> {project.data.impact}</p>}
+						<div class="badge-row">
+							{project.data.stack.map((item) => <span class="badge">{item}</span>)}
+						</div>
+					</article>
+				))}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>.project-card{display:grid;gap:1rem}.project-card a{text-decoration:none}</style>

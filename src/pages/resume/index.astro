@@ -1,0 +1,36 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+import { capabilityMatrix } from "../../data/skills";
+import { positioning } from "../../data/positioning";
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`Resume | ${SITE_TITLE}`} description="Resume summary for a Digital Systems Architect focused on infrastructure, automation, AI workflows, and product engineering." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">Resume</p>
+				<h1>{positioning.title}</h1>
+				<p class="lede">{positioning.recruiterSummary}</p>
+				<div class="button-row"><a class="button" href="/contact">Contact</a><a class="button secondary" href="/case-studies">View Case Studies</a></div>
+			</section>
+			<section class="section grid grid-2">
+				<article class="card"><h2>Profile</h2><p>{positioning.subheadline}</p></article>
+				<article class="card"><h2>Focus</h2><p>Infrastructure, AI workflows, automation, system architecture, and product engineering.</p></article>
+			</section>
+			<section class="section">
+				<p class="eyebrow">Capabilities</p>
+				<h2>Grouped by system responsibility.</h2>
+				<div class="grid grid-3">
+					{capabilityMatrix.map((capability) => <article class="card"><h3>{capability.name}</h3><p>{capability.description}</p></article>)}
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

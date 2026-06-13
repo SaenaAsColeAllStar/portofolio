@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+
+const studies = await getCollection("caseStudies");
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`Case Studies | ${SITE_TITLE}`} description="Architecture-first case studies showing problems, decisions, implementation, results, and lessons learned." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">Case Studies</p>
+				<h1>Long-form proof of systems thinking.</h1>
+				<p class="lede">Each case study is structured around problem, requirements, architecture, decisions, results, and lessons learned.</p>
+			</section>
+			<section class="grid grid-2 section">
+				{studies.map((study) => (
+					<article class="card study-card">
+						<p class="eyebrow">{study.data.role} · {study.data.year}</p>
+						<h2><a href={`/case-studies/${study.id}`}>{study.data.title}</a></h2>
+						<p>{study.data.excerpt}</p>
+						<p>{study.data.summary}</p>
+					</article>
+				))}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>.study-card{display:grid;gap:1rem}.study-card a{text-decoration:none}</style>

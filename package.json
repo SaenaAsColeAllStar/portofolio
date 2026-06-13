@@ -20,9 +20,9 @@
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
-		"@vitest/ui": "^3.0.0",
-		"jsdom": "^26.0.0",
-		"vitest": "^3.0.0",
+		"@vitest/ui": "^4.1.8",
+		"jsdom": "^29.1.1",
+		"vitest": "^4.1.8",
 		"wrangler": "4.88.0"
 	},
 	"engines": {
