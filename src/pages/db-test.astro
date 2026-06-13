@@ -12,9 +12,13 @@ let error = null;
 let time = null;
 
 try {
+  // Access environment from Cloudflare runtime or fallback
+  const env = Astro.locals.runtime?.env;
+  const db = getDb(env);
+
   // Execute a simple query to check the connection
   const result = await db.execute(sql`SELECT NOW() as time`);
-  time = result[0].time;
+  time = result.rows[0].time;
   connectionStatus = 'Successfully connected to Aiven PostgreSQL!';
 } catch (e) {
   connectionStatus = 'Failed to connect to database.';

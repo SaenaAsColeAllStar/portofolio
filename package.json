@@ -18,10 +18,12 @@
 		"@astrojs/sitemap": "3.6.1",
 		"astro": "5.16.9",
 		"drizzle-orm": "^0.45.2",
+		"pg": "^8.21.0",
 		"postgres": "^3.4.9",
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
+		"@types/pg": "^8.20.0",
 		"@vitest/ui": "^4.1.8",
 		"dotenv": "^17.4.2",
 		"drizzle-kit": "^0.31.10",
