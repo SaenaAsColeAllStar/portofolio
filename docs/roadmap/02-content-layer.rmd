@@ -1,0 +1,510 @@
+# CTOS Portfolio Roadmap
+# 02 — Content Layer (RMD v1.0)
+
+## Objective
+Transform the portfolio from a collection of pages into a structured authority-building platform.
+
+This phase focuses on:
+- Personal Branding
+- Authority Signals
+- Content Architecture
+- Case Study Storytelling
+- Recruiter Conversion
+- Founder Conversion
+
+---
+
+# Strategic Goal
+
+A visitor should understand within 15 seconds:
+
+1. Who Saepul Husna is.
+2. What problems he solves.
+3. Why his profile differs from traditional developers.
+4. Evidence of real-world delivery.
+5. How to contact him.
+
+---
+
+# Current Gap Analysis
+
+## Existing Strengths
+
+- Strong architecture positioning.
+- SMK Teknovo flagship project.
+- Good project structure.
+- Technical credibility.
+
+## Existing Gaps
+
+- Storytelling depth.
+- Authority layering.
+- Recruiter-oriented copy.
+- Founder-oriented copy.
+- Case study standardization.
+- Technical notes strategy.
+
+---
+
+# Content Success Criteria
+
+Content Layer is complete when:
+
+- Every page supports personal branding.
+- Every project follows a common framework.
+- Every case study follows a common framework.
+- About page creates trust.
+- Recruiters understand value quickly.
+- Founders understand outcomes quickly.
+
+---
+
+# Sprint 1 — Brand Narrative
+
+## Goal
+Create a consistent narrative across the website.
+
+### Positioning Statement
+
+Primary Identity:
+
+Digital Systems Architect
+
+Secondary Identity:
+
+Infrastructure
+Automation
+AI Workflows
+Product Systems
+
+### Forbidden Labels
+
+Do not position as:
+
+- Frontend Developer
+- Backend Developer
+- Fullstack Developer
+- Prompt Engineer
+
+### Preferred Language
+
+Use:
+
+- Systems
+- Architecture
+- Reliability
+- Automation
+- Infrastructure
+- Operations
+- Integration
+
+---
+
+# Sprint 2 — Homepage Messaging
+
+## Goal
+Rewrite homepage around outcomes.
+
+### Hero Content Structure
+
+Headline
+
+Bridging Infrastructure, AI, and Product Engineering.
+
+Subheadline
+
+Designing reliable digital systems through architecture, automation, and AI-powered workflows.
+
+CTA
+
+- Explore Projects
+- View Case Studies
+
+---
+
+## Proof Signals Section
+
+Requirements:
+
+- Years of Experience
+- Projects Delivered
+- Systems Managed
+- Infrastructure Experience
+
+### Rule
+
+Avoid vanity metrics.
+
+Use meaningful metrics only.
+
+---
+
+# Sprint 3 — About Page System
+
+## Goal
+Create trust.
+
+### About Structure
+
+Hero
+
+Professional Summary
+
+Expertise Matrix
+
+Working Philosophy
+
+Technology Ecosystem
+
+Contact CTA
+
+---
+
+## Professional Summary Rules
+
+Focus on:
+
+- System thinking
+- Infrastructure
+- Automation
+- Product architecture
+
+Avoid:
+
+- Buzzwords
+- Overclaiming
+- Skill dumping
+
+---
+
+# Sprint 4 — Project Ecosystem
+
+## Goal
+Standardize all projects.
+
+### Project Schema
+
+Required:
+
+- Title
+- Summary
+- Problem
+- Solution
+- Technologies
+- Outcomes
+- Lessons Learned
+
+---
+
+## Project Categories
+
+Infrastructure
+
+Automation
+
+AI
+
+Cloud
+
+Education
+
+Open Source
+
+Experiments
+
+---
+
+## Project Card Requirements
+
+Display:
+
+- Title
+- Category
+- One-line impact statement
+- Key technologies
+
+Avoid:
+
+- Long descriptions
+- Technology overload
+
+---
+
+# Sprint 5 — Case Study Framework
+
+## Goal
+Turn projects into evidence.
+
+### Standard Structure
+
+Overview
+
+Problem
+
+Requirements
+
+Architecture
+
+Implementation
+
+Challenges
+
+Results
+
+Lessons Learned
+
+Future Improvements
+
+---
+
+## Required Media
+
+Architecture Diagram
+
+System Flow
+
+Screenshots
+
+Metrics
+
+---
+
+# Sprint 6 — SMK Teknovo Flagship
+
+## Goal
+Create flagship authority case study.
+
+### Narrative Focus
+
+Not:
+
+"Built a school website"
+
+Instead:
+
+"Designed and integrated a complete educational ecosystem."
+
+---
+
+## Showcase Areas
+
+Website
+
+LMS
+
+CBT
+
+E-Learning
+
+E-Library
+
+RBAC
+
+Content Management
+
+Infrastructure
+
+---
+
+## Metrics Section
+
+Include:
+
+- Number of modules
+- Number of user roles
+- Major integrations
+- Architecture decisions
+
+---
+
+# Sprint 7 — Resume Content Layer
+
+## Goal
+Recruiter-friendly resume presentation.
+
+### Sections
+
+Summary
+
+Core Expertise
+
+Selected Projects
+
+Education
+
+Achievements
+
+Download Resume
+
+---
+
+# Sprint 8 — Certificate Vault Content
+
+## Goal
+Transform certificates into capability proof.
+
+### Certificate Metadata
+
+Issuer
+
+Date
+
+Skills
+
+Category
+
+Description
+
+Credential Link
+
+---
+
+## Categories
+
+Cloud
+
+Infrastructure
+
+AI
+
+Development
+
+Security
+
+Operations
+
+---
+
+# Sprint 9 — Technical Notes Strategy
+
+## Goal
+Create lightweight authority building.
+
+### Categories
+
+Infrastructure Notes
+
+Cloudflare Notes
+
+Automation Notes
+
+AI Workflow Notes
+
+Lessons Learned
+
+Troubleshooting
+
+---
+
+## Content Rules
+
+Short.
+
+Practical.
+
+Experience-driven.
+
+Avoid generic tutorials.
+
+---
+
+# Sprint 10 — Contact Conversion Layer
+
+## Goal
+Increase conversion.
+
+### Contact Structure
+
+Primary:
+
+LinkedIn
+
+Email
+
+GitHub
+
+---
+
+## CTA Rules
+
+Invite collaboration.
+
+Avoid desperate language.
+
+Maintain professional tone.
+
+---
+
+# Content Governance
+
+## Voice
+
+Professional
+
+Technical
+
+Practical
+
+Confident
+
+Transparent
+
+---
+
+## Tone
+
+Architect
+
+Operator
+
+Builder
+
+Not influencer.
+
+---
+
+# AI Agent Instructions
+
+Rule 01
+
+Content must explain outcomes.
+
+Rule 02
+
+Projects must emphasize impact.
+
+Rule 03
+
+Case studies must explain decisions.
+
+Rule 04
+
+Avoid technology dumping.
+
+Rule 05
+
+Every page must reinforce positioning.
+
+Rule 06
+
+Every content piece must support authority building.
+
+---
+
+# Definition of Done
+
+- Homepage messaging finalized.
+- About page finalized.
+- Project framework implemented.
+- Case study framework implemented.
+- SMK Teknovo flagship case study completed.
+- Resume content standardized.
+- Certificate content standardized.
+- Technical notes structure completed.
+- Contact conversion layer completed.
+
+---
+
+# Next Layer
+
+03-architecture-layer.rmd
