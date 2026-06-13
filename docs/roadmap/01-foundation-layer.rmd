@@ -1,0 +1,333 @@
+# CTOS Portfolio Roadmap
+# Foundation Layer (RMD v1.0)
+
+## Objective
+Establish a production-grade foundation before advanced motion, SVG morphing, visitor globe, and authority-building features.
+
+---
+
+# Current State Assessment
+
+Current score:
+- Personal Branding: 9.5/10
+- Information Architecture: 9.5/10
+- Technical Architecture: 10/10
+- Motion System: 6.5/10
+- SVG System: 7/10
+- PRD Compliance: 8.8/10
+
+Primary gaps:
+1. Hero System Visualization
+2. Command Palette
+3. SVG Architecture Upgrade
+4. Motion Foundation
+5. Design Token Consolidation
+
+---
+
+# Foundation Success Criteria
+
+The foundation phase is complete when:
+
+- Navigation system is finalized.
+- Design tokens are centralized.
+- Command palette works globally.
+- Hero architecture map is implemented.
+- SVG system is standardized.
+- Reduced motion is supported.
+- Lighthouse >= 90.
+- All interactive islands are documented.
+
+---
+
+# Sprint 0 — Architecture Audit
+
+## Goals
+Create a stable baseline.
+
+## Tasks
+
+### Repository Audit
+- Audit src/pages
+- Audit src/components
+- Audit src/content
+- Audit assets
+- Audit styling architecture
+
+### Technical Debt Register
+Create:
+
+/docs/technical-debt.md
+
+Track:
+- duplicated logic
+- duplicated styles
+- oversized components
+- dead code
+- temporary hacks
+
+### Deliverables
+- Architecture Report
+- Technical Debt Report
+
+---
+
+# Sprint 1 — Design Foundation
+
+## Goal
+Create a unified design language.
+
+### Task 1
+Design Tokens
+
+Create:
+
+src/styles/tokens/
+
+Files:
+- colors.css
+- spacing.css
+- radius.css
+- shadows.css
+- typography.css
+- motion.css
+
+### Acceptance Criteria
+- No hardcoded colors.
+- No hardcoded spacing.
+- No duplicated typography values.
+
+---
+
+### Task 2
+Theme System Hardening
+
+Requirements:
+- Dark
+- Light
+- System
+
+Persist with localStorage.
+
+### Acceptance Criteria
+- No theme flicker.
+- SSR-safe.
+
+---
+
+### Task 3
+Global Container System
+
+Standardize:
+- max width
+- section spacing
+- responsive spacing
+
+Deliverables:
+- Container.astro
+- Section.astro
+- PageWrapper.astro
+
+---
+
+# Sprint 2 — Navigation Foundation
+
+## Goal
+Build premium navigation.
+
+### Navigation Features
+
+Desktop:
+- floating navbar
+- glass surface
+- hide on scroll down
+- reveal on scroll up
+
+Mobile:
+- bottom navigation
+
+### Components
+
+/navigation
+- Header
+- MobileNav
+- ThemeSwitcher
+- LanguageSwitcher
+
+### Acceptance Criteria
+
+- keyboard accessible
+- mobile friendly
+- reduced motion support
+
+---
+
+# Sprint 3 — Command Palette
+
+## Goal
+Global navigation and search layer.
+
+### Shortcut
+
+CTRL + K
+CMD + K
+
+### Features
+
+- page navigation
+- project search
+- notes search
+- quick actions
+- theme switch
+- language switch
+
+### Components
+
+/components/command
+
+- CommandPalette
+- SearchResults
+- CommandInput
+
+### Acceptance Criteria
+
+- opens under 100ms
+- keyboard only navigation supported
+
+---
+
+# Sprint 4 — Hero System Visualization
+
+## Goal
+Replace static hero impression with architectural identity.
+
+### Hero Architecture Map
+
+Nodes:
+- Infrastructure
+- Cloud
+- Automation
+- AI
+- Product
+- Architecture
+
+Connections:
+- animated signals
+- node linking
+- hover interactions
+
+### Interaction Layer
+
+Hover:
+- activate node
+- show metadata
+
+Click:
+- expand detail panel
+
+### Constraints
+
+- SVG first
+- avoid ThreeJS
+- maintain performance
+
+### Acceptance Criteria
+
+- interactive under 60fps
+- no CLS
+- works on mobile
+
+---
+
+# Sprint 5 — SVG Foundation
+
+## Goal
+Create reusable SVG ecosystem.
+
+### Structure
+
+/assets/svg/
+- infrastructure
+- cloud
+- automation
+- ai
+- architecture
+
+### Requirements
+
+- optimized SVG
+- shared stroke system
+- consistent visual language
+
+### Future Morph Chains
+
+Infrastructure
+→ Cloud
+→ Automation
+→ AI
+→ Architecture
+
+---
+
+# Sprint 6 — Motion Foundation
+
+## Goal
+Establish reusable animation engine.
+
+### Libraries
+
+- GSAP
+- Motion One
+- Lenis
+
+### Modules
+
+lib/animations/
+
+- reveal.ts
+- navigation.ts
+- cards.ts
+- hero.ts
+- svg.ts
+
+### Rules
+
+No animation logic inside pages.
+
+All animations reusable.
+
+### Motion Tokens
+
+Fast: 120ms
+Normal: 220ms
+Slow: 400ms
+Reveal: 600ms
+
+---
+
+# Definition of Done
+
+Foundation Layer is complete when:
+
+- Hero System Map exists.
+- Command Palette exists.
+- Design Tokens centralized.
+- SVG System standardized.
+- Navigation finalized.
+- Motion engine established.
+- Accessibility validated.
+- Lighthouse >= 90.
+
+---
+
+# Next Layer
+
+After Foundation Layer:
+
+02-content-layer.rmd
+03-architecture-layer.rmd
+04-experience-layer.rmd
+05-motion-layer.rmd
+06-authority-layer.rmd
+07-optimization-layer.rmd
+08-launch-layer.rmd
