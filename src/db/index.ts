@@ -20,7 +20,7 @@ export function getDb(env?: any) {
     max: 1,           // Serverless environment: only need 1 connection
     max_retries: 0,   // Fail immediately on connection error to avoid subrequest loops
     connect_timeout: 5, // Timeout after 5 seconds
-    ssl: 'require'    // Explicitly force SSL since Aiven requires it
+    ssl: { rejectUnauthorized: false } // Bypass SSL verification for Aiven self-signed CA
   });
   dbInstance = drizzle(clientInstance, { schema });
   
