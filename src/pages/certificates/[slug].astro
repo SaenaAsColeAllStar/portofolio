@@ -1,0 +1,82 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+	const certificates = await getCollection("certificates");
+	return certificates.map((cert) => ({
+		params: { slug: cert.id },
+		props: cert,
+	}));
+}
+
+type Props = CollectionEntry<"certificates">;
+const cert = Astro.props;
+const { Content } = await render(cert);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${cert.data.title} | Certificates`} description={`Details for ${cert.data.title} from ${cert.data.issuer}`} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<article class="section certificate-detail">
+				<a href="/certificates" class="back-link">&larr; Back to Certificates</a>
+				<div class="card cert-header">
+					<p class="eyebrow">{cert.data.category}</p>
+					<h1>{cert.data.title}</h1>
+					<p class="issuer">Issuer: <strong>{cert.data.issuer}</strong></p>
+					<p class="date">Issued: <FormattedDate date={cert.data.issuedAt} /></p>
+					{cert.data.credentialId && <p class="credential-id">Credential ID: {cert.data.credentialId}</p>}
+					
+					{cert.data.credentialUrl && (
+						<div class="button-row" style="margin-top: 1.5rem;">
+							<a class="button" href={cert.data.credentialUrl} target="_blank" rel="noopener noreferrer">View Credential</a>
+						</div>
+					)}
+					
+					<div class="badge-row" style="margin-top: 1.5rem;">
+						{cert.data.skills.map((skill) => <span class="badge">{skill}</span>)}
+					</div>
+				</div>
+				<div class="prose">
+					<Content />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.certificate-detail {
+		max-width: 800px;
+	}
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		text-decoration: none;
+		opacity: 0.8;
+	}
+	.back-link:hover {
+		opacity: 1;
+	}
+	.cert-header {
+		margin-bottom: 2rem;
+	}
+	.cert-header h1 {
+		margin: 0.5rem 0;
+	}
+	.issuer, .date, .credential-id {
+		margin: 0.25rem 0;
+	}
+	.prose {
+		margin-top: 2rem;
+	}
+</style>

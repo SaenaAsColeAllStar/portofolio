@@ -12,6 +12,21 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": "CTOS",
+	"jobTitle": "Digital Systems Architect",
+	"url": Astro.site
+};
+
+const websiteSchema = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"name": "CTOS Portfolio",
+	"url": Astro.site
+};
 ---
 
 <!-- Global Metadata -->
@@ -45,3 +60,7 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
