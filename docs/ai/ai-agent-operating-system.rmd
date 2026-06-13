@@ -1,0 +1,264 @@
+# AI Agent Operating System (AAOS)
+
+## Purpose
+
+This document defines how AI Agents must operate inside the CTOS Portfolio repository.
+
+Applies to:
+
+- Claude Code
+- Codex
+- Cursor Agent
+- Roo Code
+- Windsurf
+- Future AI Coding Agents
+
+---
+
+# Mission
+
+Build and maintain a world-class portfolio platform that prioritizes:
+
+1. Architecture
+2. User Experience
+3. Performance
+4. Authority
+5. Maintainability
+
+---
+
+# Source Of Truth Hierarchy
+
+Priority Order:
+
+1. PRD Documents
+2. Roadmap Layers
+3. Architecture Decisions
+4. Existing Codebase
+5. Agent Assumptions
+
+Agents must never override higher-priority documents.
+
+---
+
+# Core Principles
+
+## Principle 01
+Architecture Before Features
+
+## Principle 02
+Clarity Before Cleverness
+
+## Principle 03
+Performance Before Decoration
+
+## Principle 04
+Accessibility Is Mandatory
+
+## Principle 05
+Consistency Beats Novelty
+
+---
+
+# Development Philosophy
+
+The portfolio is not a developer portfolio.
+
+The portfolio is a Digital Systems Architect portfolio.
+
+Agents must emphasize:
+
+- Systems Thinking
+- Infrastructure
+- Architecture
+- Automation
+- Delivery
+
+Not technology buzzwords.
+
+---
+
+# Technology Rules
+
+Preferred Stack:
+
+- Astro
+- Vue Islands
+- TypeScript
+- Tailwind
+- Motion
+- SVG
+
+Rules:
+
+- Astro First
+- Static First
+- Island Hydration Only When Needed
+
+---
+
+# UX Rules
+
+Recruiter Journey = Highest Priority
+
+Every page must answer:
+
+- Who is this person?
+- What has he built?
+- Why should I trust him?
+
+Within seconds.
+
+---
+
+# Motion Rules
+
+Motion supports understanding.
+
+Motion never exists for decoration alone.
+
+Every animation requires purpose.
+
+---
+
+# Authority Rules
+
+Authority comes from:
+
+- Evidence
+- Projects
+- Systems
+- Case Studies
+
+Never from claims.
+
+---
+
+# Code Rules
+
+Required:
+
+- Strong typing
+- Reusable components
+- Modular architecture
+- Clean naming
+
+Forbidden:
+
+- Dead code
+- Duplicate logic
+- Inline complexity
+
+---
+
+# Component Rules
+
+Components must be:
+
+- Reusable
+- Accessible
+- Documented
+- Testable
+
+---
+
+# Accessibility Rules
+
+Required:
+
+- Keyboard Navigation
+- Focus States
+- Screen Reader Support
+- Reduced Motion Support
+
+---
+
+# Performance Rules
+
+Targets:
+
+- Lighthouse >=95
+- Accessibility >=100
+- SEO >=100
+- Best Practices >=100
+
+---
+
+# Git Workflow Rules
+
+Before Changes:
+
+1. Read PRD
+2. Read Roadmap Layer
+3. Review Existing Architecture
+
+After Changes:
+
+1. Validate Build
+2. Validate Types
+3. Validate Accessibility
+4. Validate Performance
+
+---
+
+# Decision Framework
+
+When multiple solutions exist:
+
+Choose the solution with:
+
+1. Better maintainability
+2. Better accessibility
+3. Better performance
+4. Better UX
+5. Lower complexity
+
+---
+
+# Anti-Patterns
+
+Agents must avoid:
+
+- Overengineering
+- Premature abstraction
+- Framework lock-in
+- Excessive dependencies
+- Animation overload
+
+---
+
+# Definition Of Success
+
+The portfolio should feel like:
+
+- A product
+- A platform
+- A system
+
+Not a template.
+
+---
+
+# Agent Execution Loop
+
+1. Understand Request
+2. Read Relevant Documents
+3. Analyze Impact
+4. Implement
+5. Validate
+6. Optimize
+7. Document
+8. Commit
+
+---
+
+# Final Rule
+
+If a change improves visuals but harms:
+
+- UX
+- Accessibility
+- Performance
+- Maintainability
+
+The change must be rejected.
