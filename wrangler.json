@@ -29,5 +29,8 @@
 			"binding": "HYPERDRIVE",
 			"id": "e6b940ef2f9742ba89aa6c5a14d67278"
 		}
-	]
+	],
+	"ai": {
+		"binding": "AI"
+	}
 }

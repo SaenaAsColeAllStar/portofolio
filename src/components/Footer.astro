@@ -3,6 +3,7 @@ import { socials } from "../data/socials";
 import { SITE_TITLE } from "../consts";
 import CommandPalette from "./CommandPalette.astro";
 import PageView from "./PageView.astro";
+import ChatWidget from "./ChatWidget.astro";
 
 const today = new Date();
 ---
@@ -22,6 +23,7 @@ const today = new Date();
 </footer>
 
 <CommandPalette />
+<ChatWidget />
 
 <script>
 	import { initAnalytics } from "../utils/analytics";
