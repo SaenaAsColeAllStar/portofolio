@@ -1,107 +1,581 @@
 # CTOS Portfolio Roadmap
-# 04 — Experience Layer (RMD v1.0)
+# 04 — Experience Layer (RMD v2.0)
 
 ## Objective
-Define recruiter-first, founder-friendly, and developer-focused user experience architecture for the portfolio.
 
-## Experience Vision
-Create a portfolio that feels like a premium product experience rather than a personal website.
+Transform the portfolio from a collection of pages into a memorable, recruiter-first digital experience.
 
-## User Journeys
-### Recruiter Journey
-Hero → Proof Signals → Featured Case Study → Resume → Contact
+This layer defines:
 
-### Founder Journey
-Hero → Architecture Philosophy → Flagship Project → Contact
+- User Journey Architecture
+- Navigation Psychology
+- Information Density Strategy
+- Conversion Flow Design
+- Scroll Storytelling Rules
+- Trust Signal Placement
+- Micro Interaction Placement
+- Mobile Experience Standards
+- Accessibility Experience Standards
 
-### Developer Journey
-Hero → Projects → Case Studies → Technical Notes → GitHub
+---
 
-## Homepage Experience Architecture
-1. Hero
-2. Proof Signals
-3. System Overview
-4. Featured Case Study
-5. Projects
-6. Architecture Philosophy
-7. Notes
-8. Certificates
-9. Contact
-10. Visitor Globe
+# Experience Vision
 
-## Navigation Psychology
-- Minimize cognitive load
-- Surface primary actions first
-- Command Palette always available
+The experience should feel like:
 
-## Information Density Strategy
-- Hero: Low
-- Project Cards: Medium
-- Case Studies: High
-- Technical Notes: Medium
+A modern operating system for a Digital Systems Architect.
 
-## CTA Strategy
-Primary: Explore Projects
-Secondary: View Case Studies
-Tertiary: Contact
+Not a blog.
+Not a template.
+Not a generic developer portfolio.
 
-## Search Experience
-Sources:
-- Projects
-- Case Studies
-- Notes
-- Certificates
+---
 
-## Command Palette UX
-Shortcut:
-- CTRL + K
-- CMD + K
+# Core Experience Principles
 
-Functions:
-- Search
-- Navigate
-- Theme Switch
-- Language Switch
-- Resume Access
+## Principle 01
 
-## Certificate Vault UX
-- Grid View
-- Preview Modal
-- Verification Links
+Clarity Before Complexity
 
-## Visitor Globe UX
-Purpose: Trust Signal
-Placement: Near Footer
+## Principle 02
 
-## Accessibility Rules
-- Keyboard Navigation
-- Focus States
-- Reduced Motion Support
-- Screen Reader Compatibility
+Architecture Before Technology
 
-## Mobile Experience
-- One-Hand Reachability
-- Fast Loading
-- Reduced Motion
+## Principle 03
 
-## Conversion Goals
-- Resume Download
-- Contact Click
-- GitHub Visit
-- Case Study Read
+Trust Before Conversion
 
-## AI Agent Rules
-- Clarity before complexity
-- Experience before animation
-- Recruiter journey has highest priority
+## Principle 04
 
-## Definition of Done
-- Homepage UX finalized
-- Navigation finalized
-- Search UX finalized
-- Command Palette UX finalized
-- Accessibility validated
-- Mobile UX validated
+Experience Before Animation
 
-## Next Layer
+## Principle 05
+
+Motion Supports Understanding
+
+---
+
+# Success Criteria
+
+Users should understand within 15 seconds:
+
+1. Who you are
+2. What you do
+3. Why you are different
+4. What systems you have built
+5. How to contact you
+
+---
+
+# User Archetypes
+
+## Recruiter
+
+Goals:
+- Evaluate capability
+- Download resume
+- Contact quickly
+
+Pain Points:
+- Too much technical detail
+- Hard to find resume
+
+Priority: Highest
+
+---
+
+## Founder
+
+Goals:
+- Evaluate system thinking
+- Review outcomes
+- Assess credibility
+
+Priority: High
+
+---
+
+## Developer
+
+Goals:
+- Explore architecture
+- Explore implementation
+- Explore notes
+
+Priority: Medium
+
+---
+
+## AI Enthusiast
+
+Goals:
+- Explore workflows
+- Explore automation
+- Explore systems
+
+Priority: Medium
+
+---
+
+# Recruiter Journey
+
+Landing
+↓
+Hero
+↓
+Proof Signals
+↓
+Featured Case Study
+↓
+Projects
+↓
+Resume
+↓
+Contact
+
+Target Completion:
+3–5 Minutes
+
+---
+
+# Founder Journey
+
+Landing
+↓
+Hero
+↓
+Architecture Philosophy
+↓
+Flagship Project
+↓
+Case Studies
+↓
+Contact
+
+Target Completion:
+5–10 Minutes
+
+---
+
+# Developer Journey
+
+Landing
+↓
+Projects
+↓
+Case Studies
+↓
+Technical Notes
+↓
+GitHub
+
+Target Completion:
+10–20 Minutes
+
+---
+
+# Homepage Experience Architecture
+
+Section 01
+Hero
+
+Purpose:
+Identity + Positioning
+
+---
+
+Section 02
+Proof Signals
+
+Purpose:
+Immediate Credibility
+
+---
+
+Section 03
+System Overview
+
+Purpose:
+Explain Expertise Areas
+
+---
+
+Section 04
+Featured Case Study
+
+Purpose:
+Show Real Delivery Capability
+
+---
+
+Section 05
+Selected Projects
+
+Purpose:
+Show Breadth
+
+---
+
+Section 06
+Architecture Philosophy
+
+Purpose:
+Show Thinking Process
+
+---
+
+Section 07
+Technical Notes
+
+Purpose:
+Build Authority
+
+---
+
+Section 08
+Certificate Vault Preview
+
+Purpose:
+Supporting Evidence
+
+---
+
+Section 09
+Contact Layer
+
+Purpose:
+Conversion
+
+---
+
+Section 10
+Visitor Globe
+
+Purpose:
+Trust Signal
+
+---
+
+# Information Density Strategy
+
+Hero = Low
+
+Projects = Medium
+
+Case Studies = High
+
+Notes = Medium
+
+Resume = Medium
+
+---
+
+# Navigation Psychology
+
+Goals:
+
+Reduce Cognitive Load
+
+Encourage Exploration
+
+Provide Fast Escape Routes
+
+---
+
+Desktop Navigation
+
+Home
+Projects
+Case Studies
+Resume
+Notes
+Contact
+
+---
+
+Utility Actions
+
+Theme
+Language
+Command Palette
+
+---
+
+# Command Palette UX
+
+Shortcut
+
+CTRL + K
+CMD + K
+
+---
+
+Functions
+
+Search Projects
+Search Notes
+Navigate Pages
+Theme Switch
+Language Switch
+Resume Access
+Contact Access
+
+---
+
+# Search Experience
+
+Search Sources
+
+Projects
+Case Studies
+Notes
+Certificates
+
+---
+
+Target Response
+
+Under 100ms
+
+---
+
+# CTA Strategy
+
+Primary CTA
+
+Explore Projects
+
+---
+
+Secondary CTA
+
+View Case Studies
+
+---
+
+Tertiary CTA
+
+Contact
+
+---
+
+# Trust Signal Placement
+
+Hero
+
+Proof Signals
+
+Featured Case Study
+
+Resume Preview
+
+Certificate Preview
+
+Visitor Globe
+
+---
+
+# Scroll Storytelling
+
+Allowed Areas
+
+Case Studies
+Architecture Sections
+Flagship Projects
+
+---
+
+Forbidden Areas
+
+Contact Forms
+Resume Content
+Long Articles
+
+---
+
+# Certificate Vault UX
+
+Default State
+
+Grid View
+
+---
+
+Hover State
+
+Preview Certificate
+
+---
+
+Click State
+
+Fullscreen Modal
+
+---
+
+Metadata
+
+Issuer
+Date
+Skills
+Verification Link
+
+---
+
+# Visitor Globe UX
+
+Purpose:
+Trust Signal
+
+---
+
+Placement:
+Near Footer
+
+---
+
+Never Above Fold
+
+---
+
+# Contact Experience
+
+Primary Channels
+
+LinkedIn
+Email
+GitHub
+
+---
+
+Goals
+
+Reduce Friction
+
+Increase Professional Conversion
+
+---
+
+# Mobile Experience Rules
+
+One-Hand Reachability
+
+Bottom Navigation Priority
+
+Reduced Motion
+
+Fast Loading
+
+Touch Friendly Targets
+
+---
+
+# Accessibility Experience Rules
+
+Keyboard Navigation
+
+Focus Visibility
+
+Screen Reader Support
+
+Reduced Motion Support
+
+Color Contrast Compliance
+
+---
+
+# Micro Interaction Placement Matrix
+
+Hero
+- Node Hover
+- Signal Pulse
+- Metadata Reveal
+
+Projects
+- Card Tilt
+- Card Glow
+- Metadata Reveal
+
+Certificates
+- Folder Open
+- Preview Expand
+
+Navigation
+- Hide
+- Reveal
+- Magnetic CTA
+
+---
+
+# Conversion Goals
+
+Resume Download
+
+Contact Click
+
+GitHub Visit
+
+Case Study Read
+
+LinkedIn Visit
+
+---
+
+# Experience KPIs
+
+Positioning Understanding <15s
+
+Project Discovery <60s
+
+Resume Reachability <2 Clicks
+
+Contact Reachability <3 Clicks
+
+Case Study Discovery <2 Scrolls
+
+---
+
+# AI Agent Rules
+
+Rule EX-01
+Prioritize clarity.
+
+Rule EX-02
+Guide attention intentionally.
+
+Rule EX-03
+Do not overwhelm users.
+
+Rule EX-04
+Every interaction must support understanding.
+
+Rule EX-05
+Recruiter journey has highest priority.
+
+Rule EX-06
+Experience before animation.
+
+Rule EX-07
+Trust before conversion.
+
+---
+
+# Definition of Done
+
+- User journeys finalized.
+- Homepage experience finalized.
+- Navigation psychology implemented.
+- Search UX implemented.
+- Command palette UX implemented.
+- CTA strategy implemented.
+- Certificate vault UX implemented.
+- Visitor globe UX implemented.
+- Mobile UX validated.
+- Accessibility UX validated.
+- Experience KPIs measurable.
+
+---
+
+# Next Layer
+
 05-motion-layer.rmd
