@@ -1,0 +1,554 @@
+# CTOS Portfolio Roadmap
+# 07 — Optimization Layer (RMD v1.0)
+
+## Objective
+
+Transform the portfolio into a production-grade platform that remains fast, accessible, discoverable, and maintainable while supporting advanced interactions.
+
+Optimization is a feature.
+
+Performance is part of UX.
+
+---
+
+# Optimization Philosophy
+
+Every feature must justify:
+
+- Performance Cost
+- Accessibility Cost
+- Maintenance Cost
+- Complexity Cost
+
+If value does not exceed cost, remove it.
+
+---
+
+# Success Metrics
+
+## Lighthouse
+
+Performance >= 95
+
+Accessibility >= 100
+
+Best Practices >= 100
+
+SEO >= 100
+
+---
+
+## Core Web Vitals
+
+LCP < 2.0s
+
+INP < 200ms
+
+CLS < 0.05
+
+---
+
+## Bundle Targets
+
+Initial JS < 100KB
+
+Critical CSS < 30KB
+
+Largest Image < 250KB
+
+---
+
+# Sprint OP1 — Performance Budget System
+
+## Goal
+
+Create measurable limits.
+
+### Budgets
+
+JavaScript
+
+CSS
+
+Images
+
+Fonts
+
+Animations
+
+SVG Assets
+
+---
+
+### Rule
+
+No feature may be added without budget review.
+
+---
+
+# Sprint OP2 — Astro Optimization
+
+## Goal
+
+Maximize Astro benefits.
+
+### Rules
+
+Astro First
+
+Static First
+
+SSR Only When Needed
+
+Hydrate Only Interactive Islands
+
+---
+
+### Audit Targets
+
+Pages
+
+Layouts
+
+Components
+
+Vue Islands
+
+---
+
+# Sprint OP3 — Island Hydration Audit
+
+## Goal
+
+Reduce client-side JavaScript.
+
+### Review
+
+Hero
+
+Command Palette
+
+Visitor Globe
+
+Search
+
+Theme Switcher
+
+Language Switcher
+
+---
+
+### Preferred Hydration
+
+client:visible
+
+client:idle
+
+client:media
+
+---
+
+### Avoid
+
+client:load everywhere
+
+---
+
+# Sprint OP4 — Asset Optimization
+
+## Goal
+
+Optimize all media.
+
+### Images
+
+Use Astro Image.
+
+Use AVIF.
+
+Use WebP fallback.
+
+---
+
+### SVG
+
+Optimize with SVGO.
+
+Remove unnecessary metadata.
+
+---
+
+### Videos
+
+Lazy load.
+
+Poster image required.
+
+---
+
+# Sprint OP5 — Typography Optimization
+
+## Goal
+
+Reduce font overhead.
+
+### Strategy
+
+Self-host fonts.
+
+Subset fonts.
+
+Use variable fonts.
+
+---
+
+### Rules
+
+Maximum 2 font families.
+
+Maximum 1 variable font preferred.
+
+---
+
+# Sprint OP6 — Motion Optimization
+
+## Goal
+
+Keep motion performant.
+
+### Rules
+
+Transform
+
+Opacity
+
+Filter (minimal)
+
+---
+
+### Avoid
+
+Layout Thrashing
+
+Heavy Box Shadows
+
+Expensive Paints
+
+---
+
+### Monitoring
+
+60fps target.
+
+16ms frame budget.
+
+---
+
+# Sprint OP7 — Search Optimization
+
+## Goal
+
+Fast command palette and search.
+
+### Search Index
+
+Build Time Generated
+
+Static JSON
+
+Fuse.js
+
+---
+
+### Targets
+
+Search Open <100ms
+
+Search Result <50ms
+
+---
+
+# Sprint OP8 — SEO Optimization
+
+## Goal
+
+Maximize discoverability.
+
+### Technical SEO
+
+Sitemap
+
+Robots
+
+Canonical URLs
+
+Open Graph
+
+Twitter Cards
+
+Structured Data
+
+---
+
+### Content SEO
+
+Projects
+
+Case Studies
+
+Notes
+
+Certificates
+
+---
+
+# Sprint OP9 — Structured Data Layer
+
+## Goal
+
+Improve search understanding.
+
+### Schemas
+
+Person
+
+WebSite
+
+BreadcrumbList
+
+Article
+
+CreativeWork
+
+Project
+
+---
+
+### Rule
+
+JSON-LD preferred.
+
+---
+
+# Sprint OP10 — Accessibility Optimization
+
+## Goal
+
+Reach WCAG AA or higher.
+
+### Audit Areas
+
+Keyboard Navigation
+
+Focus States
+
+Contrast
+
+Screen Readers
+
+ARIA Labels
+
+Forms
+
+---
+
+### Requirements
+
+Command Palette Accessible
+
+Visitor Globe Accessible
+
+Theme Switch Accessible
+
+---
+
+# Sprint OP11 — Internationalization Optimization
+
+## Goal
+
+Ensure bilingual support remains scalable.
+
+### Requirements
+
+Localized URLs
+
+Localized Metadata
+
+Localized Open Graph
+
+Localized Sitemap
+
+---
+
+# Sprint OP12 — Caching Strategy
+
+## Goal
+
+Reduce repeat load cost.
+
+### Cache Layers
+
+Cloudflare Edge
+
+Static Assets
+
+Images
+
+Fonts
+
+Search Index
+
+---
+
+### Rules
+
+Immutable Assets
+
+Long Cache TTL
+
+Versioned Builds
+
+---
+
+# Sprint OP13 — Analytics Optimization
+
+## Goal
+
+Track meaningful usage.
+
+### Metrics
+
+Page Views
+
+Case Study Views
+
+Resume Downloads
+
+Contact Clicks
+
+Project Views
+
+---
+
+### Avoid
+
+Vanity Metrics
+
+---
+
+# Sprint OP14 — Security Hardening
+
+## Goal
+
+Protect portfolio infrastructure.
+
+### Headers
+
+CSP
+
+HSTS
+
+X-Frame-Options
+
+Referrer-Policy
+
+Permissions-Policy
+
+---
+
+### Review Areas
+
+Forms
+
+Analytics
+
+Third Party Scripts
+
+---
+
+# Sprint OP15 — Technical Debt Management
+
+## Goal
+
+Prevent long-term degradation.
+
+### Monthly Review
+
+Unused Components
+
+Unused CSS
+
+Unused Assets
+
+Large Bundles
+
+Duplicate Logic
+
+---
+
+# Monitoring Dashboard
+
+## Weekly Review
+
+Lighthouse
+
+Core Web Vitals
+
+Search Performance
+
+Accessibility Score
+
+Bundle Size
+
+---
+
+# AI Agent Rules
+
+Rule OP-01
+
+Performance before aesthetics.
+
+Rule OP-02
+
+Astro before Vue.
+
+Rule OP-03
+
+SVG before PNG.
+
+Rule OP-04
+
+Optimize before adding features.
+
+Rule OP-05
+
+Every new dependency requires justification.
+
+Rule OP-06
+
+Every animation must respect performance budgets.
+
+Rule OP-07
+
+Accessibility is mandatory.
+
+---
+
+# Definition of Done
+
+- Lighthouse targets achieved.
+- Core Web Vitals achieved.
+- Asset pipeline optimized.
+- Search optimized.
+- SEO optimized.
+- Accessibility validated.
+- Caching strategy implemented.
+- Analytics optimized.
+- Security headers configured.
+- Technical debt process established.
+
+---
+
+# Next Layer
+
+08-launch-layer.rmd
