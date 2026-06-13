@@ -1,0 +1,442 @@
+# Component Inventory
+
+## Purpose
+
+This document is the single source of truth for all UI, layout, experience, motion, and infrastructure components used by the CTOS Portfolio.
+
+Applies to:
+
+- Human Developers
+- Claude Code
+- Codex
+- Cursor Agent
+- Roo Code
+- Windsurf
+
+---
+
+# Component Philosophy
+
+Every component must:
+
+- Have a single responsibility
+- Be reusable
+- Be accessible
+- Be documented
+- Support the roadmap
+
+---
+
+# Component Classification
+
+## Tier 1 — Foundation Components
+
+Reusable primitives.
+
+Examples:
+
+- Button
+- Input
+- Dialog
+- Drawer
+- Tooltip
+- Badge
+- Tabs
+- Accordion
+
+Location:
+
+src/components/ui/
+
+---
+
+## Tier 2 — Shared Components
+
+Reusable portfolio components.
+
+Examples:
+
+- SectionHeader
+- SectionContainer
+- ThemeSwitcher
+- LanguageSwitcher
+- MagneticButton
+
+Location:
+
+src/components/shared/
+
+---
+
+## Tier 3 — Feature Components
+
+Feature-specific components.
+
+Examples:
+
+- CommandPalette
+- VisitorGlobe
+- CertificateVault
+- ResumeViewer
+
+Location:
+
+src/features/
+
+---
+
+## Tier 4 — Experience Components
+
+High-value experience modules.
+
+Examples:
+
+- HeroSystemMap
+- ArchitectureExplorer
+- ProjectTimeline
+- CaseStudyStory
+
+Location:
+
+src/features/experience/
+
+---
+
+# Layout Components
+
+## RootLayout
+
+Responsibility:
+
+Global layout shell.
+
+---
+
+## ContentLayout
+
+Responsibility:
+
+Article and notes pages.
+
+---
+
+## CaseStudyLayout
+
+Responsibility:
+
+Case study presentation.
+
+---
+
+## ProjectLayout
+
+Responsibility:
+
+Project showcase pages.
+
+---
+
+# Navigation Components
+
+## MainNavigation
+
+Purpose:
+
+Primary desktop navigation.
+
+---
+
+## MobileNavigation
+
+Purpose:
+
+Mobile experience navigation.
+
+---
+
+## CommandPalette
+
+Purpose:
+
+Global navigation and search.
+
+Priority:
+
+Critical
+
+---
+
+# Hero Components
+
+## HeroSystemMap
+
+Purpose:
+
+Visual identity system.
+
+Priority:
+
+Critical
+
+---
+
+## HeroMetadata
+
+Purpose:
+
+Positioning information.
+
+---
+
+## HeroSignalLayer
+
+Purpose:
+
+Animated credibility indicators.
+
+---
+
+# Project Components
+
+## ProjectCard
+
+Purpose:
+
+Project preview.
+
+---
+
+## ProjectGrid
+
+Purpose:
+
+Project listing.
+
+---
+
+## ProjectShowcase
+
+Purpose:
+
+Featured projects.
+
+---
+
+# Case Study Components
+
+## CaseStudyCard
+
+Purpose:
+
+Case study preview.
+
+---
+
+## CaseStudyStory
+
+Purpose:
+
+Narrative storytelling.
+
+---
+
+## ArchitectureBreakdown
+
+Purpose:
+
+Technical explanation.
+
+---
+
+# Authority Components
+
+## ProofSignalBar
+
+Purpose:
+
+Quick trust indicators.
+
+---
+
+## CertificateVault
+
+Purpose:
+
+Credential management.
+
+---
+
+## ResumeViewer
+
+Purpose:
+
+Resume preview and download.
+
+---
+
+# Contact Components
+
+## ContactCard
+
+Purpose:
+
+Communication entry point.
+
+---
+
+## SocialLinks
+
+Purpose:
+
+Professional profile links.
+
+---
+
+# Motion Components
+
+## MagneticButton
+
+Purpose:
+
+Micro interaction.
+
+---
+
+## CursorFollower
+
+Purpose:
+
+Premium interaction layer.
+
+---
+
+## MorphingSVG
+
+Purpose:
+
+Brand animation system.
+
+---
+
+# Search Components
+
+## SearchDialog
+
+Purpose:
+
+Search interface.
+
+---
+
+## SearchResults
+
+Purpose:
+
+Search presentation.
+
+---
+
+# Analytics Components
+
+## VisitorCounter
+
+Purpose:
+
+Traffic visibility.
+
+---
+
+## VisitorGlobe
+
+Purpose:
+
+Global visitor visualization.
+
+---
+
+# SEO Components
+
+## SEOHead
+
+Purpose:
+
+Metadata management.
+
+---
+
+## StructuredData
+
+Purpose:
+
+JSON-LD generation.
+
+---
+
+# Accessibility Requirements
+
+Every component must support:
+
+- Keyboard Navigation
+- Focus States
+- Screen Readers
+- Reduced Motion
+
+---
+
+# Component Lifecycle
+
+1. Proposed
+2. Approved
+3. Implemented
+4. Documented
+5. Validated
+6. Production
+
+---
+
+# Component Review Checklist
+
+Before Production:
+
+- Accessibility validated
+- Performance validated
+- Mobile validated
+- Documentation updated
+- No duplicate component exists
+
+---
+
+# AI Agent Rules
+
+Rule CI-01
+
+Reuse existing components before creating new ones.
+
+Rule CI-02
+
+Avoid duplicate responsibilities.
+
+Rule CI-03
+
+Document every new component.
+
+Rule CI-04
+
+Prefer composition over complexity.
+
+Rule CI-05
+
+Every component must map to a roadmap requirement.
+
+---
+
+# Definition Of Completion
+
+A component is complete when:
+
+- Implemented
+- Accessible
+- Reusable
+- Documented
+- Tested
+- Approved for production
