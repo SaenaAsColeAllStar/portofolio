@@ -1,0 +1,579 @@
+# CTOS Portfolio Roadmap
+# 06 — Authority Layer (RMD v1.0)
+
+## Objective
+
+Transform the portfolio from a showcase website into a credibility engine.
+
+Authority is not built by claiming expertise.
+
+Authority is built by demonstrating:
+
+- Experience
+- Systems Thinking
+- Technical Decision Making
+- Delivery Capability
+- Real World Impact
+
+---
+
+# Authority Vision
+
+Target Perception:
+
+"This person understands systems beyond code."
+
+Not:
+
+"This person knows many technologies."
+
+---
+
+# Authority Pillars
+
+## Pillar 01
+
+Systems Architecture
+
+Evidence:
+
+- Infrastructure Projects
+- Cloud Projects
+- System Diagrams
+- Architecture Decisions
+
+---
+
+## Pillar 02
+
+Operational Capability
+
+Evidence:
+
+- Deployment Experience
+- Homelab Experience
+- VPS Experience
+- Cloudflare Experience
+- Troubleshooting Experience
+
+---
+
+## Pillar 03
+
+Product Delivery
+
+Evidence:
+
+- Educational Ecosystem
+- LMS
+- CBT
+- E-Learning
+- E-Library
+- RBAC Systems
+
+---
+
+## Pillar 04
+
+AI Workflow Engineering
+
+Evidence:
+
+- PRD Systems
+- Prompt Systems
+- AI Workflows
+- Automation Workflows
+
+---
+
+# Authority Success Criteria
+
+A recruiter should be able to answer:
+
+- What problems does he solve?
+- What systems has he built?
+- What decisions has he made?
+- What impact did those decisions create?
+
+Within 3 minutes.
+
+---
+
+# Sprint AU1 — Trust Signal Architecture
+
+## Goal
+
+Introduce credibility above the fold.
+
+### Trust Signals
+
+Years of Experience
+
+Systems Managed
+
+Projects Delivered
+
+Infrastructure Experience
+
+---
+
+### Rules
+
+Avoid vanity metrics.
+
+Avoid inflated numbers.
+
+Use verifiable evidence.
+
+---
+
+# Sprint AU2 — Flagship Project Strategy
+
+## Goal
+
+Create one dominant authority project.
+
+### Primary Flagship
+
+SMK Teknovo Ecosystem
+
+---
+
+### Narrative
+
+Not:
+
+"School Website"
+
+Instead:
+
+"Integrated Educational Platform Architecture"
+
+---
+
+### Required Sections
+
+Overview
+
+Problem
+
+Architecture
+
+RBAC
+
+Infrastructure
+
+Modules
+
+Lessons Learned
+
+Future Evolution
+
+---
+
+# Sprint AU3 — Case Study Authority Framework
+
+## Goal
+
+Turn projects into evidence.
+
+### Structure
+
+Challenge
+
+Context
+
+Requirements
+
+Architecture Decisions
+
+Implementation
+
+Tradeoffs
+
+Results
+
+Retrospective
+
+---
+
+### Rule
+
+Focus on decisions.
+
+Not features.
+
+---
+
+# Sprint AU4 — Expertise Matrix
+
+## Goal
+
+Visualize capabilities.
+
+### Categories
+
+Infrastructure
+
+Cloud
+
+Automation
+
+AI
+
+Product Systems
+
+Architecture
+
+---
+
+### Rules
+
+No percentage bars.
+
+No fake skill ratings.
+
+Use capability statements.
+
+---
+
+# Sprint AU5 — Resume Authority System
+
+## Goal
+
+Modernize resume presentation.
+
+### Sections
+
+Executive Summary
+
+Core Capabilities
+
+Selected Projects
+
+Education
+
+Achievements
+
+Contact
+
+---
+
+### Rule
+
+Outcome Driven.
+
+Not technology driven.
+
+---
+
+# Sprint AU6 — Certificate Vault Authority
+
+## Goal
+
+Turn certificates into supporting evidence.
+
+### Metadata
+
+Issuer
+
+Date
+
+Skills
+
+Category
+
+Description
+
+Verification Link
+
+---
+
+### Categories
+
+Cloud
+
+Infrastructure
+
+AI
+
+Development
+
+Security
+
+Operations
+
+---
+
+### Rule
+
+Certificates support expertise.
+
+They do not define expertise.
+
+---
+
+# Sprint AU7 — Technical Notes Authority
+
+## Goal
+
+Build lightweight authority.
+
+### Categories
+
+Cloudflare
+
+Infrastructure
+
+Homelab
+
+Automation
+
+AI Workflow
+
+Troubleshooting
+
+Lessons Learned
+
+---
+
+### Content Rules
+
+Short.
+
+Practical.
+
+Experience Based.
+
+---
+
+### Forbidden
+
+Generic Tutorials.
+
+Copied Content.
+
+AI Generated Fluff.
+
+---
+
+# Sprint AU8 — GitHub Authority Layer
+
+## Goal
+
+Connect portfolio and repository ecosystem.
+
+### Required Links
+
+GitHub Profile
+
+Featured Repositories
+
+Flagship Repositories
+
+---
+
+### Repository Selection Criteria
+
+Architecture Quality
+
+Documentation Quality
+
+Real World Utility
+
+---
+
+# Sprint AU9 — Professional Timeline
+
+## Goal
+
+Show growth without exposing sensitive details.
+
+### Timeline Types
+
+Learning Milestones
+
+Project Milestones
+
+System Milestones
+
+---
+
+### Avoid
+
+Personal Information
+
+Private Company Information
+
+Sensitive Dates
+
+---
+
+# Sprint AU10 — Social Proof Layer
+
+## Goal
+
+Add trust without exaggeration.
+
+### Sources
+
+Projects
+
+Deployments
+
+Case Studies
+
+GitHub Activity
+
+Certificates
+
+---
+
+### Rule
+
+Evidence First.
+
+Claims Second.
+
+---
+
+# Sprint AU11 — Contact Authority Layer
+
+## Goal
+
+Create professional conversion path.
+
+### Primary Contacts
+
+LinkedIn
+
+Email
+
+GitHub
+
+---
+
+### CTA Style
+
+Collaboration
+
+Consultation
+
+Architecture Discussion
+
+Technical Partnership
+
+---
+
+# Sprint AU12 — Personal Brand Governance
+
+## Goal
+
+Maintain positioning consistency.
+
+### Preferred Terms
+
+Systems
+
+Architecture
+
+Infrastructure
+
+Automation
+
+Reliability
+
+Operations
+
+Integration
+
+---
+
+### Avoid Overuse
+
+Expert
+
+Guru
+
+Ninja
+
+Rockstar
+
+---
+
+# Authority Metrics
+
+Recruiter Understanding
+
+<3 minutes
+
+---
+
+Project Discovery
+
+<60 seconds
+
+---
+
+Case Study Engagement
+
+High
+
+---
+
+Resume Conversion
+
+Trackable
+
+---
+
+# AI Agent Rules
+
+Rule AU-01
+
+Authority must come from evidence.
+
+Rule AU-02
+
+Projects must emphasize outcomes.
+
+Rule AU-03
+
+Case studies must explain decisions.
+
+Rule AU-04
+
+Avoid technology dumping.
+
+Rule AU-05
+
+Avoid inflated claims.
+
+Rule AU-06
+
+Maintain positioning consistency.
+
+Rule AU-07
+
+Every page must reinforce authority.
+
+---
+
+# Definition of Done
+
+- Trust signals implemented.
+- Flagship project completed.
+- Case study framework completed.
+- Expertise matrix completed.
+- Resume authority system completed.
+- Certificate vault completed.
+- Technical notes structure completed.
+- GitHub authority layer connected.
+- Social proof layer implemented.
+- Contact authority layer implemented.
+
+---
+
+# Next Layer
+
+07-optimization-layer.rmd
