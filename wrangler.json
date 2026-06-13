@@ -7,13 +7,7 @@
 		"directory": "./dist",
 		"binding": "ASSETS"
 	},
-	"observability": {
-		"enabled": true
-	},
-	"upload_source_maps": true
-}
-
-{
+	"upload_source_maps": true,
   "observability": {
     "logs": {
       "enabled": true,
