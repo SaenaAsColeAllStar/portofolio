@@ -1,0 +1,79 @@
+---
+import { db } from '../db';
+import { sql } from 'drizzle-orm';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+let connectionStatus = 'Connecting...';
+let error = null;
+let time = null;
+
+try {
+  // Execute a simple query to check the connection
+  const result = await db.execute(sql`SELECT NOW() as time`);
+  time = result[0].time;
+  connectionStatus = 'Successfully connected to Aiven PostgreSQL!';
+} catch (e) {
+  connectionStatus = 'Failed to connect to database.';
+  error = e instanceof Error ? e.message : String(e);
+}
+---
+
+<BaseLayout title="Database Test" description="Test the Aiven PostgreSQL database connection">
+  <main class="db-test-container">
+    <div class="content-wrapper">
+      <h1>Database Connection Test</h1>
+      
+      <div class={`status-card ${error ? 'error' : 'success'}`}>
+        <h2>{connectionStatus}</h2>
+        {time && <p>Server time: <strong>{new Date(time as string).toLocaleString()}</strong></p>}
+        {error && <pre class="error-msg">{error}</pre>}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .db-test-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .content-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+  .status-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  .success {
+    background: rgba(46, 204, 113, 0.1);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    color: #2ecc71;
+  }
+  .error {
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: #e74c3c;
+  }
+  .error-msg {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    overflow-x: auto;
+    text-align: left;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+  }
+</style>
