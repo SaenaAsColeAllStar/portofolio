@@ -1,0 +1,609 @@
+# CTOS Portfolio Roadmap
+# 03 — Architecture Layer (RMD v1.0)
+
+## Objective
+
+Build a production-grade architecture capable of supporting:
+
+- Hero System Visualization
+- Command Palette
+- Visitor Globe
+- Certificate Vault
+- SVG Morphing System
+- Analytics Layer
+- Multi-language Content
+- Future Awwwards-Level Motion
+
+Without creating technical debt.
+
+---
+
+# Strategic Architecture Principles
+
+## Principle 01
+
+Astro First
+
+Use Astro whenever interactivity is not required.
+
+---
+
+## Principle 02
+
+Vue Islands Only
+
+Hydrate only interactive components.
+
+---
+
+## Principle 03
+
+Content Driven
+
+Content should drive rendering.
+
+Never hardcode projects.
+
+---
+
+## Principle 04
+
+Performance Before Effects
+
+Do not sacrifice performance for visual effects.
+
+---
+
+# Current Architecture Assessment
+
+## Strengths
+
+- Astro Architecture
+- Content Collections
+- Cloudflare Deployment
+- SEO Foundation
+
+## Gaps
+
+- Hero Visualization Layer
+- Command Palette Layer
+- SVG Architecture Layer
+- Visitor Analytics Layer
+- Interaction Engine
+
+---
+
+# Target Architecture Map
+
+src/
+
+assets/
+components/
+content/
+layouts/
+pages/
+lib/
+composables/
+stores/
+services/
+utils/
+styles/
+types/
+
+---
+
+# Sprint A1 — Component Architecture Standardization
+
+## Goal
+
+Prevent component sprawl.
+
+### Folder Structure
+
+components/
+
+ui/
+layout/
+navigation/
+hero/
+project/
+case-study/
+certificate/
+contact/
+analytics/
+search/
+globe/
+svg/
+animation/
+
+---
+
+## Rules
+
+Maximum Component Size:
+
+300 lines
+
+Maximum Page Size:
+
+200 lines
+
+Complex logic:
+
+Move to composables.
+
+---
+
+# Sprint A2 — Hero Architecture System
+
+## Goal
+
+Convert hero into a system visualization engine.
+
+### Component Tree
+
+hero/
+
+HeroSystemMap.vue
+HeroNode.vue
+HeroConnection.vue
+HeroSignal.vue
+HeroTooltip.vue
+HeroStats.vue
+HeroCTA.vue
+
+---
+
+## Node Categories
+
+Infrastructure
+
+Cloud
+
+Automation
+
+AI
+
+Product
+
+Architecture
+
+---
+
+## Interaction Rules
+
+Hover:
+
+- activate node
+- show tooltip
+- pulse connected nodes
+
+Click:
+
+- expand metadata panel
+
+---
+
+## Performance Constraints
+
+60fps target
+
+No ThreeJS
+
+SVG First
+
+---
+
+# Sprint A3 — SVG Architecture
+
+## Goal
+
+Build a reusable SVG ecosystem.
+
+### Structure
+
+assets/svg/
+
+raw/
+optimized/
+morph/
+
+---
+
+svg/
+
+InfrastructureSVG
+CloudSVG
+AutomationSVG
+AISVG
+ArchitectureSVG
+ProjectSVG
+CertificateSVG
+
+---
+
+## SVG Rules
+
+Shared stroke width.
+
+Shared corner radius.
+
+Shared geometry language.
+
+---
+
+## Future Morph Chains
+
+Infrastructure
+→ Cloud
+→ Automation
+→ AI
+→ Architecture
+
+Project
+→ Case Study
+→ Documentation
+
+Certificate
+→ Knowledge
+→ Capability
+
+---
+
+# Sprint A4 — Search Architecture
+
+## Goal
+
+Global search system.
+
+### Search Sources
+
+Projects
+
+Case Studies
+
+Notes
+
+Certificates
+
+---
+
+### Technology
+
+Fuse.js
+
+Static Index
+
+Generated During Build
+
+---
+
+### Search Layer
+
+lib/search/
+
+build-index.ts
+search-engine.ts
+
+---
+
+# Sprint A5 — Command Palette Architecture
+
+## Goal
+
+Keyboard-first navigation.
+
+### Trigger
+
+CTRL + K
+
+CMD + K
+
+---
+
+### Features
+
+Search
+
+Navigation
+
+Theme Switching
+
+Language Switching
+
+Quick Actions
+
+---
+
+### Components
+
+CommandPalette.vue
+CommandInput.vue
+CommandResults.vue
+
+---
+
+### Accessibility
+
+Keyboard only navigation.
+
+Focus trapping.
+
+ARIA support.
+
+---
+
+# Sprint A6 — Visitor Globe Architecture
+
+## Goal
+
+Build signature feature.
+
+### Rendering Strategy
+
+Lazy Loaded
+
+Intersection Observer
+
+Visible Only
+
+---
+
+### Components
+
+VisitorGlobe.vue
+CountryTooltip.vue
+GlobeControls.vue
+
+---
+
+### Data Layer
+
+Country
+
+Visits
+
+Last Seen
+
+Trend
+
+---
+
+### Performance Rules
+
+Never load above fold.
+
+Never block LCP.
+
+---
+
+# Sprint A7 — Analytics Architecture
+
+## Goal
+
+Build lightweight analytics layer.
+
+### Sources
+
+Cloudflare Analytics
+
+Custom Metrics
+
+---
+
+### Metrics
+
+Visitors
+
+Countries
+
+Top Pages
+
+Project Views
+
+Certificate Views
+
+---
+
+### Components
+
+VisitorCounter
+CountryCounter
+AnalyticsOverview
+
+---
+
+# Sprint A8 — Content Architecture Hardening
+
+## Goal
+
+Standardize all content.
+
+### Collections
+
+projects
+
+case-studies
+
+notes
+
+certificates
+
+resume
+
+---
+
+### Rules
+
+All content validated.
+
+All content typed.
+
+All content searchable.
+
+---
+
+# Sprint A9 — Internationalization Architecture
+
+## Goal
+
+Support bilingual content.
+
+### Structure
+
+/en/
+/id/
+
+---
+
+### Translation Files
+
+locales/
+
+en.json
+id.json
+
+---
+
+### Requirements
+
+Route based localization.
+
+SEO friendly.
+
+---
+
+# Sprint A10 — State Architecture
+
+## Goal
+
+Centralized UI state.
+
+### Stores
+
+Theme
+
+Language
+
+Search
+
+Command Palette
+
+---
+
+### Rule
+
+No unnecessary global state.
+
+---
+
+# Sprint A11 — Motion Infrastructure
+
+## Goal
+
+Prepare for Motion Layer.
+
+### Modules
+
+hero.ts
+reveal.ts
+cards.ts
+svg.ts
+navigation.ts
+cursor.ts
+
+---
+
+### Rules
+
+No animation code inside pages.
+
+Reusable only.
+
+Composable only.
+
+---
+
+# Architecture Risks
+
+## Risk 01
+
+Overusing Vue.
+
+Mitigation:
+
+Astro First.
+
+---
+
+## Risk 02
+
+Heavy animations.
+
+Mitigation:
+
+Reduced Motion.
+
+Performance budgets.
+
+---
+
+## Risk 03
+
+Component duplication.
+
+Mitigation:
+
+Shared component inventory.
+
+---
+
+# AI Agent Rules
+
+Rule A-01
+
+Prefer Astro.
+
+Rule A-02
+
+Hydrate only interactive islands.
+
+Rule A-03
+
+Never hardcode content.
+
+Rule A-04
+
+Prefer SVG over Canvas.
+
+Rule A-05
+
+Prefer Canvas over ThreeJS.
+
+Rule A-06
+
+Support reduced motion.
+
+Rule A-07
+
+Every architecture decision must preserve Lighthouse >= 90.
+
+---
+
+# Definition of Done
+
+- Hero Architecture implemented.
+- SVG Architecture implemented.
+- Search Architecture implemented.
+- Command Palette implemented.
+- Visitor Globe Architecture implemented.
+- Analytics Layer implemented.
+- Content Architecture hardened.
+- i18n Architecture implemented.
+- Motion Infrastructure established.
+
+---
+
+# Next Layer
+
+04-experience-layer.rmd
