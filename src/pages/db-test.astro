@@ -12,8 +12,17 @@ let error = null;
 let time = null;
 
 try {
-  // Access environment from Cloudflare runtime or fallback
-  const env = Astro.locals.runtime?.env;
+  // Debug locals and env keys
+  const keysLocals = Astro.locals ? Object.keys(Astro.locals) : [];
+  const runtime = (Astro.locals as any).runtime;
+  const keysRuntime = runtime ? Object.keys(runtime) : [];
+  const keysEnv = runtime?.env ? Object.keys(runtime.env) : [];
+  
+  console.log('Locals keys:', keysLocals);
+  console.log('Runtime keys:', keysRuntime);
+  console.log('Env keys:', keysEnv);
+
+  const env = runtime?.env;
   const db = getDb(env);
 
   // Execute a simple query to check the connection
@@ -23,7 +32,9 @@ try {
 } catch (e) {
   connectionStatus = 'Failed to connect to database.';
   console.error('Database connection error:', e);
-  error = e instanceof Error ? `${e.message}\n${e.stack}` : String(e);
+  
+  const localsDebug = `Locals: ${JSON.stringify(Object.keys(Astro.locals || {}))}\nRuntime: ${JSON.stringify(Object.keys((Astro.locals as any).runtime || {}))}\nEnv Keys: ${JSON.stringify(Object.keys((Astro.locals as any).runtime?.env || {}))}`;
+  error = e instanceof Error ? `${e.message}\n${e.stack}\n\n[Debug Info]\n${localsDebug}` : String(e);
 }
 ---
 <!doctype html>
