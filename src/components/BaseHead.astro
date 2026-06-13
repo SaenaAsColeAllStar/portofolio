@@ -3,6 +3,8 @@
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import { positioning } from '../data/positioning';
+import { socials } from '../data/socials';
 
 interface Props {
 	title: string;
@@ -17,16 +19,39 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 const personSchema = {
 	"@context": "https://schema.org",
 	"@type": "Person",
-	"name": "CTOS",
-	"jobTitle": "Digital Systems Architect",
-	"url": Astro.site
+	"name": "Saepul Husna",
+	"alternateName": "CTOS",
+	"jobTitle": positioning.title,
+	"url": Astro.site?.toString() || "https://ctos.web.id",
+	"image": new URL(image, Astro.url).toString(),
+	"sameAs": socials.map(s => s.href).filter(href => !href.startsWith('mailto:')),
+	"description": positioning.recruiterSummary,
+	"knowsAbout": [
+		"System Architecture",
+		"Cloud Infrastructure",
+		"Automation & DevOps",
+		"AI Workflows & LLM Integration",
+		"Product Engineering",
+		"PostgreSQL",
+		"Astro",
+		"Cloudflare Workers"
+	]
 };
 
 const websiteSchema = {
 	"@context": "https://schema.org",
 	"@type": "WebSite",
 	"name": "CTOS Portfolio",
-	"url": Astro.site
+	"alternateName": "Saepul Husna (CTOS) Professional Portfolio",
+	"url": Astro.site?.toString() || "https://ctos.web.id",
+	"potentialAction": {
+		"@type": "SearchAction",
+		"target": {
+			"@type": "EntryPoint",
+			"urlTemplate": `${Astro.site?.toString() || "https://ctos.web.id"}/?search={search_term_string}`
+		},
+		"query-input": "required name=search_term_string"
+	}
 };
 ---
 
@@ -47,6 +72,8 @@ const websiteSchema = {
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+<meta name="keywords" content="Saepul Husna, CTOS, Digital Systems Architect, System Architecture, Infrastructure Engineer, DevOps, Automation, Cloudflare Workers, Astro portfolio, PostgreSQL, AI Workflows" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -54,6 +81,8 @@ const websiteSchema = {
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="Saepul Husna (CTOS) Portfolio" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -62,6 +91,7 @@ const websiteSchema = {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
+<!-- Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 

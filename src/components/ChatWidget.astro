@@ -581,7 +581,7 @@
 
       } catch (err: any) {
         typingIndicator.remove();
-        appendMessageBubble('assistant', 'Sorry, I encountered an issue connecting to my neural network. Please check your connection or try again later.');
+        appendMessageBubble('assistant', err.message || 'Sorry, I encountered an issue connecting to my neural network. Please try again later.');
         console.error('Chat error:', err);
       } finally {
         scrollToBottom();

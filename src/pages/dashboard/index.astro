@@ -5,9 +5,9 @@ import BaseHead from "../../components/BaseHead.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import { SITE_TITLE } from "../../consts";
-import { getAuthConfig, verifySessionToken } from "../../utils/auth";
+import { getAuthConfig, verifySessionToken, hashPassword, createSessionToken } from "../../utils/auth";
 import { getDb } from "../../db";
-import { pageViews, guestbook, contactSubmissions } from "../../db/schema";
+import { pageViews, guestbook, contactSubmissions, adminCredentials, settings } from "../../db/schema";
 import { desc, sql } from "drizzle-orm";
 
 const env = Astro.locals.runtime?.env;
@@ -21,18 +21,117 @@ if (!session) {
   return Astro.redirect("/dashboard/login");
 }
 
-// 2. Handle Actions (Logout)
+let activeTab = "telemetry";
+let successMsg: string | null = null;
+let settingsErrorMsg: string | null = null;
+
+// 2. Handle Actions (Logout, Credentials Update, Profile Photo Update)
 if (Astro.request.method === "POST") {
   try {
     const formData = await Astro.request.formData();
     const action = formData.get("action")?.toString();
 
+    if (action === "update_credentials" || action === "update_profile_photo") {
+      activeTab = "settings";
+    }
+
     if (action === "logout") {
       Astro.cookies.delete("ctos_session", { path: "/" });
       return Astro.redirect("/");
     }
-  } catch (err) {
-    console.error("Dashboard POST action error:", err);
+
+    const db = getDb(env);
+
+    if (action === "update_credentials") {
+      const newUsername = formData.get("username")?.toString().trim();
+      const newPassword = formData.get("new_password")?.toString();
+      const confirmPassword = formData.get("confirm_password")?.toString();
+      const currentPassword = formData.get("current_password")?.toString();
+
+      if (!newUsername || !newPassword || !confirmPassword || !currentPassword) {
+        settingsErrorMsg = "All credential fields are required.";
+      } else if (newPassword !== confirmPassword) {
+        settingsErrorMsg = "New passwords do not match.";
+      } else {
+        // Verify current password
+        let isAuthorized = false;
+        const storedCreds = await db.select().from(adminCredentials).limit(1);
+
+        if (storedCreds.length > 0) {
+          const dbCreds = storedCreds[0];
+          const currentHashed = await hashPassword(currentPassword);
+          if (dbCreds.username === session.username && currentHashed === dbCreds.passwordHash) {
+            isAuthorized = true;
+          }
+        } else {
+          // Fallback to default env vars
+          const { username: defUser, password: defPass } = getAuthConfig(env);
+          if (defUser === session.username && defPass === currentPassword) {
+            isAuthorized = true;
+          }
+        }
+
+        if (isAuthorized) {
+          const newHashed = await hashPassword(newPassword);
+          
+          if (storedCreds.length > 0) {
+            await db.update(adminCredentials)
+              .set({
+                username: newUsername,
+                passwordHash: newHashed,
+                updatedAt: new Date()
+              })
+              .where(sql`id = ${storedCreds[0].id}`);
+          } else {
+            await db.insert(adminCredentials)
+              .values({
+                username: newUsername,
+                passwordHash: newHashed
+              });
+          }
+
+          // Reset session cookie with new username
+          const token = await createSessionToken(newUsername, secret);
+          Astro.cookies.set("ctos_session", token, {
+            path: "/",
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60
+          });
+
+          successMsg = "Administrator credentials updated successfully.";
+          session.username = newUsername;
+        } else {
+          settingsErrorMsg = "Current password verification failed.";
+        }
+      }
+    }
+
+    if (action === "update_profile_photo") {
+      const base64Data = formData.get("profile_photo_base64")?.toString();
+
+      if (!base64Data || !base64Data.startsWith("data:image/webp;base64,")) {
+        settingsErrorMsg = "Invalid profile photo format. Must be compressed WebP.";
+      } else {
+        // Save in settings table
+        const existingPhoto = await db.select().from(settings).where(sql`key = 'profile_photo'`).limit(1);
+
+        if (existingPhoto.length > 0) {
+          await db.update(settings)
+            .set({ value: base64Data, updatedAt: new Date() })
+            .where(sql`key = 'profile_photo'`);
+        } else {
+          await db.insert(settings)
+            .values({ key: "profile_photo", value: base64Data });
+        }
+
+        successMsg = "Profile photo uploaded and compressed successfully.";
+      }
+    }
+  } catch (err: any) {
+    console.error("Dashboard action error:", err);
+    settingsErrorMsg = err.message || "An error occurred while executing setting update.";
   }
 }
 
@@ -45,6 +144,7 @@ let topViews: any[] = [];
 let allViews: any[] = [];
 let contacts: any[] = [];
 let guestbookEntries: any[] = [];
+let currentPhoto: string | null = null;
 let error = null;
 
 try {
@@ -89,6 +189,12 @@ try {
     .from(guestbook)
     .orderBy(desc(guestbook.createdAt))
     .limit(100);
+
+  // Fetch profile photo from settings
+  const photoRow = await db.select().from(settings).where(sql`key = 'profile_photo'`).limit(1);
+  if (photoRow.length > 0) {
+    currentPhoto = photoRow[0].value;
+  }
 
 } catch (e) {
   console.error("Dashboard telemetry error:", e);
@@ -156,15 +262,37 @@ const gap = 16;
           </div>
         </section>
       ) : (
+        <>
         <!-- Navigation Tabs -->
         <div class="dashboard-tabs">
-          <button class="tab-trigger active" data-tab="telemetry">System Telemetry</button>
-          <button class="tab-trigger" data-tab="contact">Contact Messages ({contacts.length})</button>
-          <button class="tab-trigger" data-tab="guestbook">Guestbook Moderation ({guestbookEntries.length})</button>
+          <button class={activeTab === 'telemetry' ? 'tab-trigger active' : 'tab-trigger'} data-tab="telemetry">System Telemetry</button>
+          <button class={activeTab === 'contact' ? 'tab-trigger active' : 'tab-trigger'} data-tab="contact">Contact Messages ({contacts.length})</button>
+          <button class={activeTab === 'guestbook' ? 'tab-trigger active' : 'tab-trigger'} data-tab="guestbook">Guestbook Moderation ({guestbookEntries.length})</button>
+          <button class={activeTab === 'settings' ? 'tab-trigger active' : 'tab-trigger'} data-tab="settings">System Settings</button>
         </div>
 
+        {successMsg && (
+          <div class="settings-banner success">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>{successMsg}</span>
+          </div>
+        )}
+        {settingsErrorMsg && (
+          <div class="settings-banner error">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{settingsErrorMsg}</span>
+          </div>
+        )}
+
         <!-- Tab contents -->
-        <div class="tab-content active" id="tab-telemetry">
+        <div class={activeTab === 'telemetry' ? 'tab-content active' : 'tab-content'} id="tab-telemetry">
           <div class="dashboard-layout-grid section">
             <!-- Left Column - Cards & Chart -->
             <div class="dashboard-main-col">
@@ -307,7 +435,7 @@ const gap = 16;
         </div>
 
         <!-- Private Contact Submissions Tab -->
-        <div class="tab-content" id="tab-contact">
+        <div class={activeTab === 'contact' ? 'tab-content active' : 'tab-content'} id="tab-contact">
           <div class="dashboard-details-section section">
             <div class="routes-list-card width-full">
               <h2>Contact Message Inquiries</h2>
@@ -351,7 +479,7 @@ const gap = 16;
         </div>
 
         <!-- Guestbook Moderation Tab -->
-        <div class="tab-content" id="tab-guestbook">
+        <div class={activeTab === 'guestbook' ? 'tab-content active' : 'tab-content'} id="tab-guestbook">
           <div class="dashboard-details-section section">
             <div class="routes-list-card width-full">
               <h2>Guestbook Signatures Moderation</h2>
@@ -392,6 +520,133 @@ const gap = 16;
             </div>
           </div>
         </div>
+
+        <!-- System Settings Tab -->
+        <div class={activeTab === 'settings' ? 'tab-content active' : 'tab-content'} id="tab-settings">
+          <div class="dashboard-layout-grid section">
+            <!-- Left Column: Credentials Form -->
+            <div class="dashboard-main-col">
+              <div class="routes-list-card">
+                <h2>Administrative Credentials</h2>
+                <p class="subtitle">Modify the administrator username and security password.</p>
+                
+                <form method="POST" class="settings-form">
+                  <input type="hidden" name="action" value="update_credentials" />
+                  
+                  <div class="input-group">
+                    <label for="username">Administrator Username</label>
+                    <input 
+                      type="text" 
+                      id="username" 
+                      name="username" 
+                      value={session.username} 
+                      required 
+                      autocomplete="username"
+                    />
+                  </div>
+
+                  <div class="input-row">
+                    <div class="input-group">
+                      <label for="new_password">New Password</label>
+                      <input 
+                        type="password" 
+                        id="new_password" 
+                        name="new_password" 
+                        placeholder="••••••••"
+                        required
+                        autocomplete="new-password"
+                      />
+                    </div>
+
+                    <div class="input-group">
+                      <label for="confirm_password">Confirm New Password</label>
+                      <input 
+                        type="password" 
+                        id="confirm_password" 
+                        name="confirm_password" 
+                        placeholder="••••••••"
+                        required
+                        autocomplete="new-password"
+                      />
+                    </div>
+                  </div>
+
+                  <hr class="form-divider" />
+
+                  <div class="input-group">
+                    <label for="current_password">Current Password (to authorize change)</label>
+                    <input 
+                      type="password" 
+                      id="current_password" 
+                      name="current_password" 
+                      placeholder="••••••••"
+                      required
+                      autocomplete="current-password"
+                    />
+                  </div>
+
+                  <button type="submit" class="submit-btn">Update Admin Credentials</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Right Column: Profile Photo Form -->
+            <div class="dashboard-side-col">
+              <div class="routes-list-card">
+                <h2>Profile Image Settings</h2>
+                <p class="subtitle">Upload and crop profile photo. Converts client-side to WebP.</p>
+                
+                <form method="POST" class="settings-form" id="profile-photo-form">
+                  <input type="hidden" name="action" value="update_profile_photo" />
+                  <input type="hidden" id="profile_photo_base64" name="profile_photo_base64" />
+
+                  <div class="profile-preview-container">
+                    <div class="avatar-preview-wrapper">
+                      {currentPhoto ? (
+                        <img id="avatar-preview" src={currentPhoto} alt="Admin profile preview" />
+                      ) : (
+                        <div id="avatar-fallback" class="avatar-fallback">
+                          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                          </svg>
+                        </div>
+                        <img id="avatar-preview" class="hidden" alt="Admin profile preview" />
+                      )}
+                    </div>
+                    
+                    <div class="file-upload-wrapper">
+                      <label for="profile_photo_input" class="file-upload-label button secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="17 8 12 3 7 8"></polyline>
+                          <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Choose Photo
+                      </label>
+                      <input 
+                        type="file" 
+                        id="profile_photo_input" 
+                        accept="image/*" 
+                        style="display: none;" 
+                      />
+                      <span class="file-name-info" id="file-name-info">No file chosen</span>
+                    </div>
+                  </div>
+
+                  <p class="photo-info-text">
+                    Supported formats: PNG, JPG, WebP. The image is scaled client-side to a max of 320x320 pixels and converted to highly optimized WebP format to minimize database footprint.
+                  </p>
+
+                  <button type="submit" class="submit-btn" id="save-photo-btn" disabled>
+                    Save Profile Photo
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        </>
       )}
     </main>
     <Footer />
@@ -817,6 +1072,137 @@ const gap = 16;
     border-radius: 4px;
     border-left: 2px solid var(--border);
   }
+
+  /* Settings Page Styles */
+  .settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 600px) {
+    .input-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-divider {
+    border: 0;
+    height: 1px;
+    background: var(--border);
+    margin: 0.5rem 0;
+  }
+
+  .profile-preview-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .avatar-preview-wrapper {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .avatar-preview-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .file-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+  }
+
+  .file-name-info {
+    font-size: 0.78rem;
+    color: var(--muted);
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .photo-info-text {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+  }
+
+  .settings-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .settings-banner.success {
+    background: rgba(46, 204, 113, 0.08);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+    color: #2ecc71;
+  }
+
+  .settings-banner.error {
+    background: rgba(231, 76, 60, 0.08);
+    border: 1px solid rgba(231, 76, 60, 0.25);
+    color: #e74c3c;
+  }
+
+  .settings-banner svg {
+    flex-shrink: 0;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Disabled state for button */
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+  }
 </style>
 
 <script>
@@ -824,7 +1210,21 @@ const gap = 16;
     const tabTriggers = document.querySelectorAll(".tab-trigger");
     const tabContents = document.querySelectorAll(".tab-content");
 
-    // 1. Tab Navigation Logic
+    // 1. Tab Navigation & Persistence Logic
+    // Check url hash or parameter for active tab
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash.replace("#", "");
+    const initialTab = hash || urlParams.get("tab");
+    if (initialTab) {
+      const trigger = document.querySelector(`.tab-trigger[data-tab="${initialTab}"]`);
+      if (trigger) {
+        tabTriggers.forEach((t) => t.classList.remove("active"));
+        tabContents.forEach((c) => c.classList.remove("active"));
+        trigger.classList.add("active");
+        document.getElementById(`tab-${initialTab}`)?.classList.add("active");
+      }
+    }
+
     tabTriggers.forEach((trigger) => {
       trigger.addEventListener("click", () => {
         const targetTab = trigger.getAttribute("data-tab");
@@ -834,8 +1234,77 @@ const gap = 16;
 
         trigger.classList.add("active");
         document.getElementById(`tab-${targetTab}`)?.classList.add("active");
+
+        // Persist tab state in URL hash
+        window.location.hash = targetTab;
       });
     });
+
+    // 2. Profile Photo Canvas WebP Converter Logic
+    const photoInput = document.getElementById("profile_photo_input") as HTMLInputElement;
+    const fileNameInfo = document.getElementById("file-name-info");
+    const base64Input = document.getElementById("profile_photo_base64") as HTMLInputElement;
+    const previewImg = document.getElementById("avatar-preview") as HTMLImageElement;
+    const fallbackDiv = document.getElementById("avatar-fallback");
+    const saveBtn = document.getElementById("save-photo-btn") as HTMLButtonElement;
+
+    if (photoInput) {
+      photoInput.addEventListener("change", (event) => {
+        const target = event.target as HTMLInputElement;
+        const file = target.files?.[0];
+        if (!file) return;
+
+        if (fileNameInfo) {
+          fileNameInfo.textContent = file.name;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+            const maxDim = 320;
+
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+              ctx.drawImage(img, 0, 0, width, height);
+              const base64Data = canvas.toDataURL("image/webp", 0.75);
+              if (base64Input) {
+                base64Input.value = base64Data;
+              }
+              if (previewImg) {
+                previewImg.src = base64Data;
+                previewImg.classList.remove("hidden");
+              }
+              if (fallbackDiv) {
+                fallbackDiv.classList.add("hidden");
+              }
+              if (saveBtn) {
+                saveBtn.removeAttribute("disabled");
+              }
+            }
+          };
+          if (e.target?.result) {
+            img.src = e.target.result as string;
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
 
     // 2. AJAX Deletion Moderation for Guestbook
     const deleteButtons = document.querySelectorAll(".delete-entry-btn");

@@ -35,3 +35,25 @@ export const guestbook = pgTable('guestbook', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const adminCredentials = pgTable('admin_credentials', {
+  id: serial('id').primaryKey(),
+  username: text('username').notNull().unique(),
+  passwordHash: text('password_hash').notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const settings = pgTable('settings', {
+  key: text('key').primaryKey(),
+  value: text('value').notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const rateLimits = pgTable('rate_limits', {
+  id: serial('id').primaryKey(),
+  ip: text('ip').notNull(),
+  action: text('action').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+
+

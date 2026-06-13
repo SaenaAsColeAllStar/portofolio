@@ -4,10 +4,22 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { positioning } from '../../data/positioning';
 import { capabilityMatrix } from '../../data/skills';
+import { checkRateLimit } from '../../utils/rateLimit';
 
 export const POST: APIRoute = async ({ request, locals }) => {
+  const env = locals.runtime?.env;
+  const ip = request.headers.get('cf-connecting-ip') || '127.0.0.1';
+
   try {
-    const env = locals.runtime?.env;
+    // Check rate limit: Max 30 chat requests per 10 minutes
+    const limitCheck = await checkRateLimit(env, ip, 'chat', 30, 10);
+    if (!limitCheck.allowed) {
+      return new Response(JSON.stringify({ 
+        success: false, 
+        error: 'System AI assistant is busy. Too many messages from this IP. Please wait a few minutes.' 
+      }), { status: 429, headers: { 'content-type': 'application/json' } });
+    }
+
     if (!env?.AI) {
       return new Response(JSON.stringify({ 
         success: false, 

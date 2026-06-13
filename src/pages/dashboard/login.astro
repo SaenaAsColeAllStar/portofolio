@@ -5,11 +5,36 @@ import BaseHead from "../../components/BaseHead.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import { SITE_TITLE } from "../../consts";
-import { getAuthConfig, createSessionToken, verifySessionToken } from "../../utils/auth";
+import { getDb } from "../../db";
+import { adminCredentials } from "../../db/schema";
+import { sql } from "drizzle-orm";
+import { getAuthConfig, createSessionToken, verifySessionToken, hashPassword } from "../../utils/auth";
 
 let errorMsg: string | null = null;
 const env = Astro.locals.runtime?.env;
-const { secret, username: correctUsername, password: correctPassword } = getAuthConfig(env);
+const db = getDb(env);
+const { secret, username: defaultUsername, password: defaultPassword } = getAuthConfig(env);
+
+// Proactive Database Setup (self-healing migration)
+try {
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS admin_credentials (
+      id SERIAL PRIMARY KEY,
+      username TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    );
+  `);
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL,
+      updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    );
+  `);
+} catch (dbErr) {
+  console.error("Self-healing schema migration error:", dbErr);
+}
 
 // 1. Check if already logged in
 const cookieToken = Astro.cookies.get("ctos_session")?.value;
@@ -26,9 +51,27 @@ if (Astro.request.method === "POST") {
     const inputUsername = formData.get("username")?.toString().trim();
     const inputPassword = formData.get("password")?.toString();
 
-    if (inputUsername === correctUsername && inputPassword === correctPassword) {
+    let authenticated = false;
+
+    // Check if database admin credentials exist
+    const storedCreds = await db.select().from(adminCredentials).limit(1);
+
+    if (storedCreds.length > 0) {
+      const dbCreds = storedCreds[0];
+      const hashedInput = await hashPassword(inputPassword || "");
+      if (inputUsername === dbCreds.username && hashedInput === dbCreds.passwordHash) {
+        authenticated = true;
+      }
+    } else {
+      // Fallback to Env/default variables
+      if (inputUsername === defaultUsername && inputPassword === defaultPassword) {
+        authenticated = true;
+      }
+    }
+
+    if (authenticated) {
       // Create session
-      const token = await createSessionToken(correctUsername, secret);
+      const token = await createSessionToken(inputUsername || defaultUsername, secret);
       
       // Set secure cookie
       Astro.cookies.set("ctos_session", token, {

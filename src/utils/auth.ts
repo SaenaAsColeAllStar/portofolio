@@ -92,3 +92,14 @@ export function getAuthConfig(env: any) {
   const secret = env?.SESSION_SECRET || DEFAULT_SECRET;
   return { username, password, secret };
 }
+
+// Secure password hashing using Web Crypto API (SHA-256)
+export async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + 'ctos_salt_2026_secure');
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
