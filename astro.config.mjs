@@ -10,7 +10,6 @@ export default defineConfig({
 	site: "https://example.com",
 	integrations: [mdx(), sitemap()],
 	adapter: cloudflare({
-		imageService: "compile",
 		platformProxy: {
 			enabled: true,
 		},
