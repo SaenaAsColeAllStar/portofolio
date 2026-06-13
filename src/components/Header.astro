@@ -2,13 +2,16 @@
 import HeaderLink from "./HeaderLink.astro";
 import { navigationItems } from "../data/navigation";
 import { SITE_TITLE } from "../consts";
+import Logo from "./Logo.astro";
+import SplashScreen from "./SplashScreen.astro";
 ---
+
+<SplashScreen />
 
 <header class="site-header">
 	<nav aria-label="Main navigation">
 		<a class="brand" href="/" aria-label={`${SITE_TITLE} home`}>
-			<span class="brand-mark">CT</span>
-			<span>{SITE_TITLE}</span>
+			<Logo variant="navbar" size="95px" />
 		</a>
 		<div class="nav-actions">
 			<div class="internal-links">

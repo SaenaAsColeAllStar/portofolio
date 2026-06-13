@@ -1,0 +1,63 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<div id="ctos-splash-screen" class="ctos-splash-screen">
+	<div class="splash-logo-wrapper">
+		<Logo variant="splash" size="180px" />
+	</div>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const splash = document.getElementById('ctos-splash-screen');
+		if (!splash) return;
+
+		// Session storage flag to only show splash once per session
+		if (sessionStorage.getItem('ctos-splash-played')) {
+			splash.style.display = 'none';
+			return;
+		}
+
+		sessionStorage.setItem('ctos-splash-played', 'true');
+
+		// Fade out after animations complete
+		setTimeout(() => {
+			splash.classList.add('fade-out');
+			setTimeout(() => {
+				splash.style.display = 'none';
+			}, 600);
+		}, 2200);
+	});
+</script>
+
+<style>
+	.ctos-splash-screen {
+		position: fixed;
+		inset: 0;
+		background: #050816;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 99999;
+		transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+		opacity: 1;
+		visibility: visible;
+	}
+
+	:global([data-theme="light"]) .ctos-splash-screen {
+		background: #050816;
+	}
+
+	.ctos-splash-screen.fade-out {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	.splash-logo-wrapper {
+		width: 180px;
+		height: auto;
+		color: #ffffff;
+	}
+</style>
