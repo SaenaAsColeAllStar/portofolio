@@ -233,31 +233,65 @@
   }
 
   .message.assistant .message-bubble {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.035);
     border: 1px solid var(--border);
     color: var(--text);
     border-bottom-left-radius: 0.25rem;
-    white-space: normal; /* Override pre-wrap for assistant messages */
-  }
-
-  /* Chat Markdown Styling */
-  .chat-list {
-    list-style-type: disc;
-    padding-left: 1.2rem;
-    margin: 0.5rem 0;
-    display: grid;
-    gap: 0.25rem;
-  }
-
-  .chat-list li {
+    white-space: normal;
+    padding: 0.85rem 1.1rem;
+    line-height: 1.6;
     font-size: 0.88rem;
-    line-height: 1.4;
-    color: var(--muted);
   }
 
+  /* Chat Markdown Elements Styling */
+  .message-bubble p {
+    margin: 0 0 0.65rem;
+  }
+  .message-bubble p:last-child {
+    margin-bottom: 0;
+  }
+
+  .message-bubble h1,
+  .message-bubble h2,
+  .message-bubble h3 {
+    color: var(--text);
+    font-weight: 600;
+    margin: 1.1rem 0 0.5rem;
+    line-height: 1.25;
+  }
+
+  .message-bubble h1 { font-size: 1.2rem; }
+  .message-bubble h2 { font-size: 1.08rem; }
+  .message-bubble h3 { font-size: 1rem; }
+
+  /* Lists */
+  .message-bubble .chat-list {
+    margin: 0.5rem 0 0.75rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .message-bubble .chat-list.ordered {
+    list-style-type: decimal;
+  }
+
+  .message-bubble .chat-list.unordered {
+    list-style-type: disc;
+  }
+
+  .message-bubble .chat-list li {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* Links */
   .chat-link {
     color: var(--accent, #4f8cff);
     text-decoration: underline;
+    font-weight: 500;
     transition: opacity 0.2s;
   }
 
@@ -265,14 +299,54 @@
     opacity: 0.8;
   }
 
-  .message-bubble code {
+  /* Inline Code */
+  .message-bubble :not(pre) > code {
     background: rgba(255, 255, 255, 0.08);
-    padding: 0.1rem 0.35rem;
+    padding: 0.15rem 0.35rem;
     border-radius: 4px;
     font-family: monospace;
-    font-size: 0.82em;
+    font-size: 0.82rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--accent);
+    color: var(--accent, #4f8cff);
+  }
+
+  /* Code Block Styling */
+  .chat-code-block {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 0.85rem 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .chat-code-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.7rem;
+    font-family: monospace;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .chat-code-block pre {
+    margin: 0;
+    padding: 0.75rem 0.9rem;
+    overflow-x: auto;
+  }
+
+  .chat-code-block code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    white-space: pre;
+    line-height: 1.45;
   }
 
   /* Suggestions */
@@ -515,7 +589,7 @@
     }
 
     function parseMarkdown(text: string): string {
-      // Escape HTML first to prevent XSS
+      // 1. Escape HTML first to prevent XSS
       let html = text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -523,51 +597,95 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 
-      // Bold (**text** or __text__)
+      // 2. Fenced Code Blocks (```lang\ncode```)
+      html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+        const language = lang ? lang.trim() : 'code';
+        return `<div class="chat-code-block"><div class="chat-code-header">${language}</div><pre><code>${code.trim()}</code></pre></div>`;
+      });
+
+      // 3. Headings
+      html = html.replace(/^###\s+(.*)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^##\s+(.*)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^#\s+(.*)$/gm, '<h1>$1</h1>');
+
+      // 4. Bold & Italic
       html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      html = html.replace(/_(.*?)_/g, '<em>$1</em>');
 
-      // Inline Code (`code`)
+      // 5. Inline Code
       html = html.replace(/`(.*?)`/g, '<code>$1</code>');
 
-      // Links ([label](url))
+      // 6. Links ([label](url))
       html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="chat-link" target="_blank" rel="noopener noreferrer">$1</a>');
 
-      // Handle lists (bullet points)
+      // 7. Handle lists line-by-line
       const lines = html.split('\n');
-      let inList = false;
-      const processedLines = [];
+      let inUnordered = false;
+      let inOrdered = false;
+      const processed = [];
 
       for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-        const listMatch = line.match(/^[\*\-]\s+(.*)$/);
+        const line = lines[i];
+        const ulMatch = line.match(/^[\*\-]\s+(.*)$/);
+        const olMatch = line.match(/^(\d+)\.\s+(.*)$/);
 
-        if (listMatch) {
-          if (!inList) {
-            processedLines.push('<ul class="chat-list">');
-            inList = true;
+        if (ulMatch) {
+          if (inOrdered) {
+            processed.push('</ol>');
+            inOrdered = false;
           }
-          processedLines.push(`<li>${listMatch[1]}</li>`);
+          if (!inUnordered) {
+            processed.push('<ul class="chat-list unordered">');
+            inUnordered = true;
+          }
+          processed.push(`<li>${ulMatch[1]}</li>`);
+        } else if (olMatch) {
+          if (inUnordered) {
+            processed.push('</ul>');
+            inUnordered = false;
+          }
+          if (!inOrdered) {
+            processed.push('<ol class="chat-list ordered">');
+            inOrdered = true;
+          }
+          processed.push(`<li>${olMatch[2]}</li>`);
         } else {
-          if (inList) {
-            processedLines.push('</ul>');
-            inList = false;
+          if (inUnordered) {
+            processed.push('</ul>');
+            inUnordered = false;
           }
-          processedLines.push(lines[i]);
+          if (inOrdered) {
+            processed.push('</ol>');
+            inOrdered = false;
+          }
+          processed.push(line);
         }
       }
-      if (inList) {
-        processedLines.push('</ul>');
-      }
 
-      let result = processedLines.join('\n');
-      // Replace newlines with <br /> and clean up spacing around block tags
-      result = result.replace(/\n/g, '<br />');
-      result = result.replace(/<ul class="chat-list"><br \/>/g, '<ul class="chat-list">');
-      result = result.replace(/<\/ul><br \/>/g, '</ul>');
-      result = result.replace(/<li>(.*?)<\/li><br \/>/g, '<li>$1</li>');
+      if (inUnordered) processed.push('</ul>');
+      if (inOrdered) processed.push('</ol>');
 
-      return result;
+      // 8. Paragraph grouping
+      const joined = processed.join('\n');
+      const blocks = joined.split(/\n{2,}/);
+      const formatted = blocks.map(block => {
+        const trimmed = block.trim();
+        if (!trimmed) return '';
+        // If it starts with block container tag, don't wrap in <p>
+        if (
+          trimmed.startsWith('<ul') || 
+          trimmed.startsWith('<ol') || 
+          trimmed.startsWith('<h') || 
+          trimmed.startsWith('<div')
+        ) {
+          return trimmed;
+        }
+        return `<p>${trimmed.replace(/\n/g, '<br />')}</p>`;
+      });
+
+      return formatted.filter(b => b).join('\n');
     }
 
     function appendMessageBubble(role: 'user' | 'assistant', content: string) {
