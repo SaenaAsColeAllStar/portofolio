@@ -2,6 +2,7 @@
 import { socials } from "../data/socials";
 import { SITE_TITLE } from "../consts";
 import CommandPalette from "./CommandPalette.astro";
+import PageView from "./PageView.astro";
 
 const today = new Date();
 ---
@@ -10,6 +11,9 @@ const today = new Date();
 	<div>
 		<strong>{SITE_TITLE}</strong>
 		<p>Bridging Infrastructure, AI, and Product Engineering.</p>
+		<div style="margin-top: 0.8rem;">
+			<PageView />
+		</div>
 	</div>
 	<div class="social-links">
 		{socials.map((social) => <a href={social.href} data-track={`social-${social.label.toLowerCase()}`}>{social.label}</a>)}

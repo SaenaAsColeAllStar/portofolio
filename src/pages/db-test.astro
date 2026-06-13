@@ -46,7 +46,7 @@ try {
         
         <div class={`status-card ${error ? 'error' : 'success'}`}>
           <h2>{connectionStatus}</h2>
-          {time && <p>Server time: <strong>{new Date(time as string).toLocaleString()}</strong></p>}
+          {time && <p>Server time (Jakarta): <strong>{new Date(time as string).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', dateStyle: 'medium', timeStyle: 'long' })}</strong></p>}
           {error && <pre class="error-msg">{error}</pre>}
         </div>
       </div>

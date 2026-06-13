@@ -1,0 +1,411 @@
+---
+export const prerender = false;
+
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+import { getDb } from "../../db";
+import { guestbook } from "../../db/schema";
+import { desc } from "drizzle-orm";
+
+let entries = [];
+let error = null;
+
+try {
+  const env = Astro.locals.runtime?.env;
+  const db = getDb(env);
+  entries = await db.select()
+    .from(guestbook)
+    .orderBy(desc(guestbook.createdAt));
+} catch (e) {
+  console.error("Guestbook fetch error:", e);
+  error = "Failed to load guestbook signatures.";
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Guestbook | ${SITE_TITLE}`} description="Sign the CTOS guestbook, leave a message, or say hello." />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  </head>
+  <body>
+    <Header />
+    <main class="guestbook-container">
+      <section class="page-hero">
+        <p class="eyebrow">Guestbook</p>
+        <h1>Leave your mark.</h1>
+        <p class="lede">Sign the guestbook to say hello, leave feedback, or connect with the CTOS system architecture.</p>
+      </section>
+
+      <div class="guestbook-layout section">
+        <!-- Form Section -->
+        <section class="guestbook-form-card">
+          <h2>Sign the Guestbook</h2>
+          <p class="subtitle">Your message will be displayed publicly below.</p>
+          
+          <form id="guestbook-form" novalidate>
+            <div class="form-group">
+              <label for="gb-name">Name</label>
+              <input type="text" id="gb-name" name="name" required placeholder="Your name" max-length="50" autocomplete="name" />
+              <span class="error-message" data-for="name"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="gb-message">Message</label>
+              <textarea id="gb-message" name="message" required placeholder="Say hello, share feedback, or leave a note..." max-length="300" rows="4"></textarea>
+              <span class="error-message" data-for="message"></span>
+            </div>
+
+            <!-- Turnstile Widget -->
+            <div class="form-group turnstile-group">
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAADkIUxBJqfBfxBXy" data-theme="dark"></div>
+              <span class="error-message" data-for="turnstile"></span>
+            </div>
+
+            <button type="submit" class="button submit-button">Sign Guestbook</button>
+          </form>
+        </section>
+
+        <!-- Feed Section -->
+        <section class="guestbook-feed">
+          <h2>Signatures ({entries.length})</h2>
+          
+          {error && <p class="error-text">{error}</p>}
+          
+          <div class="feed-container" id="guestbook-feed-list">
+            {entries.length === 0 && !error && (
+              <p class="empty-state" id="empty-state-msg">No signatures yet. Be the first to sign!</p>
+            )}
+            
+            {entries.map((entry) => (
+              <article class="feed-card" data-id={entry.id}>
+                <div class="feed-card-header">
+                  <span class="signer-name">{entry.name}</span>
+                  <time class="signer-date" datetime={entry.createdAt.toISOString()}>
+                    {new Date(entry.createdAt).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', dateStyle: 'medium', timeStyle: 'short' })}
+                  </time>
+                </div>
+                <p class="signer-message">{entry.message}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .guestbook-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .guestbook-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 6rem;
+  }
+
+  @media (max-width: 900px) {
+    .guestbook-layout {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .guestbook-form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    height: fit-content;
+  }
+
+  .guestbook-form-card h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 2rem;
+  }
+
+  form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  input,
+  textarea {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.15);
+    outline: none;
+  }
+
+  input.invalid,
+  textarea.invalid {
+    border-color: var(--danger);
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  .turnstile-group {
+    margin: 0.5rem 0;
+  }
+
+  .error-message {
+    color: var(--danger);
+    font-size: 0.8rem;
+    min-height: 1.1em;
+  }
+
+  .submit-button {
+    background: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    color: var(--bg);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    justify-self: start;
+    padding: 0.78rem 2rem;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+
+  .submit-button:hover {
+    opacity: 0.9;
+  }
+
+  .submit-button:active {
+    transform: scale(0.98);
+  }
+
+  .submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Feed Styles */
+  .guestbook-feed h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem;
+    color: var(--text);
+  }
+
+  .error-text {
+    color: var(--danger);
+  }
+
+  .empty-state {
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .feed-container {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .feed-card {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .feed-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .signer-name {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .signer-date {
+    font-size: 0.8rem;
+    color: var(--subtle);
+  }
+
+  .signer-message {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('guestbook-form') as HTMLFormElement | null;
+    const feed = document.getElementById('guestbook-feed-list');
+    const emptyState = document.getElementById('empty-state-msg');
+    if (!form || !feed) return;
+
+    const nameInput = document.getElementById('gb-name') as HTMLInputElement;
+    const messageInput = document.getElementById('gb-message') as HTMLTextAreaElement;
+    const submitBtn = form.querySelector('.submit-button') as HTMLButtonElement;
+
+    function validateField(field: HTMLInputElement | HTMLTextAreaElement, errorMsg: string): boolean {
+      const errorEl = form!.querySelector<HTMLSpanElement>(`.error-message[data-for="${field.id.replace('gb-', '')}"]`);
+      if (errorEl) errorEl.textContent = errorMsg;
+      if (errorMsg) {
+        field.classList.add('invalid');
+        return false;
+      } else {
+        field.classList.remove('invalid');
+        return true;
+      }
+    }
+
+    nameInput.addEventListener('input', () => validateField(nameInput, nameInput.value.trim() ? '' : 'Name is required.'));
+    messageInput.addEventListener('input', () => validateField(messageInput, messageInput.value.trim() ? '' : 'Message is required.'));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const message = messageInput.value.trim();
+      const turnstileInput = form.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null;
+      const turnstileError = form.querySelector('.error-message[data-for="turnstile"]') as HTMLSpanElement | null;
+
+      let allValid = true;
+      if (!name) allValid = validateField(nameInput, 'Name is required.');
+      if (!message) allValid = validateField(messageInput, 'Message is required.');
+      if (turnstileError) turnstileError.textContent = '';
+
+      if (!turnstileInput || !turnstileInput.value) {
+        allValid = false;
+        if (turnstileError) turnstileError.textContent = 'Please complete the security check.';
+      }
+
+      if (!allValid) return;
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing...';
+
+        const res = await fetch('/api/guestbook', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            name,
+            message,
+            'cf-turnstile-response': turnstileInput.value
+          })
+        });
+
+        const data = await res.json() as any;
+
+        if (res.ok && data.success) {
+          // Add entry to feed dynamically
+          const entry = data.entry;
+          const card = document.createElement('article');
+          card.className = 'feed-card';
+          
+          // Format date in Jakarta timezone (client-side)
+          const formattedDate = new Date(entry.createdAt).toLocaleString('id-ID', {
+            timeZone: 'Asia/Jakarta',
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          });
+
+          card.innerHTML = `
+            <div class="feed-card-header">
+              <span class="signer-name">${escapeHTML(entry.name)}</span>
+              <time class="signer-date">${formattedDate}</time>
+            </div>
+            <p class="signer-message">${escapeHTML(entry.message)}</p>
+          `;
+
+          // Prepend card and scroll
+          feed.insertBefore(card, feed.firstChild);
+
+          // Hide empty state if visible
+          if (emptyState) {
+            emptyState.style.display = 'none';
+          }
+
+          // Clear form inputs
+          nameInput.value = '';
+          messageInput.value = '';
+          
+          // Reset Turnstile
+          if ((window as any).turnstile) {
+            (window as any).turnstile.reset();
+          }
+        } else {
+          throw new Error(data.error || 'Failed to sign guestbook.');
+        }
+      } catch (err: any) {
+        if (turnstileError) {
+          turnstileError.textContent = err.message || 'An error occurred. Please try again.';
+        }
+        if ((window as any).turnstile) {
+          (window as any).turnstile.reset();
+        }
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign Guestbook';
+      }
+    });
+
+    function escapeHTML(str: string) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+  });
+</script>
