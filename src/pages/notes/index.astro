@@ -1,0 +1,23 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`Notes | ${SITE_TITLE}`} description="Technical notes and knowledge-base entries for infrastructure, AI workflows, automation, and lessons learned." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">Technical Notes</p>
+				<h1>Knowledge base coming after the MVP proof layer.</h1>
+				<p class="lede">Notes are reserved for implementation lessons, troubleshooting, infrastructure, AI workflow, and automation writeups.</p>
+			</section>
+			<section class="section card"><p>Phase 1 keeps notes lightweight while projects, case studies, resume, and contact become the primary launch path.</p></section>
+		</main>
+		<Footer />
+	</body>
+</html>
