@@ -237,6 +237,42 @@
     border: 1px solid var(--border);
     color: var(--text);
     border-bottom-left-radius: 0.25rem;
+    white-space: normal; /* Override pre-wrap for assistant messages */
+  }
+
+  /* Chat Markdown Styling */
+  .chat-list {
+    list-style-type: disc;
+    padding-left: 1.2rem;
+    margin: 0.5rem 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .chat-list li {
+    font-size: 0.88rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .chat-link {
+    color: var(--accent, #4f8cff);
+    text-decoration: underline;
+    transition: opacity 0.2s;
+  }
+
+  .chat-link:hover {
+    opacity: 0.8;
+  }
+
+  .message-bubble code {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.82em;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--accent);
   }
 
   /* Suggestions */
@@ -478,13 +514,74 @@
       }
     }
 
+    function parseMarkdown(text: string): string {
+      // Escape HTML first to prevent XSS
+      let html = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+      // Bold (**text** or __text__)
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+      // Inline Code (`code`)
+      html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+
+      // Links ([label](url))
+      html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="chat-link" target="_blank" rel="noopener noreferrer">$1</a>');
+
+      // Handle lists (bullet points)
+      const lines = html.split('\n');
+      let inList = false;
+      const processedLines = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        const listMatch = line.match(/^[\*\-]\s+(.*)$/);
+
+        if (listMatch) {
+          if (!inList) {
+            processedLines.push('<ul class="chat-list">');
+            inList = true;
+          }
+          processedLines.push(`<li>${listMatch[1]}</li>`);
+        } else {
+          if (inList) {
+            processedLines.push('</ul>');
+            inList = false;
+          }
+          processedLines.push(lines[i]);
+        }
+      }
+      if (inList) {
+        processedLines.push('</ul>');
+      }
+
+      let result = processedLines.join('\n');
+      // Replace newlines with <br /> and clean up spacing around block tags
+      result = result.replace(/\n/g, '<br />');
+      result = result.replace(/<ul class="chat-list"><br \/>/g, '<ul class="chat-list">');
+      result = result.replace(/<\/ul><br \/>/g, '</ul>');
+      result = result.replace(/<li>(.*?)<\/li><br \/>/g, '<li>$1</li>');
+
+      return result;
+    }
+
     function appendMessageBubble(role: 'user' | 'assistant', content: string) {
       const messageDiv = document.createElement('div');
       messageDiv.className = `message ${role}`;
       
       const bubble = document.createElement('div');
       bubble.className = 'message-bubble';
-      bubble.textContent = content;
+      
+      if (role === 'assistant') {
+        bubble.innerHTML = parseMarkdown(content);
+      } else {
+        bubble.textContent = content;
+      }
 
       messageDiv.appendChild(bubble);
       messagesArea!.appendChild(messageDiv);
