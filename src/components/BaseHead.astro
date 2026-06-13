@@ -74,3 +74,65 @@ const websiteSchema = {
 		document.documentElement.setAttribute('data-theme', theme);
 	})();
 </script>
+
+<!-- Animated favicon loader for Chrome/Safari support -->
+<script>
+	function initAnimatedFavicon() {
+		const link = document.querySelector("link[rel='icon']") as HTMLLinkElement;
+		if (!link) return;
+
+		const img = new Image();
+		img.src = '/favicon.svg';
+
+		const size = 64;
+		const canvas = document.createElement('canvas');
+		canvas.width = size;
+		canvas.height = size;
+		const ctx = canvas.getContext('2d');
+
+		img.onload = () => {
+			if (!ctx) return;
+
+			let isAnimating = false;
+			let startTime = 0;
+			const animDuration = 600; // 0.6 seconds pulse duration
+			const cycleInterval = 3000; // runs every 3 seconds
+
+			function animate(timestamp: number) {
+				if (!startTime) startTime = timestamp;
+				const elapsed = timestamp - startTime;
+				const progress = Math.min(elapsed / animDuration, 1);
+
+				const ease = Math.sin(progress * Math.PI);
+				const scale = 1 + ease * 0.12; 
+				const rotate = (ease * 5 * Math.PI) / 180; 
+
+				ctx!.clearRect(0, 0, size, size);
+				ctx!.save();
+				ctx!.translate(size / 2, size / 2);
+				ctx!.rotate(rotate);
+				ctx!.scale(scale, scale);
+				ctx!.drawImage(img, -size / 2, -size / 2, size, size);
+				ctx!.restore();
+
+				link.href = canvas.toDataURL('image/png');
+
+				if (progress < 1) {
+					requestAnimationFrame(animate);
+				} else {
+					link.href = '/favicon.svg';
+					isAnimating = false;
+				}
+			}
+
+			setInterval(() => {
+				if (isAnimating) return;
+				isAnimating = true;
+				startTime = 0;
+				requestAnimationFrame(animate);
+			}, cycleInterval);
+		};
+	}
+
+	document.addEventListener('astro:page-load', initAnimatedFavicon);
+</script>
