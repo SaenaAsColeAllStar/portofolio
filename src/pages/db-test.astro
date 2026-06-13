@@ -34,8 +34,14 @@ try {
   connectionStatus = 'Failed to connect to database.';
   console.error('Database connection error:', e);
   
+  let causeMsg = '';
+  if (e instanceof Error && (e as any).cause) {
+    const cause = (e as any).cause;
+    causeMsg = `\n\n[Underlying Cause]\n${cause.message || String(cause)}\n${cause.stack || ''}`;
+  }
+
   const localsDebug = `Locals: ${JSON.stringify(Object.keys(Astro.locals || {}))}\nRuntime: ${JSON.stringify(Object.keys((Astro.locals as any).runtime || {}))}\nEnv Keys: ${JSON.stringify(Object.keys((Astro.locals as any).runtime?.env || {}))}`;
-  error = e instanceof Error ? `${e.message}\n${e.stack}\n\n[Debug Info]\n${localsDebug}` : String(e);
+  error = e instanceof Error ? `${e.message}\n${e.stack}${causeMsg}\n\n[Debug Info]\n${localsDebug}` : String(e);
 }
 ---
 <!doctype html>
