@@ -16,7 +16,8 @@ try {
   connectionStatus = 'Successfully connected to Aiven PostgreSQL!';
 } catch (e) {
   connectionStatus = 'Failed to connect to database.';
-  error = e instanceof Error ? e.message : String(e);
+  console.error('Database connection error:', e);
+  error = e instanceof Error ? `${e.message}\n${e.stack}` : String(e);
 }
 ---
 <!doctype html>
