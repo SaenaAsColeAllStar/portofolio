@@ -9,7 +9,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import { proofSignals } from "../data/metrics";
 import { positioning } from "../data/positioning";
 import { capabilityMatrix } from "../data/skills";
-import Logo from "../components/Logo.astro";
 
 const projects = await getCollection("projects");
 const caseStudies = await getCollection("caseStudies");
@@ -29,9 +28,6 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 		<main>
 			<section class="hero">
 				<div class="hero-copy">
-					<div class="hero-brand-logo">
-						<Logo variant="hero" size="150px" />
-					</div>
 					<p class="eyebrow">{positioning.title}</p>
 					<h1>{positioning.headline}</h1>
 					<p class="lede">{positioning.subheadline}</p>
@@ -195,10 +191,6 @@ const featuredCaseStudy = caseStudies.find((study) => study.id === "smk-teknovo-
 	.hero-copy {
 		display: grid;
 		gap: 1.25rem;
-	}
-
-	.hero-brand-logo {
-		margin-bottom: 0.5rem;
 	}
 
 	.hero-nodes {
