@@ -5,15 +5,23 @@
 export function initAnalytics() {
 	if (typeof window === "undefined") return;
 
-	const trackElements = document.querySelectorAll("[data-track]");
+	const trackElements = document.querySelectorAll("[data-track]:not([data-analytics-bound])");
 
 	trackElements.forEach((el) => {
+		el.setAttribute("data-analytics-bound", "true");
 		el.addEventListener("click", () => {
 			const eventName = el.getAttribute("data-track");
 			if (eventName) {
-				// In a production scenario, this is where you'd send a beacon or fetch request
-				// e.g., navigator.sendBeacon('/api/track', JSON.stringify({ event: eventName, timestamp: Date.now() }))
-				console.info(`[Analytics] Tracked event: ${eventName}`);
+				console.info(`[Analytics] Tracking event: ${eventName}`);
+				fetch("/api/views", {
+					method: "POST",
+					headers: {
+						"content-type": "application/json"
+					},
+					body: JSON.stringify({ path: `event:${eventName}` })
+				}).catch(err => {
+					console.error('[Analytics] Failed to send tracking event:', err);
+				});
 			}
 		});
 	});

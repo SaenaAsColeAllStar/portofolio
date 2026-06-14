@@ -55,7 +55,13 @@ const t = useTranslations(locale);
 					</div>
 					<div class="form-group">
 						<label for="subject">{t("contact.formSubject")}</label>
-						<input type="text" id="subject" name="subject" required placeholder={locale === 'en' ? 'What is this regarding?' : 'Tentang apa pesan ini?'} />
+						<select id="subject" name="subject" required>
+							<option value="" disabled selected>{locale === 'en' ? 'Select a pathway...' : 'Pilih jalur komunikasi...'}</option>
+							<option value="Collaboration">{locale === 'en' ? 'Collaboration' : 'Kolaborasi'}</option>
+							<option value="Consultation">{locale === 'en' ? 'Consultation' : 'Konsultasi'}</option>
+							<option value="Architecture Discussion">{locale === 'en' ? 'Architecture Discussion' : 'Diskusi Arsitektur'}</option>
+							<option value="Technical Partnership">{locale === 'en' ? 'Technical Partnership' : 'Kemitraan Teknis'}</option>
+						</select>
 						<span class="error-message" data-for="subject"></span>
 					</div>
 					<div class="form-group">
@@ -120,6 +126,7 @@ const t = useTranslations(locale);
 	}
 
 	input,
+	select,
 	textarea {
 		background: var(--surface);
 		border: 1px solid var(--border);
@@ -133,6 +140,20 @@ const t = useTranslations(locale);
 		width: 100%;
 	}
 
+	select {
+		appearance: none;
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e7890' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 1rem center;
+		background-size: 1.2em;
+		padding-right: 2.5rem;
+	}
+
+	select option {
+		background: #0b111e;
+		color: var(--text);
+	}
+
 	input::placeholder,
 	textarea::placeholder {
 		color: var(--subtle, #6e7890);
@@ -140,6 +161,7 @@ const t = useTranslations(locale);
 	}
 
 	input:focus,
+	select:focus,
 	textarea:focus {
 		border-color: var(--accent);
 		box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.15);
@@ -147,12 +169,14 @@ const t = useTranslations(locale);
 	}
 
 	input.invalid,
+	select.invalid,
 	textarea.invalid {
 		border-color: var(--danger);
 		box-shadow: 0 0 0 3px rgba(255, 92, 108, 0.12);
 	}
 
 	input.invalid:focus,
+	select.invalid:focus,
 	textarea.invalid:focus {
 		border-color: var(--danger);
 		box-shadow: 0 0 0 3px rgba(255, 92, 108, 0.2);
@@ -291,8 +315,8 @@ const t = useTranslations(locale);
 		const form = document.getElementById('contact-form') as HTMLFormElement | null;
 		if (!form) return;
 
-		const fields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
-			'input[required], textarea[required]'
+		const fields = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+			'input[required], select[required], textarea[required]'
 		);
 
 		const locale = form.dataset.locale || 'en';
@@ -300,7 +324,7 @@ const t = useTranslations(locale);
 
 		const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-		function validateField(field: HTMLInputElement | HTMLTextAreaElement): boolean {
+		function validateField(field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): boolean {
 			const errorEl = form!.querySelector<HTMLSpanElement>(
 				`.error-message[data-for="${field.id}"]`
 			);
@@ -312,7 +336,7 @@ const t = useTranslations(locale);
 				const labelText = field.previousElementSibling?.textContent || 'This field';
 				const requiredText = locale === 'en' ? 'is required.' : 'wajib diisi.';
 				message = `${labelText} ${requiredText}`;
-			} else if (field.type === 'email' && !EMAIL_REGEX.test(value)) {
+			} else if (field instanceof HTMLInputElement && field.type === 'email' && !EMAIL_REGEX.test(value)) {
 				message = locale === 'en' ? 'Please enter a valid email address.' : 'Silakan masukkan alamat email yang valid.';
 			}
 
@@ -327,14 +351,16 @@ const t = useTranslations(locale);
 			}
 		}
 
-		// Real-time validation on blur and input
+		// Real-time validation on blur, input, and change
 		fields.forEach((field) => {
 			field.addEventListener('blur', () => validateField(field));
-			field.addEventListener('input', () => {
+			const handleInput = () => {
 				if (field.classList.contains('invalid')) {
 					validateField(field);
 				}
-			});
+			};
+			field.addEventListener('input', handleInput);
+			field.addEventListener('change', handleInput);
 		});
 
 		const submitBtn = form.querySelector('.submit-button') as HTMLButtonElement;

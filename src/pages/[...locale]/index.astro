@@ -57,6 +57,14 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 						<a class="button" href={getLocalizedUrl(activePositioning.primaryCta.href, locale)} data-track="hero-primary-cta" data-magnetic data-cursor="explore">{activePositioning.primaryCta.label}</a>
 						<a class="button secondary" href={getLocalizedUrl(activePositioning.secondaryCta.href, locale)} data-track="hero-secondary-cta" data-magnetic data-cursor="explore">{activePositioning.secondaryCta.label}</a>
 					</div>
+					<div class="hero-stats" data-hero-text>
+						{activeProofSignals.map((signal) => (
+							<div class="stat-item">
+								<span class="stat-value">{signal.value}</span>
+								<span class="stat-label">{signal.label}</span>
+							</div>
+						))}
+					</div>
 				</div>
 				<HeroSystemMap />
 			</section>
@@ -129,6 +137,35 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 	.hero-copy {
 		display: grid;
 		gap: 1.25rem;
+	}
+
+	.hero-stats {
+		display: flex;
+		gap: 2rem;
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--border);
+		flex-wrap: wrap;
+	}
+
+	.stat-item {
+		display: grid;
+		gap: 0.25rem;
+	}
+
+	.stat-value {
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: var(--accent);
+		line-height: 1.1;
+	}
+
+	.stat-label {
+		font-size: 0.72rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--muted);
+		font-weight: 600;
 	}
 
 	.proof-grid {

@@ -16,6 +16,8 @@ year: 2026
 status: "in-progress"
 featured: true
 impact: "Transforms a portfolio from a project list into a structured credibility system."
+repoUrl: "https://github.com/SaenaAsColeAllStar/portofolio"
+demoUrl: "https://porto.ctos.web.id"
 caseStudySlug: "ctos-portfolio-platform"
 ---
 

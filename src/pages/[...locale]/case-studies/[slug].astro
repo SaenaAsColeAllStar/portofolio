@@ -5,7 +5,7 @@ import Footer from "../../../components/layout/Footer.astro";
 import Header from "../../../components/navigation/Header.astro";
 import MobileNav from "../../../components/navigation/MobileNav.astro";
 import { SITE_TITLE } from "../../../consts";
-import { useTranslations } from "../../../utils/i18n";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
 
 export async function getStaticPaths() {
 	const studies = await getCollection("caseStudies");
@@ -25,11 +25,54 @@ const { Content } = await render(study);
 
 const locale = (Astro.params.locale || 'en') as 'en' | 'id';
 const t = useTranslations(locale);
+
+const studyUrl = new URL(Astro.url.pathname, Astro.site || "https://ctos.web.id").toString();
+
+const articleSchema = {
+	"@context": "https://schema.org",
+	"@type": "Article",
+	"headline": study.data.title,
+	"description": study.data.summary,
+	"url": studyUrl,
+	"author": {
+		"@type": "Person",
+		"name": "Saepul Husna"
+	},
+	"image": study.data.cover ? new URL(study.data.cover.src, Astro.url).toString() : undefined,
+	"datePublished": `${study.data.year}-01-01`
+};
+
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": locale === 'en' ? "Home" : "Beranda",
+			"item": new URL(getLocalizedUrl("/", locale), Astro.site || "https://ctos.web.id").toString()
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": locale === 'en' ? "Case Studies" : "Studi Kasus",
+			"item": new URL(getLocalizedUrl("/case-studies", locale), Astro.site || "https://ctos.web.id").toString()
+		},
+		{
+			"@type": "ListItem",
+			"position": 3,
+			"name": study.data.title,
+			"item": studyUrl
+		}
+	]
+};
+
+const extraSchemas = [articleSchema, breadcrumbSchema];
 ---
 
 <!doctype html>
 <html lang={locale}>
-	<head><BaseHead title={`${study.data.title} | ${SITE_TITLE}`} description={study.data.excerpt} /></head>
+	<head><BaseHead title={`${study.data.title} | ${SITE_TITLE}`} description={study.data.excerpt} extraSchemas={extraSchemas} /></head>
 	<body>
 		<Header />
 		<main>
@@ -37,12 +80,38 @@ const t = useTranslations(locale);
 				<p class="eyebrow">{locale === 'en' ? 'Case Study' : 'Studi Kasus'} · {study.data.year}</p>
 				<h1>{study.data.title}</h1>
 				<p class="lede">{study.data.summary}</p>
+				{study.data.projectSlug && (
+					<div class="button-row">
+						<a class="button" href={getLocalizedUrl(`/projects/${study.data.projectSlug}`, locale)} data-track={`case-study-project-${study.data.projectSlug}`}>
+							{locale === 'en' ? 'View Project Details' : 'Lihat Detail Proyek'}
+						</a>
+					</div>
+				)}
 			</section>
 			<section class="grid grid-2 section">
 				<div class="card"><h2>{locale === 'en' ? 'Problem' : 'Masalah'}</h2><p>{study.data.problem}</p></div>
 				<div class="card"><h2>{locale === 'en' ? 'Architecture' : 'Arsitektur'}</h2><p>{study.data.architecture}</p></div>
 				<div class="card"><h2>{locale === 'en' ? 'Requirements' : 'Persyaratan'}</h2><ul>{study.data.requirements.map((item) => <li>{item}</li>)}</ul></div>
 				<div class="card"><h2>{locale === 'en' ? 'Results' : 'Hasil'}</h2><ul>{study.data.results.map((item) => <li>{item}</li>)}</ul></div>
+				{study.data.constraints && study.data.constraints.length > 0 && (
+					<div class="card"><h2>{locale === 'en' ? 'Constraints' : 'Batasan'}</h2><ul>{study.data.constraints.map((item) => <li>{item}</li>)}</ul></div>
+				)}
+				{study.data.decisions && study.data.decisions.length > 0 && (
+					<div class="card"><h2>{locale === 'en' ? 'Architectural Decisions' : 'Keputusan Arsitektur'}</h2><ul>{study.data.decisions.map((item) => <li>{item}</li>)}</ul></div>
+				)}
+				{study.data.lessons && study.data.lessons.length > 0 && (
+					<div class="card"><h2>{locale === 'en' ? 'Lessons Learned' : 'Pelajaran yang Dipetik'}</h2><ul>{study.data.lessons.map((item) => <li>{item}</li>)}</ul></div>
+				)}
+				{study.data.metrics && Object.keys(study.data.metrics).length > 0 && (
+					<div class="card">
+						<h2>{locale === 'en' ? 'Key Metrics' : 'Metrik Kunci'}</h2>
+						<ul>
+							{Object.entries(study.data.metrics).map(([key, val]) => (
+								<li><strong>{key}:</strong> {val}</li>
+							))}
+						</ul>
+					</div>
+				)}
 			</section>
 			<article class="prose section"><Content /></article>
 		</main>

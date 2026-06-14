@@ -6,6 +6,7 @@ import Header from "../../../components/navigation/Header.astro";
 import MobileNav from "../../../components/navigation/MobileNav.astro";
 import { SITE_TITLE } from "../../../consts";
 import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
+import { githubRepos } from "../../../data/github";
 
 export async function getStaticPaths() {
 	return [
@@ -24,6 +25,8 @@ function getCleanSlug(id: string) {
 	const parts = id.split('/');
 	return parts.slice(1).join('/');
 }
+
+const activeGithubRepos = githubRepos[locale];
 ---
 
 <!doctype html>
@@ -62,6 +65,40 @@ function getCleanSlug(id: string) {
 					</article>
 				))}
 				<div id="noResults" class="hidden">{locale === 'en' ? 'No projects found matching your criteria.' : 'Tidak ada proyek yang ditemukan cocok dengan kriteria Anda.'}</div>
+			</section>
+
+			<section class="section github-section">
+				<p class="eyebrow">{locale === 'en' ? 'Open Source' : 'Sumber Terbuka'}</p>
+				<h2>{locale === 'en' ? 'Featured Repositories' : 'Repositori Unggulan'}</h2>
+				<p class="lede" style="margin-bottom: 2rem;">
+					{locale === 'en' 
+						? 'Explore the architecture, documentation, and codebase of featured systems and flagship components.' 
+						: 'Jelajahi arsitektur, dokumentasi, dan kode sumber dari sistem unggulan dan komponen utama.'}
+				</p>
+				<div class="grid grid-2">
+					{activeGithubRepos.map((repo) => (
+						<article class="card repo-card" data-tilt data-cursor="explore">
+							<div class="repo-header">
+								<span class="badge">{repo.language}</span>
+								<span class="repo-role">{repo.role}</span>
+							</div>
+							<h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">{repo.name}</h3>
+							<p style="margin-bottom: 1.5rem;">{repo.description}</p>
+							<div class="repo-meta">
+								<span class="repo-stat">★ {repo.stars}</span>
+								<span class="repo-stat">⑂ {repo.forks}</span>
+								<a class="button secondary repo-link" href={repo.url} target="_blank" rel="noopener noreferrer" data-track={`github-repo-${repo.name}`}>
+									{locale === 'en' ? 'View Repo' : 'Lihat Repo'}
+								</a>
+							</div>
+						</article>
+					))}
+				</div>
+				<div class="github-profile-cta" style="margin-top: 3rem; text-align: center;">
+					<a class="button" href="https://github.com/SaenaAsColeAllStar" target="_blank" rel="noopener noreferrer" data-track="github-profile-click">
+						{locale === 'en' ? 'Explore More on GitHub' : 'Jelajahi Lebih Banyak di GitHub'}
+					</a>
+				</div>
 			</section>
 		</main>
 		<Footer />
@@ -146,5 +183,42 @@ function getCleanSlug(id: string) {
 		text-align: center;
 		padding: 3rem;
 		opacity: 0.7;
+	}
+	.github-section {
+		border-top: 1px solid var(--border);
+		margin-top: 5rem;
+		padding-top: 4rem;
+	}
+	.repo-card {
+		display: flex;
+		flex-direction: column;
+		min-height: 200px;
+	}
+	.repo-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.75rem;
+	}
+	.repo-role {
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--accent);
+	}
+	.repo-meta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-top: auto;
+		padding-top: 1rem;
+	}
+	.repo-stat {
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+	.repo-link {
+		margin-left: auto;
+		padding: 0.5rem 1.25rem;
+		font-size: 0.85rem;
 	}
 </style>

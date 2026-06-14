@@ -5,7 +5,7 @@ import Footer from "../../../components/layout/Footer.astro";
 import Header from "../../../components/navigation/Header.astro";
 import MobileNav from "../../../components/navigation/MobileNav.astro";
 import { SITE_TITLE } from "../../../consts";
-import { useTranslations } from "../../../utils/i18n";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
 
 export async function getStaticPaths() {
 	const projects = await getCollection("projects");
@@ -25,11 +25,53 @@ const { Content } = await render(project);
 
 const locale = (Astro.params.locale || 'en') as 'en' | 'id';
 const t = useTranslations(locale);
+
+const projectUrl = new URL(Astro.url.pathname, Astro.site || "https://ctos.web.id").toString();
+
+const creativeWorkSchema = {
+	"@context": "https://schema.org",
+	"@type": "CreativeWork",
+	"name": project.data.title,
+	"description": project.data.excerpt,
+	"url": projectUrl,
+	"author": {
+		"@type": "Person",
+		"name": "Saepul Husna"
+	},
+	"programmingLanguage": project.data.stack
+};
+
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": locale === 'en' ? "Home" : "Beranda",
+			"item": new URL(getLocalizedUrl("/", locale), Astro.site || "https://ctos.web.id").toString()
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": locale === 'en' ? "Projects" : "Proyek",
+			"item": new URL(getLocalizedUrl("/projects", locale), Astro.site || "https://ctos.web.id").toString()
+		},
+		{
+			"@type": "ListItem",
+			"position": 3,
+			"name": project.data.title,
+			"item": projectUrl
+		}
+	]
+};
+
+const extraSchemas = [creativeWorkSchema, breadcrumbSchema];
 ---
 
 <!doctype html>
 <html lang={locale}>
-	<head><BaseHead title={`${project.data.title} | ${SITE_TITLE}`} description={project.data.excerpt} /></head>
+	<head><BaseHead title={`${project.data.title} | ${SITE_TITLE}`} description={project.data.excerpt} extraSchemas={extraSchemas} /></head>
 	<body>
 		<Header />
 		<main>
@@ -38,6 +80,23 @@ const t = useTranslations(locale);
 				<h1>{project.data.title}</h1>
 				<p class="lede">{project.data.excerpt}</p>
 				<div class="badge-row">{project.data.domains.map((domain) => <span class="badge">{domain}</span>)}</div>
+				<div class="button-row">
+					{project.data.caseStudySlug && (
+						<a class="button" href={getLocalizedUrl(`/case-studies/${project.data.caseStudySlug}`, locale)} data-track={`project-case-study-${project.data.caseStudySlug}`}>
+							{locale === 'en' ? 'Read Case Study' : 'Baca Studi Kasus'}
+						</a>
+					)}
+					{project.data.repoUrl && (
+						<a class="button secondary" href={project.data.repoUrl} target="_blank" rel="noopener noreferrer" data-track={`project-repo-${project.data.title.toLowerCase().replace(/\s+/g, '-')}`}>
+							{locale === 'en' ? 'Source Code' : 'Kode Sumber'}
+						</a>
+					)}
+					{project.data.demoUrl && (
+						<a class="button secondary" href={project.data.demoUrl} target="_blank" rel="noopener noreferrer" data-track={`project-demo-${project.data.title.toLowerCase().replace(/\s+/g, '-')}`}>
+							{locale === 'en' ? 'Live Demo' : 'Demo Langsung'}
+						</a>
+					)}
+				</div>
 			</section>
 			<section class="grid grid-2 section">
 				<div class="card"><h2>{locale === 'en' ? 'Role' : 'Peran'}</h2><p>{project.data.role}</p></div>

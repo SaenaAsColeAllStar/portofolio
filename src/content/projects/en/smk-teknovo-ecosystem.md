@@ -17,6 +17,8 @@ year: 2026
 status: "live"
 featured: true
 impact: "Connected 8 discrete modules under a unified RBAC portal serving 1,000+ active students."
+repoUrl: "https://github.com/SaenaAsColeAllStar/smk-teknovo-ecosystem"
+demoUrl: "https://teknovo.ctos.web.id"
 caseStudySlug: "smk-teknovo-ecosystem"
 ---
 
