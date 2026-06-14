@@ -43,6 +43,9 @@ defineProps<{
 .spoke-3 { stroke-dasharray: 6 30; animation: signalSpoke 2.2s linear infinite; }
 .spoke-4 { stroke-dasharray: 6 30; animation: signalSpoke 3.5s linear infinite reverse; }
 .spoke-5 { stroke-dasharray: 6 30; animation: signalSpoke 2.8s linear infinite; }
+.spoke-6 { stroke-dasharray: 6 30; animation: signalSpoke 3.2s linear infinite reverse; }
+.spoke-7 { stroke-dasharray: 6 30; animation: signalSpoke 2.4s linear infinite; }
+.spoke-8 { stroke-dasharray: 6 30; animation: signalSpoke 3.8s linear infinite reverse; }
 
 .ring-flow {
   stroke-dasharray: 8 36;

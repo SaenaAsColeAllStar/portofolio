@@ -4,7 +4,6 @@
     :y1="y1" 
     :x2="x2" 
     :y2="y2" 
-    stroke="var(--border)" 
     stroke-width="1.5" 
     class="mesh-line" 
   />
@@ -23,6 +22,13 @@ defineProps<{
 
 <style scoped>
 .mesh-line {
-  opacity: 0.12;
+  stroke: var(--border);
+  opacity: 0.45;
+  transition: stroke 0.2s, opacity 0.2s;
+}
+
+:global([data-theme="light"]) .mesh-line {
+  stroke: var(--subtle);
+  opacity: 0.18;
 }
 </style>

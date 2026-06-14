@@ -60,18 +60,18 @@
       <g class="legs-group">
         <!-- Left Legs -->
         <g class="left-legs">
-          <path d="M -32,38 L -50,50 L -62,65" fill="none" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l1" />
-          <path d="M -28,43 L -46,57 L -56,74" fill="none" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l2" />
-          <path d="M -24,46 L -38,60 L -45,78" fill="none" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l3" />
+          <path d="M -32,38 L -50,50 L -62,65" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l1" />
+          <path d="M -28,43 L -46,57 L -56,74" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l2" />
+          <path d="M -24,46 L -38,60 L -45,78" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l3" />
         </g>
         <!-- Right Legs -->
         <g class="right-legs">
-          <path d="M 32,38 L 50,50 L 62,65" fill="none" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r1" />
-          <path d="M 28,43 L 46,57 L 56,74" fill="none" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r2" />
-          <path d="M 24,46 L 38,60 L 45,78" fill="none" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r3" />
+          <path d="M 32,38 L 50,50 L 62,65" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r1" />
+          <path d="M 28,43 L 46,57 L 56,74" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r2" />
+          <path d="M 24,46 L 38,60 L 45,78" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r3" />
         </g>
       </g>
-
+ 
       <!-- Main Body Core (Hexagonal carapace) -->
       <g class="body-core-group" :style="bodyStyle">
         <polygon 
@@ -84,12 +84,12 @@
         />
         
         <!-- Geometric PCB Details inside carapace -->
-        <polyline points="-18,22 -6,32 6,32 18,22" fill="none" stroke="var(--border)" stroke-width="1.5" />
-        <line x1="0" y1="32" x2="0" y2="48" stroke="var(--border)" stroke-width="1.5" />
+        <polyline points="-18,22 -6,32 6,32 18,22" fill="none" stroke="var(--subtle)" stroke-width="1.5" />
+        <line x1="0" y1="32" x2="0" y2="48" stroke="var(--subtle)" stroke-width="1.5" />
         <circle cx="-6" cy="32" r="1.5" fill="var(--muted)" />
         <circle cx="6" cy="32" r="1.5" fill="var(--muted)" />
       </g>
-
+ 
       <!-- Antenna Signals -->
       <g class="antennas-group" :class="{ 'antenna-alert': hoveredNodeId === 'ai' }">
         <!-- Left Antenna -->
@@ -100,7 +100,7 @@
         <line x1="6" y1="12" x2="8" y2="-20" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="1.5 1.5" class="antenna ant-r" />
         <circle cx="8" cy="-20" r="2" fill="var(--accent)" class="antenna-node ant-node-r" />
       </g>
-
+ 
       <!-- Mechanical Claws (Pincers) -->
       <g class="claws-group">
         <!-- Left Claw -->
@@ -109,7 +109,7 @@
           :class="{ 'extend-claw': hoveredNodeId === 'proxmox' }"
           :style="leftClawStyle"
         >
-          <path d="M -35,32 L -55,22 L -65,2" fill="none" stroke="var(--border)" stroke-width="3.2" stroke-linecap="round" />
+          <path d="M -35,32 L -55,22 L -65,2" fill="none" stroke="var(--muted)" stroke-width="3.2" stroke-linecap="round" />
           <!-- Upper pincer jaw -->
           <path d="M -65,2 C -72,-10 -55,-16 -48,-6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" />
           <!-- Lower pincer jaw -->
@@ -124,7 +124,7 @@
           :class="{ 'point-claw': hoveredNodeId === 'astro' }"
           :style="rightClawStyle"
         >
-          <path d="M 35,32 L 55,22 L 65,2" fill="none" stroke="var(--border)" stroke-width="3.2" stroke-linecap="round" />
+          <path d="M 35,32 L 55,22 L 65,2" fill="none" stroke="var(--muted)" stroke-width="3.2" stroke-linecap="round" />
           <!-- Upper pincer jaw -->
           <path d="M 65,2 C 72,-10 55,-16 48,-6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" />
           <!-- Lower pincer jaw -->
@@ -133,13 +133,13 @@
           <circle cx="65" cy="2" r="2.5" fill="var(--bg)" stroke="var(--accent)" stroke-width="1.2" />
         </g>
       </g>
-
+ 
       <!-- Stalk Eyes -->
       <g class="eyes-group">
         <!-- Left Eye Stalk -->
         <g class="eye-stalk-left">
-          <line x1="-12" y1="12" x2="-14" y2="-8" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" />
-          <circle cx="-14" cy="-8" r="6.5" fill="var(--surface-elevated)" stroke="var(--border)" stroke-width="1.5" class="eye-bulb" />
+          <line x1="-12" y1="12" x2="-14" y2="-8" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="-14" cy="-8" r="6.5" fill="var(--surface-elevated)" stroke="var(--muted)" stroke-width="1.5" class="eye-bulb" />
           <!-- Pupil (tracks cursor) -->
           <circle 
             :cx="-14 + pupilOffset.x" 
@@ -153,8 +153,8 @@
         
         <!-- Right Eye Stalk -->
         <g class="eye-stalk-right">
-          <line x1="12" y1="12" x2="14" y2="-8" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round" />
-          <circle cx="14" cy="-8" r="6.5" fill="var(--surface-elevated)" stroke="var(--border)" stroke-width="1.5" class="eye-bulb" />
+          <line x1="12" y1="12" x2="14" y2="-8" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="14" cy="-8" r="6.5" fill="var(--surface-elevated)" stroke="var(--muted)" stroke-width="1.5" class="eye-bulb" />
           <!-- Pupil (tracks cursor) -->
           <circle 
             :cx="14 + pupilOffset.x" 
@@ -410,6 +410,14 @@ onUnmounted(() => {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+/* Light mode overrides for carapace & bulbs to stand out */
+:global([data-theme="light"]) .carapace {
+  fill: var(--surface) !important;
+}
+:global([data-theme="light"]) .eye-bulb {
+  fill: var(--surface) !important;
 }
 
 /* ---------------- CSS Keyframe Animations (Idle Breathing) ---------------- */

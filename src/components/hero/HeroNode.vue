@@ -129,3 +129,111 @@ const onClick = () => {
   emit('click', props.data.id);
 };
 </script>
+
+<style scoped>
+/* Interactive Nodes */
+.node-group {
+  cursor: pointer;
+  outline: none;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.node-bg {
+  fill: var(--bg-soft);
+  stroke: var(--border);
+  stroke-width: 1.5px;
+  transition: fill 0.2s ease, stroke 0.2s ease, r 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.node-core {
+  fill: var(--surface-elevated);
+  transition: fill 0.2s ease;
+}
+
+.node-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5px;
+  opacity: 0;
+  transform: scale(0.8);
+  transform-origin: center;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.node-icon {
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: center;
+}
+
+/* Center Node Special Style */
+.center-node .node-bg {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 2px;
+}
+.center-node .node-core {
+  fill: var(--accent);
+}
+.center-node {
+  color: var(--accent);
+}
+
+/* Light mode overrides to make them pop */
+:global([data-theme="light"]) .node-bg {
+  fill: var(--surface); /* brighter white so it stands out */
+  stroke: var(--subtle); /* visible borders */
+}
+:global([data-theme="light"]) .node-core {
+  fill: var(--bg-soft); /* light gray core */
+}
+
+/* Interactive States */
+.node-group:hover,
+.node-group:focus,
+.node-group.hovered,
+.node-group.active {
+  color: var(--accent);
+}
+
+.node-group:hover .node-bg,
+.node-group:focus .node-bg,
+.node-group.hovered .node-bg,
+.node-group.active .node-bg {
+  fill: var(--surface-elevated);
+  stroke: var(--accent);
+}
+
+:global([data-theme="light"]) .node-group:hover .node-bg,
+:global([data-theme="light"]) .node-group:focus .node-bg,
+:global([data-theme="light"]) .node-group.hovered .node-bg,
+:global([data-theme="light"]) .node-group.active .node-bg {
+  fill: var(--surface-elevated);
+  stroke: var(--accent);
+}
+
+.node-group:hover .node-ring,
+.node-group:focus .node-ring,
+.node-group.hovered .node-ring,
+.node-group.active .node-ring {
+  opacity: 0.35;
+  transform: scale(1.08);
+}
+
+.node-group:hover .node-icon,
+.node-group:focus .node-icon,
+.node-group.hovered .node-icon,
+.node-group.active .node-icon {
+  opacity: 1;
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Center Node Hover */
+.center-node:hover .node-bg,
+.center-node:focus .node-bg,
+.center-node.hovered .node-bg,
+.center-node.active .node-bg {
+  stroke: var(--accent-strong);
+}
+</style>
