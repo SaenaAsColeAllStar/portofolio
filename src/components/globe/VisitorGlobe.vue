@@ -108,6 +108,12 @@ const processedCountries = computed(() => {
   });
 });
 
+const maxVisits = computed(() => {
+  if (processedCountries.value.length === 0) return 10;
+  const visits = processedCountries.value.map(c => c.visits);
+  return Math.max(...visits, 10);
+});
+
 const canvasRef = ref(null);
 const containerRef = ref(null);
 const isRotating = ref(true);
@@ -380,11 +386,11 @@ const drawLandMap = (ctx, drawFront) => {
 
 const drawCountryMarkers = (ctx) => {
   ctx.save();
-  const maxVisits = props.countries.length > 0 ? Math.max(...props.countries.map(c => c.visits)) : 10;
+  const maxVisitsVal = maxVisits.value;
 
   projectedCountriesList.forEach(node => {
     const isFront = node.depth >= 0;
-    const baseRadius = 4.5 + ((node.country.visits / maxVisits) * 6);
+    const baseRadius = 4.5 + ((node.country.visits / maxVisitsVal) * 6);
     
     ctx.beginPath();
     ctx.arc(node.sx, node.sy, baseRadius, 0, 2 * Math.PI);
@@ -398,7 +404,7 @@ const drawCountryMarkers = (ctx) => {
     ctx.fill();
     ctx.stroke();
 
-    if (isFront && (isHighlighted || node.country.visits > maxVisits * 0.5)) {
+    if (isFront && (isHighlighted || node.country.visits > maxVisitsVal * 0.5)) {
       const pulseSize = baseRadius + (Math.sin(Date.now() * 0.005) + 1) * 4;
       ctx.beginPath();
       ctx.arc(node.sx, node.sy, pulseSize, 0, 2 * Math.PI);
