@@ -28,8 +28,8 @@ export function initSVGStrokeDraw() {
 			if (!entry.isIntersecting) return;
 			const path = entry.target as SVGPathElement;
 			const length = path.getTotalLength?.() || 200;
-			const duration = parseInt((path as HTMLElement).dataset?.animateDuration || '1200', 10);
-			const delay = parseInt((path as HTMLElement).dataset?.animateDelay || '0', 10);
+			const duration = parseInt((path as any).dataset?.animateDuration || '1200', 10);
+			const delay = parseInt((path as any).dataset?.animateDelay || '0', 10);
 
 			path.style.strokeDasharray = `${length}`;
 			path.style.strokeDashoffset = `${length}`;
