@@ -29,8 +29,8 @@
         @click="openModal(cert)"
         data-animate="card-hover"
       >
+        <span class="folder-tab"></span>
         <div class="folder-header">
-          <span class="folder-tab"></span>
           <span class="cert-category-badge">{{ cert.category }}</span>
         </div>
         <div class="cert-card-body">
@@ -208,8 +208,8 @@ const formatDate = (dateStr) => {
   justify-content: space-between;
   min-height: 200px;
   padding: 1.5rem;
-  overflow: hidden;
   border-top-left-radius: 0;
+  margin-top: 1rem;
 }
 .folder-header {
   position: absolute;
@@ -219,18 +219,21 @@ const formatDate = (dateStr) => {
   height: 28px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0 1rem;
 }
 .folder-tab {
-  width: 70px;
-  height: 12px;
+  position: absolute;
+  top: -12px;
+  left: -1px;
+  width: 75px;
+  height: 13px;
   background: var(--card-bg-1, #151922);
-  border-top: 1px solid var(--border, #242936);
-  border-right: 1px solid var(--border, #242936);
-  border-radius: 4px 4px 0 0;
-  margin-top: -12px;
-  margin-left: -5px;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-radius: 6px 6px 0 0;
+  z-index: 2;
 }
 .cert-category-badge {
   font-size: 0.68rem;
