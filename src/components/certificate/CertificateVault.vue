@@ -409,16 +409,24 @@ h3 {
   z-index: 10000;
   outline: none;
 }
+:global([data-theme="light"]) .modal-backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}
 .modal-content {
   background: var(--surface, #151922);
   border: 1px solid var(--border, #242936);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
   border-radius: 16px;
   width: 100%;
   max-width: 600px;
   position: relative;
   overflow: hidden;
-  animation: modalReveal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+:global([data-theme="light"]) .modal-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
 }
 @keyframes modalReveal {
   from { opacity: 0; transform: scale(0.95) translateY(10px); }
