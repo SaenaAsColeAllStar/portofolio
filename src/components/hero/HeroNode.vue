@@ -143,7 +143,7 @@ const onClick = () => {
   fill: var(--bg-soft);
   stroke: var(--border);
   stroke-width: 1.5px;
-  transition: fill 0.2s ease, stroke 0.2s ease, r 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: fill 0.2s ease, stroke 0.2s ease;
 }
 
 .node-core {
@@ -157,14 +157,16 @@ const onClick = () => {
   stroke-width: 1.5px;
   opacity: 0;
   transform: scale(0.8);
+  transform-box: fill-box;
   transform-origin: center;
   transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .node-icon {
   opacity: 0.7;
-  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-box: fill-box;
   transform-origin: center;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Center Node Special Style */
