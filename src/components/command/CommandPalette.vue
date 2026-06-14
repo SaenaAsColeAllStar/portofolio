@@ -126,6 +126,7 @@ const open = () => {
   isOpen.value = true;
   query.value = '';
   activeIndex.value = 0;
+  window.dispatchEvent(new CustomEvent('ctos-command-center-opened'));
   nextTick(() => {
     inputComponentRef.value?.focusInput();
   });

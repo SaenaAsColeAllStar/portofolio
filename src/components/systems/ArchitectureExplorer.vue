@@ -48,7 +48,7 @@
             :key="step.id"
             class="pipeline-node"
             :class="{ active: activeStepId === step.id }"
-            @click="activeStepId = step.id"
+            @click="selectStep(step.id)"
             :aria-label="step.title"
           >
             <div class="node-bullet">
@@ -254,6 +254,13 @@ const stepsData = {
 
 const steps = computed(() => stepsData[props.locale]);
 const activeStepId = ref('traffic');
+
+const selectStep = (id: string) => {
+  activeStepId.value = id;
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('ctos-architecture-explorer-discovered', { detail: { stepId: id } }));
+  }
+};
 
 const activeStep = computed(() => {
   return steps.value.find(s => s.id === activeStepId.value) || steps.value[0];

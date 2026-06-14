@@ -5,9 +5,10 @@
       variant, 
       { 
         'active-react': activeNodeId || hoveredNodeId,
-        'dancing': isDancing,
+        'dancing': isDancing || isCelebrating,
         'systems-boosted': systemsBoosted,
-        'searching-active': searchActive
+        'searching-active': searchActive,
+        'sentinel-mode': personalityMode === 'sentinel'
       }
     ]"
     ref="crabRef"
@@ -60,15 +61,15 @@
       <g class="legs-group">
         <!-- Left Legs -->
         <g class="left-legs">
-          <path d="M -32,38 L -50,50 L -62,65" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l1" />
-          <path d="M -28,43 L -46,57 L -56,74" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l2" />
-          <path d="M -24,46 L -38,60 L -45,78" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l3" />
+          <path d="M -32,38 L -50,50 L -62,65" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l1" :style="getLegStyle(0)" />
+          <path d="M -28,43 L -46,57 L -56,74" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l2" :style="getLegStyle(1)" />
+          <path d="M -24,46 L -38,60 L -45,78" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-l3" :style="getLegStyle(2)" />
         </g>
         <!-- Right Legs -->
         <g class="right-legs">
-          <path d="M 32,38 L 50,50 L 62,65" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r1" />
-          <path d="M 28,43 L 46,57 L 56,74" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r2" />
-          <path d="M 24,46 L 38,60 L 45,78" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r3" />
+          <path d="M 32,38 L 50,50 L 62,65" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r1" :style="getLegStyle(3)" />
+          <path d="M 28,43 L 46,57 L 56,74" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r2" :style="getLegStyle(4)" />
+          <path d="M 24,46 L 38,60 L 45,78" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" class="leg leg-r3" :style="getLegStyle(5)" />
         </g>
       </g>
  
@@ -88,17 +89,62 @@
         <line x1="0" y1="32" x2="0" y2="48" stroke="var(--subtle)" stroke-width="1.5" />
         <circle cx="-6" cy="32" r="1.5" fill="var(--muted)" />
         <circle cx="6" cy="32" r="1.5" fill="var(--muted)" />
+
+        <!-- AI scan line overlay inside body -->
+        <line 
+          x1="-38" 
+          :y1="aiScanY" 
+          x2="38" 
+          :y2="aiScanY" 
+          stroke="var(--success)" 
+          stroke-width="1.5" 
+          opacity="0.8" 
+          v-if="(hoveredNodeId === 'ai' || activeNodeId === 'ai') && !prefersReducedMotion" 
+        />
+      </g>
+
+      <!-- Vue Concentric Ripple (Behind antennas/claws but centered around core carapace) -->
+      <circle 
+        cx="0" 
+        cy="35" 
+        :r="vueRippleRadius" 
+        fill="none" 
+        stroke="var(--accent)" 
+        stroke-width="1.5" 
+        :opacity="vueRippleOpacity" 
+        v-if="(hoveredNodeId === 'vue' || activeNodeId === 'vue') && !prefersReducedMotion" 
+      />
+
+      <!-- Astro Orbiting Particle (circling carapace core) -->
+      <g class="astro-orbit" v-if="(hoveredNodeId === 'astro' || activeNodeId === 'astro') && !prefersReducedMotion">
+        <ellipse 
+          cx="0" 
+          cy="30" 
+          rx="38" 
+          ry="14" 
+          fill="none" 
+          stroke="var(--accent)" 
+          stroke-width="1" 
+          stroke-dasharray="3 3" 
+          opacity="0.6" 
+        />
+        <circle 
+          :cx="orbitParticlePos.cx" 
+          :cy="orbitParticlePos.cy" 
+          r="3.5" 
+          fill="var(--accent)" 
+        />
       </g>
  
       <!-- Antenna Signals -->
       <g class="antennas-group" :class="{ 'antenna-alert': hoveredNodeId === 'ai' }">
         <!-- Left Antenna -->
-        <line x1="-6" y1="12" x2="-8" y2="-20" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="1.5 1.5" class="antenna ant-l" />
-        <circle cx="-8" cy="-20" r="2" fill="var(--accent)" class="antenna-node ant-node-l" />
+        <line x1="-6" y1="12" x2="-8" y2="-20" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="1.5 1.5" class="antenna ant-l" :style="leftAntennaStyle" />
+        <circle cx="-8" cy="-20" r="2" fill="var(--accent)" class="antenna-node ant-node-l" :style="leftAntennaStyle" />
         
         <!-- Right Antenna -->
-        <line x1="6" y1="12" x2="8" y2="-20" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="1.5 1.5" class="antenna ant-r" />
-        <circle cx="8" cy="-20" r="2" fill="var(--accent)" class="antenna-node ant-node-r" />
+        <line x1="6" y1="12" x2="8" y2="-20" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="1.5 1.5" class="antenna ant-r" :style="rightAntennaStyle" />
+        <circle cx="8" cy="-20" r="2" fill="var(--accent)" class="antenna-node ant-node-r" :style="rightAntennaStyle" />
       </g>
  
       <!-- Mechanical Claws (Pincers) -->
@@ -137,7 +183,7 @@
       <!-- Stalk Eyes -->
       <g class="eyes-group">
         <!-- Left Eye Stalk -->
-        <g class="eye-stalk-left">
+        <g class="eye-stalk-left" :style="leftEyeStalkStyle">
           <line x1="-12" y1="12" x2="-14" y2="-8" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" />
           <circle cx="-14" cy="-8" r="6.5" fill="var(--surface-elevated)" stroke="var(--muted)" stroke-width="1.5" class="eye-bulb" />
           <!-- Pupil (tracks cursor) -->
@@ -152,7 +198,7 @@
         </g>
         
         <!-- Right Eye Stalk -->
-        <g class="eye-stalk-right">
+        <g class="eye-stalk-right" :style="rightEyeStalkStyle">
           <line x1="12" y1="12" x2="14" y2="-8" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" />
           <circle cx="14" cy="-8" r="6.5" fill="var(--surface-elevated)" stroke="var(--muted)" stroke-width="1.5" class="eye-bulb" />
           <!-- Pupil (tracks cursor) -->
@@ -206,15 +252,209 @@ const { zone, distance, relativeCoords } = useCursorAwareness(crabRef, {
   activeRadius: props.variant === 'dock' ? 40 : 70
 });
 
-// Spring Physics System for dialog bubble bounce
+// Reduced Motion Media Query ref
+const prefersReducedMotion = ref(false);
+let mediaQueryList: MediaQueryList | null = null;
+
+const handleReduceMotionChange = (e: MediaQueryListEvent | MediaQueryList) => {
+  prefersReducedMotion.value = e.matches;
+};
+
+// Unified Animation & Inactivity ticks
+let tickAnimFrame: number;
 const bubbleScale = ref(0);
 const bubbleSpring = new Spring(0, { stiffness: 140, damping: 14 });
-let springAnimFrame: number;
 
-const tickSpring = () => {
+// Breathing variables
+let breathingTime = 0;
+let breathingStep = (2 * Math.PI) / (4.5 * 60); // Initial 4.5 seconds duration
+const breathingScale = ref(1);
+const breathingTranslateY = ref(0);
+
+// Claw Drift variables
+const leftClawDrift = ref({ rotate: 0, x: 0, y: 0 });
+const rightClawDrift = ref({ rotate: 0, x: 0, y: 0 });
+
+// Antenna Skew variables
+const leftAntennaSkew = ref(0);
+const rightAntennaSkew = ref(0);
+
+// Leg Springs & Rotation variables
+const legSprings = Array.from({ length: 6 }, () => new Spring(0, { stiffness: 180, damping: 12 }));
+const legRotations = ref([0, 0, 0, 0, 0, 0]);
+let nextLegTime = Date.now() + 5000;
+
+// Dynamic Leaning Springs (carapace tilt)
+const leanXSpring = new Spring(0, { stiffness: 80, damping: 14 });
+const leanYSpring = new Spring(0, { stiffness: 80, damping: 14 });
+const leanX = ref(0);
+const leanY = ref(0);
+
+// User Inactivity trackers
+const idleTime = ref(0);
+const randomLookOffset = ref({ x: 0, y: 0 });
+let nextLookTime = 0;
+
+// Context awareness visual engines
+const astroOrbitAngle = ref(0);
+const vueRippleRadius = ref(0);
+const vueRippleOpacity = ref(0);
+const aiScanY = ref(12);
+const aiScanDir = ref(1);
+
+// Personality state
+const personalityMode = ref<'curious' | 'sentinel' | 'playful'>('curious');
+let personalityTimer: any = null;
+
+// Celebration States
+const isCelebrating = ref(false);
+
+const resetIdleTime = () => {
+  idleTime.value = 0;
+};
+
+// 60FPS tick solver
+const tick = () => {
+  // 1. Spring-driven bubble scale
   bubbleSpring.update(0.016);
   bubbleScale.value = bubbleSpring.value;
-  springAnimFrame = requestAnimationFrame(tickSpring);
+
+  // If reduced motion is requested, fall back to flat values
+  if (prefersReducedMotion.value) {
+    breathingScale.value = 1;
+    breathingTranslateY.value = 0;
+    leftClawDrift.value = { rotate: 0, x: 0, y: 0 };
+    rightClawDrift.value = { rotate: 0, x: 0, y: 0 };
+    leftAntennaSkew.value = 0;
+    rightAntennaSkew.value = 0;
+    legRotations.value = [0, 0, 0, 0, 0, 0];
+    leanX.value = 0;
+    leanY.value = 0;
+    idleTime.value = 0;
+  } else {
+    const now = Date.now() * 0.001;
+
+    // 2. Body Breathing (Phase 01)
+    breathingTime += breathingStep;
+    if (breathingTime >= 2 * Math.PI) {
+      breathingTime -= 2 * Math.PI;
+      const duration = 4.0 + Math.random() * 3.0; // Random cycle 4-7s
+      breathingStep = (2 * Math.PI) / (duration * 60);
+    }
+    breathingScale.value = 1 + Math.sin(breathingTime) * 0.012;
+    breathingTranslateY.value = Math.sin(breathingTime) * -0.6;
+
+    // 3. Claw Idle Drift (Phase 01)
+    if (currentState.value === 'idle' || currentState.value === 'observe') {
+      leftClawDrift.value = {
+        rotate: Math.sin(now * 0.8) * 1.5,
+        x: Math.sin(now * 0.5) * 0.4,
+        y: Math.cos(now * 0.7) * 0.5
+      };
+      rightClawDrift.value = {
+        rotate: Math.cos(now * 0.9) * 1.5,
+        x: Math.cos(now * 0.6) * 0.4,
+        y: Math.sin(now * 0.8) * 0.5
+      };
+    } else {
+      leftClawDrift.value = { rotate: 0, x: 0, y: 0 };
+      rightClawDrift.value = { rotate: 0, x: 0, y: 0 };
+    }
+
+    // 4. Antenna Slow Oscillation (Phase 01)
+    leftAntennaSkew.value = Math.sin(now * 1.2) * 2;
+    rightAntennaSkew.value = Math.cos(now * 1.1) * 2;
+
+    // 5. Leg Adjustment Timings (Phase 01)
+    if (Date.now() > nextLegTime) {
+      const idx = Math.floor(Math.random() * 6);
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      legSprings[idx].setTarget(dir * (2.0 + Math.random() * 3.0));
+      setTimeout(() => {
+        legSprings[idx].setTarget(0);
+      }, 250);
+      nextLegTime = Date.now() + 8000 + Math.random() * 7000; // 8-15 seconds
+    }
+    legSprings.forEach((spring, idx) => {
+      spring.update(0.016);
+      legRotations.value[idx] = spring.value;
+    });
+
+    // 6. Dynamic Lean Calculations (Phase 02)
+    let targetLeanX = 0;
+    let targetLeanY = 0;
+    if (zone.value >= 2 && zone.value <= 3) {
+      const dx = relativeCoords.value.x;
+      const dy = relativeCoords.value.y;
+      const d = distance.value || 1;
+      targetLeanX = (dx / d) * 6;  // skewX
+      targetLeanY = (dy / d) * -3; // translateY
+    }
+    leanXSpring.setTarget(targetLeanX);
+    leanYSpring.setTarget(targetLeanY);
+    leanXSpring.update(0.016);
+    leanYSpring.update(0.016);
+    leanX.value = leanXSpring.value;
+    leanY.value = leanYSpring.value;
+
+    // 7. Inactivity tracker (Phase 06)
+    idleTime.value += 0.016;
+
+    // 8. Curious Wander pupils when user is idle
+    if (personalityMode.value === 'curious' && idleTime.value >= 3 && idleTime.value < 10) {
+      if (Date.now() > nextLookTime) {
+        randomLookOffset.value = {
+          x: (Math.random() - 0.5) * 4.0,
+          y: (Math.random() - 0.5) * 4.0
+        };
+        nextLookTime = Date.now() + 2500 + Math.random() * 2500;
+      }
+    } else {
+      randomLookOffset.value = { x: 0, y: 0 };
+    }
+
+    // 9. Context aware animation loops (Phase 05)
+    if (props.hoveredNodeId === 'astro' || props.activeNodeId === 'astro') {
+      astroOrbitAngle.value += 0.04;
+    }
+    if (props.hoveredNodeId === 'vue' || props.activeNodeId === 'vue') {
+      vueRippleRadius.value += 1.2;
+      if (vueRippleRadius.value > 42) {
+        vueRippleRadius.value = 5;
+      }
+      vueRippleOpacity.value = Math.max(0, 0.8 - (vueRippleRadius.value / 42));
+    }
+    if (props.hoveredNodeId === 'ai' || props.activeNodeId === 'ai') {
+      aiScanY.value += aiScanDir.value * 0.8;
+      if (aiScanY.value > 56) {
+        aiScanY.value = 56;
+        aiScanDir.value = -1;
+      } else if (aiScanY.value < 14) {
+        aiScanY.value = 14;
+        aiScanDir.value = 1;
+      }
+    }
+  }
+
+  tickAnimFrame = requestAnimationFrame(tick);
+};
+
+// Leg Style helper
+const getLegStyle = (idx: number) => {
+  const rot = legRotations.value[idx] || 0;
+  let origin = '0px 0px';
+  if (idx === 0) origin = '-32px 38px';
+  else if (idx === 1) origin = '-28px 43px';
+  else if (idx === 2) origin = '-24px 46px';
+  else if (idx === 3) origin = '32px 38px';
+  else if (idx === 4) origin = '28px 43px';
+  else if (idx === 5) origin = '24px 46px';
+
+  return {
+    transform: `rotate(${rot}deg)`,
+    transformOrigin: origin,
+    transition: 'transform 0.05s linear'
+  };
 };
 
 // Interaction Memory System
@@ -231,37 +471,146 @@ const systemsBoosted = ref(false);
 
 // Dynamic reactive leaning
 const bodyStyle = computed(() => {
-  if (props.hoveredNodeId === 'astro') {
-    return { transform: 'skewX(-6deg) translateY(-2px)', transition: 'transform 0.3s ease' };
-  }
-  if (props.hoveredNodeId === 'infrastructure') {
-    return { transform: 'skewX(6deg) translateY(-2px)', transition: 'transform 0.3s ease' };
-  }
-  // Lean in spatial awareness state
-  if (currentState.value === 'inspect') {
-    return { transform: 'translateY(-2px) scale(1.02)', transition: 'transform 0.4s ease' };
-  }
-  return {};
+  if (isDancing.value || isCelebrating.value) return {};
+
+  const scale = breathingScale.value;
+  const transY = breathingTranslateY.value + leanY.value;
+  const skewX = leanX.value;
+
+  // Base node leaning
+  let staticSkew = 0;
+  if (props.hoveredNodeId === 'astro') staticSkew = -6;
+  if (props.hoveredNodeId === 'infrastructure') staticSkew = 6;
+
+  return {
+    transform: `translateY(${transY}px) scale(${scale}) skewX(${skewX + staticSkew}deg)`,
+    transformOrigin: '0 45px',
+    transition: 'transform 0.05s linear'
+  };
 });
 
 // Dynamic claw rotations
 const leftClawStyle = computed(() => {
+  let baseRotate = 0;
+  let baseTranslateX = 0;
+  let baseTranslateY = 0;
+
   if (props.hoveredNodeId === 'proxmox') {
-    return { transform: 'rotate(-12deg) translate(-5px, -5px)', transformOrigin: '-35px 32px', transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)' };
+    baseRotate = -12;
+    baseTranslateX = -5;
+    baseTranslateY = -5;
+  } else if (personalityMode.value === 'sentinel') {
+    baseRotate = -6;
+    baseTranslateY = -2;
+  } else if (idleTime.value >= 30 && (Math.floor(idleTime.value) % 10) < 3) {
+    // Wave left claw
+    const waveAngle = Math.sin(Date.now() * 0.01) * 8;
+    baseRotate = -14 + waveAngle;
+    baseTranslateY = -6;
   }
-  return {};
+
+  const r = baseRotate + leftClawDrift.value.rotate;
+  const tx = baseTranslateX + leftClawDrift.value.x;
+  const ty = baseTranslateY + leftClawDrift.value.y;
+
+  return {
+    transform: `translate(${tx}px, ${ty}px) rotate(${r}deg)`,
+    transformOrigin: '-35px 32px',
+    transition: isCelebrating.value || (idleTime.value >= 30 && (Math.floor(idleTime.value) % 10) < 3)
+      ? 'transform 0.08s linear'
+      : 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+  };
 });
 
 const rightClawStyle = computed(() => {
+  let baseRotate = 0;
+  let baseTranslateX = 0;
+  let baseTranslateY = 0;
+
   if (props.hoveredNodeId === 'automation') {
-    return { transform: 'rotate(12deg) translate(5px, -5px)', transformOrigin: '35px 32px', transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)' };
+    baseRotate = 12;
+    baseTranslateX = 5;
+    baseTranslateY = -5;
+  } else if (personalityMode.value === 'sentinel') {
+    baseRotate = 6;
+    baseTranslateY = -2;
   }
-  return {};
+
+  const r = baseRotate + rightClawDrift.value.rotate;
+  const tx = baseTranslateX + rightClawDrift.value.x;
+  const ty = baseTranslateY + rightClawDrift.value.y;
+
+  return {
+    transform: `translate(${tx}px, ${ty}px) rotate(${r}deg)`,
+    transformOrigin: '35px 32px',
+    transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+  };
+});
+
+// Dynamic skewing for eye stalks to look organic
+const leftEyeStalkStyle = computed(() => {
+  if (prefersReducedMotion.value) return {};
+  const skew = leanX.value * 0.6;
+  return {
+    transform: `skewX(${skew}deg)`,
+    transformOrigin: '-12px 12px',
+    transition: 'transform 0.05s linear'
+  };
+});
+
+const rightEyeStalkStyle = computed(() => {
+  if (prefersReducedMotion.value) return {};
+  const skew = leanX.value * 0.6;
+  return {
+    transform: `skewX(${skew}deg)`,
+    transformOrigin: '12px 12px',
+    transition: 'transform 0.05s linear'
+  };
+});
+
+// Antenna dynamic styles
+const leftAntennaStyle = computed(() => {
+  return {
+    transform: `skewX(${leftAntennaSkew.value}deg)`,
+    transformOrigin: '-6px 12px',
+    transition: 'transform 0.05s linear'
+  };
+});
+
+const rightAntennaStyle = computed(() => {
+  return {
+    transform: `skewX(${rightAntennaSkew.value}deg)`,
+    transformOrigin: '6px 12px',
+    transition: 'transform 0.05s linear'
+  };
+});
+
+// Astro orbit particle position calculation
+const orbitParticlePos = computed(() => {
+  const angle = astroOrbitAngle.value;
+  return {
+    cx: Math.cos(angle) * 38,
+    cy: 30 + Math.sin(angle) * 14
+  };
 });
 
 // Stalk eyes cursor tracking (computed using Spatial Zones)
 const pupilOffset = computed(() => {
   if (isDancing.value) return { x: 0, y: 0 };
+
+  // Idle look overrides (Phase 06)
+  if (idleTime.value >= 20) {
+    return { x: 2, y: 0.5 }; // Looking Right
+  }
+  if (idleTime.value >= 10) {
+    return { x: -2, y: 0.5 }; // Looking Left
+  }
+
+  // Curious wander override
+  if (personalityMode.value === 'curious' && idleTime.value >= 3) {
+    return randomLookOffset.value;
+  }
+
   if (zone.value === 1) return { x: 0, y: 0 }; // Far: looking straight
 
   const maxOffset = props.variant === 'dock' ? 1.5 : 2.5;
@@ -277,27 +626,38 @@ const pupilOffset = computed(() => {
   };
 });
 
-// Watch spatial zones to drive FSM transitions
+// Watch spatial zones to drive FSM transitions with reaction chain delays (Phase 03)
+let reactionTimeout: any = null;
 watch(zone, (newZone) => {
-  if (isDancing.value) {
+  clearTimeout(reactionTimeout);
+  if (isDancing.value || isCelebrating.value) {
     transitionTo('celebrate');
     return;
   }
 
-  switch (newZone) {
-    case 4:
-      transitionTo('signal');
-      break;
-    case 3:
+  if (newZone === 4) {
+    // Notice -> Pause -> Inspect -> React -> Settle chain
+    transitionTo('observe');
+    reactionTimeout = setTimeout(() => {
       transitionTo('inspect');
-      break;
-    case 2:
-      transitionTo('observe');
-      break;
-    case 1:
-    default:
-      transitionTo('idle');
-      break;
+      
+      // Perform claw/antenna micro wiggles on inspect trigger
+      const originalNextLeg = nextLegTime;
+      nextLegTime = Date.now(); // Trigger immediate leg wiggles
+      
+      reactionTimeout = setTimeout(() => {
+        transitionTo('signal');
+      }, 350);
+    }, 180);
+  } else if (newZone === 3) {
+    transitionTo('observe');
+    reactionTimeout = setTimeout(() => {
+      transitionTo('inspect');
+    }, 200);
+  } else if (newZone === 2) {
+    transitionTo('observe');
+  } else {
+    transitionTo('idle');
   }
 });
 
@@ -319,6 +679,7 @@ const startBlinkLoop = () => {
 
 // Easter Egg Level 01: Hover 10 times triggers dance
 const handleCrabHover = () => {
+  resetIdleTime();
   hoverCount.value++;
   if (hoverCount.value === 1) {
     // Greet and query memory on first hover
@@ -358,7 +719,7 @@ const showBubble = (text: string) => {
     setTimeout(() => {
       bubbleText.value = null;
     }, 300); // Wait for spring to settle scale to 0
-  }, 3000);
+  }, 3200);
 };
 
 // Check if Level 02 is unlocked (visitor has explored Systems page)
@@ -374,10 +735,45 @@ const checkSystemsVisited = () => {
   }
 };
 
+// Rotate personality modes (Phase 04)
+const showPersonalityDialogue = () => {
+  if (prefersReducedMotion.value) return;
+  const isId = props.locale === 'id';
+  
+  if (personalityMode.value === 'sentinel') {
+    const quotes = isId
+      ? ["Firewall sistem nominal.", "Kluster Proxmox aman.", "Semua mesin kontainer normal."]
+      : ["System firewalls are nominal.", "Proxmox cluster CPU load: 12%. All green.", "Docker node egress routing stable."];
+    showBubble(quotes[Math.floor(Math.random() * quotes.length)]);
+  } else if (personalityMode.value === 'curious') {
+    const quotes = isId
+      ? ["Teknologi apa yang menjalankan halaman ini?", "Tahukah Anda situs ini dibuat dengan Astro?", "Mari jelajahi Garis Waktu Proyek."]
+      : ["What technologies power this page?", "Did you know this site is fully static-generated?", "I'm checking out the Project timeline."];
+    showBubble(quotes[Math.floor(Math.random() * quotes.length)]);
+  } else if (personalityMode.value === 'playful') {
+    const quotes = isId
+      ? ["Tos capit! Klik saya!", "Sudahkah Anda membuka level rahasia?", "Latihan kaki selesai! 60 FPS tercapai."]
+      : ["Pincer-high-five! Click me!", "Have you found all secret levels yet?", "Leg exercise complete! 60 FPS achieved."];
+    showBubble(quotes[Math.floor(Math.random() * quotes.length)]);
+  }
+};
+
+const rotatePersonality = () => {
+  const modes: ('curious' | 'sentinel' | 'playful')[] = ['curious', 'sentinel', 'playful'];
+  const available = modes.filter(m => m !== personalityMode.value);
+  personalityMode.value = available[Math.floor(Math.random() * available.length)];
+  
+  // Show dialogue bubble representing mode change
+  showPersonalityDialogue();
+  
+  personalityTimer = setTimeout(rotatePersonality, 35000 + Math.random() * 20000);
+};
+
 // React to node selections in Hero System Map
 watch(() => props.hoveredNodeId, (newId) => {
   if (!newId) return;
-  
+  resetIdleTime();
+
   if (props.locale === 'id') {
     switch (newId) {
       case 'cloudflare': showBubble('Radar Cloudflare aktif!'); break;
@@ -404,20 +800,98 @@ watch(() => props.hoveredNodeId, (newId) => {
 // React to search triggers (Easter Egg Level 03)
 watch(() => props.searchActive, (active) => {
   if (active) {
+    resetIdleTime();
     showBubble(props.locale === 'id' ? 'Level 3 Terbuka: Pencarian Sinyal Cepat!' : 'Level 3 Unlocked: High Speed Search!');
   }
 });
 
+// Custom window celebration events (Phase 07)
+const handleCaseStudyOpen = () => {
+  isCelebrating.value = true;
+  transitionTo('celebrate');
+  showBubble(props.locale === 'id' 
+    ? "Membuka pola arsitektur desain... Luar biasa!" 
+    : "Analyzing architectural design patterns... Incredible!");
+  setTimeout(() => {
+    isCelebrating.value = false;
+    transitionTo('idle');
+  }, 4000);
+};
+
+const handleCommandPaletteOpen = () => {
+  isCelebrating.value = true;
+  transitionTo('signal');
+  showBubble(props.locale === 'id' 
+    ? "Terminal sistem terbuka. Mengakses basis data..." 
+    : "System terminal unlocked. Awaiting commands...");
+  setTimeout(() => {
+    isCelebrating.value = false;
+    transitionTo('idle');
+  }, 4000);
+};
+
+const handleArchitectureExplorerStep = (e: any) => {
+  isCelebrating.value = true;
+  transitionTo('inspect');
+  const stepId = e.detail?.stepId || '';
+  showBubble(props.locale === 'id' 
+    ? `Menganalisis Lapisan: ${stepId.toUpperCase()}...` 
+    : `Inspecting Infrastructure Layer: ${stepId.toUpperCase()}...`);
+  setTimeout(() => {
+    isCelebrating.value = false;
+    transitionTo('idle');
+  }, 3000);
+};
+
 onMounted(() => {
-  tickSpring();
+  // Media query checks
+  if (typeof window !== 'undefined') {
+    mediaQueryList = window.matchMedia('(prefers-reduced-motion: reduce)');
+    handleReduceMotionChange(mediaQueryList);
+    mediaQueryList.addEventListener('change', handleReduceMotionChange);
+
+    // Inactivity event listeners
+    window.addEventListener('mousemove', resetIdleTime);
+    window.addEventListener('keydown', resetIdleTime);
+    window.addEventListener('scroll', resetIdleTime);
+    window.addEventListener('click', resetIdleTime);
+    window.addEventListener('touchstart', resetIdleTime);
+
+    // Custom celebration event listeners
+    window.addEventListener('ctos-case-study-opened', handleCaseStudyOpen);
+    window.addEventListener('ctos-command-center-opened', handleCommandPaletteOpen);
+    window.addEventListener('ctos-architecture-explorer-discovered', handleArchitectureExplorerStep);
+  }
+
+  // Animation frame solver
+  tick();
+
   startBlinkLoop();
   checkSystemsVisited();
+
+  // Rotates personality modes periodically
+  personalityTimer = setTimeout(rotatePersonality, 45000);
 });
 
 onUnmounted(() => {
-  cancelAnimationFrame(springAnimFrame);
+  cancelAnimationFrame(tickAnimFrame);
   clearTimeout(blinkTimer);
   clearTimeout(bubbleClearTimer);
+  clearTimeout(personalityTimer);
+  clearTimeout(reactionTimeout);
+
+  if (typeof window !== 'undefined') {
+    mediaQueryList?.removeEventListener('change', handleReduceMotionChange);
+    window.removeEventListener('mousemove', resetIdleTime);
+    window.removeEventListener('keydown', resetIdleTime);
+    window.removeEventListener('scroll', resetIdleTime);
+    window.removeEventListener('click', resetIdleTime);
+    window.removeEventListener('touchstart', resetIdleTime);
+
+    window.removeEventListener('ctos-case-study-opened', handleCaseStudyOpen);
+    window.removeEventListener('ctos-command-center-opened', handleCommandPaletteOpen);
+    window.removeEventListener('ctos-architecture-explorer-discovered', handleArchitectureExplorerStep);
+  }
 });
 </script>
 
@@ -487,46 +961,11 @@ onUnmounted(() => {
   fill: var(--surface) !important;
 }
 
-/* ---------------- CSS Keyframe Animations (Idle Breathing) ---------------- */
-.carapace, .body-core-group {
-  animation: breathing 4s infinite ease-in-out;
-  transform-origin: 0 45px;
-}
-
-@keyframes breathing {
-  0%, 100% { transform: scale(1) translateY(0); }
-  50% { transform: scale(1.02) translateY(-1px); }
-}
-
-/* Legs crawling micro-animations */
-.leg-l1, .leg-r3 { animation: leg-wiggle-1 5s infinite ease-in-out; }
-.leg-l3, .leg-r1 { animation: leg-wiggle-2 4.5s infinite ease-in-out; }
-.leg-l2, .leg-r2 { animation: leg-wiggle-3 6s infinite ease-in-out; }
-
-@keyframes leg-wiggle-1 {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-1.5deg); }
-}
-@keyframes leg-wiggle-2 {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(1.5deg); }
-}
-@keyframes leg-wiggle-3 {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-1deg) translateY(0.5px); }
-}
-
-/* Antenna oscillating */
-.ant-l, .ant-node-l { animation: antenna-l 6s infinite ease-in-out; transform-origin: -6px 12px; }
-.ant-r, .ant-node-r { animation: antenna-r 5.5s infinite ease-in-out; transform-origin: 6px 12px; }
-
-@keyframes antenna-l {
-  0%, 100% { transform: skewX(0deg); }
-  50% { transform: skewX(-2deg); }
-}
-@keyframes antenna-r {
-  0%, 100% { transform: skewX(0deg); }
-  50% { transform: skewX(2deg); }
+/* Sentinel mode glow styling */
+.sentinel-mode .carapace {
+  filter: drop-shadow(0 0 4px var(--accent));
+  stroke: var(--accent-strong) !important;
+  transition: stroke 0.5s ease;
 }
 
 /* Blinking eyes */
@@ -578,6 +1017,18 @@ onUnmounted(() => {
   50% { transform: translateY(-4px) scale(1.15); opacity: 0.6; }
 }
 
+/* Vue ripple wave animation */
+.vue-ripple {
+  animation: ripple-pulse 1.8s infinite ease-out;
+  transform-origin: center;
+}
+
+/* AI scan line laser animation */
+.ai-scan-line {
+  stroke-dasharray: 2 2;
+  filter: drop-shadow(0 0 2px var(--success));
+}
+
 /* ---------------- Easter Egg Boosts & Dances ---------------- */
 .aura-glow {
   opacity: 0;
@@ -587,7 +1038,7 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-/* Sentinel Dance */
+/* Sentinel Dance / Celebrate (Phase 07) */
 .dancing .sentinel-crab-svg {
   animation: crab-dance 0.8s infinite alternate ease-in-out;
   transform-origin: center bottom;
@@ -661,5 +1112,17 @@ onUnmounted(() => {
 
 :global([data-theme="light"]) .bubble-arrow::after {
   border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+}
+
+/* Accessibility: Support reduced motion media query */
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .radar-wave,
+  .eye-pupil,
+  .vue-ripple,
+  .sentinel-crab-svg {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 </style>

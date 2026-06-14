@@ -117,5 +117,10 @@ const extraSchemas = [articleSchema, breadcrumbSchema];
 		</main>
 		<Footer />
 		<MobileNav />
+		<script>
+			document.addEventListener('astro:page-load', () => {
+				window.dispatchEvent(new CustomEvent('ctos-case-study-opened'));
+			});
+		</script>
 	</body>
 </html>
