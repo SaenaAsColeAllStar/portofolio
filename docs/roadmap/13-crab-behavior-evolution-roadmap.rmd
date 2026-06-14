@@ -1,0 +1,521 @@
+# CTOS Portfolio
+# 13 — Crab Behavior Evolution Roadmap
+
+## Purpose
+
+This roadmap focuses exclusively on evolving the CTOS Crab from an animated SVG into a living digital character.
+
+Current State:
+
+Eyes move.
+
+Target State:
+
+The crab behaves like a living system companion.
+
+This roadmap intentionally ignores:
+
+- UI
+- Layout
+- Content
+- SEO
+- Architecture
+
+Focus:
+
+Behavior.
+
+---
+
+# Current Assessment
+
+## Visual Quality
+
+8/10
+
+---
+
+## SVG Quality
+
+8/10
+
+---
+
+## Motion Quality
+
+5/10
+
+---
+
+## Character Personality
+
+2/10
+
+---
+
+## Living Character Score
+
+2/10
+
+---
+
+# Problem Statement
+
+Current Behavior:
+
+Idle
+↓
+Eye Movement
+↓
+Idle
+
+Result:
+
+The user sees an animated SVG.
+
+Not a character.
+
+---
+
+# Target State
+
+The user should feel:
+
+"The crab noticed me."
+
+Not:
+
+"The crab is animated."
+
+---
+
+# Phase 01
+# Full Body Idle System
+
+## Objective
+
+Remove static body behavior.
+
+---
+
+## Add Breathing
+
+Body should expand and contract subtly.
+
+Cycle:
+
+4–7 seconds
+
+Randomized.
+
+---
+
+## Add Leg Adjustments
+
+Every 8–15 seconds.
+
+Randomized.
+
+One leg moves slightly.
+
+Never synchronized.
+
+---
+
+## Add Claw Drift
+
+Small idle claw movement.
+
+Very subtle.
+
+---
+
+## Add Antenna Movement
+
+Slow oscillation.
+
+Independent timing.
+
+---
+
+## Success Criteria
+
+Users can identify life-like behavior without interacting.
+
+---
+
+# Phase 02
+# Attention System
+
+## Objective
+
+The crab becomes aware of nearby activity.
+
+---
+
+## Detection Zones
+
+Zone 01
+
+Far
+
+No reaction.
+
+---
+
+Zone 02
+
+Nearby
+
+Eyes track cursor.
+
+---
+
+Zone 03
+
+Approach
+
+Body shifts slightly.
+
+---
+
+Zone 04
+
+Hover
+
+Full awareness.
+
+---
+
+## Success Criteria
+
+The crab notices users before they interact.
+
+---
+
+# Phase 03
+# Reaction Chains
+
+## Objective
+
+Replace single animations with behavior sequences.
+
+---
+
+## Example
+
+Current:
+
+Hover
+↓
+Animation
+
+---
+
+Target:
+
+Hover
+↓
+Notice
+↓
+Pause
+↓
+Inspect
+↓
+React
+↓
+Settle
+
+---
+
+## Success Criteria
+
+Every interaction becomes a story.
+
+---
+
+# Phase 04
+# Personality Layer
+
+## Objective
+
+Give the crab recognizable traits.
+
+---
+
+## Curious Mode
+
+Looks around.
+
+Observes nodes.
+
+Tracks movement.
+
+---
+
+## Sentinel Mode
+
+Protects systems.
+
+Observes architecture graph.
+
+Signals active nodes.
+
+---
+
+## Playful Mode
+
+Rewards user exploration.
+
+---
+
+## Success Criteria
+
+Users can describe the crab's personality.
+
+---
+
+# Phase 05
+# Context Awareness
+
+## Objective
+
+The crab reacts differently depending on what is happening.
+
+---
+
+## Cloudflare
+
+Signal pulse.
+
+---
+
+## Astro
+
+Orbit reaction.
+
+---
+
+## Vue
+
+Reactive ripple.
+
+---
+
+## Proxmox
+
+Infrastructure pulse.
+
+---
+
+## AI Systems
+
+Scan animation.
+
+---
+
+## Success Criteria
+
+Interactions no longer feel generic.
+
+---
+
+# Phase 06
+# Hidden Behaviors
+
+## Objective
+
+Create discovery moments.
+
+---
+
+## User Idle
+
+Crab looks left.
+
+---
+
+## Longer Idle
+
+Crab looks right.
+
+---
+
+## Extended Idle
+
+Crab raises claw.
+
+---
+
+## Success Criteria
+
+Users witness unexpected behavior.
+
+---
+
+# Phase 07
+# Celebration System
+
+## Objective
+
+Reward meaningful actions.
+
+---
+
+## Open Case Study
+
+Mini celebration.
+
+---
+
+## Open Command Center
+
+Signal animation.
+
+---
+
+## Discover Architecture Explorer
+
+Special reaction.
+
+---
+
+## Success Criteria
+
+Interactions feel rewarding.
+
+---
+
+# Phase 08
+# SVG Rigging Architecture
+
+## Required Parts
+
+Eyes
+
+Pupils
+
+Body
+
+Claws
+
+Legs
+
+Antenna
+
+Signals
+
+Particles
+
+---
+
+## Rule
+
+Every part must animate independently.
+
+---
+
+# Phase 09
+# State Machine System
+
+Idle
+
+Observe
+
+Aware
+
+Inspect
+
+Signal
+
+Celebrate
+
+Return
+
+---
+
+## Rule
+
+No animation should trigger directly.
+
+All interactions should transition through states.
+
+---
+
+# Phase 10
+# Claude-Level Benchmark
+
+The goal is not to copy Claude.
+
+The goal is to achieve the same perception quality.
+
+---
+
+Visitors should feel:
+
+- Curious
+- Delighted
+- Rewarded
+- Guided
+
+---
+
+# Performance Rules
+
+Target:
+
+60 FPS
+
+---
+
+Avoid:
+
+Heavy SVG calculations.
+
+Continuous layout shifts.
+
+Large animation libraries.
+
+---
+
+# Success Metrics
+
+Current:
+
+Animated SVG
+
+---
+
+Target:
+
+Living Digital Companion
+
+---
+
+Current Score:
+
+2/10
+
+---
+
+Target Score:
+
+9/10
+
+---
+
+# Final Vision
+
+The CTOS Crab should become the most memorable element of the portfolio.
+
+Not because it moves.
+
+Because it behaves.
+
+The user should remember:
+
+"That crab felt alive."
+
+More than:
+
+"That website had animations."
