@@ -11,7 +11,7 @@ const t = useTranslations(locale);
 const philosophies = architecturePhilosophy[locale];
 ---
 
-<section class="section architecture-philosophy-section" data-animate="reveal">
+<section class="section architecture-philosophy-section">
   <div class="section-header">
     <p class="eyebrow">{locale === 'en' ? 'Core Beliefs' : 'Prinsip Utama'}</p>
     <h2>{locale === 'en' ? 'Architecture Philosophy' : 'Filosofi Arsitektur'}</h2>
@@ -22,9 +22,9 @@ const philosophies = architecturePhilosophy[locale];
     </p>
   </div>
 
-  <div class="grid grid-3 philosophy-grid">
+  <div class="grid grid-3 philosophy-grid" data-animate="stagger" data-animate-stagger="100" data-animate-children="fade-up" data-animate-duration="600">
     {philosophies.map((p) => (
-      <article class="card philosophy-card" data-animate="card-hover">
+      <article class="card philosophy-card" data-tilt>
         <span class="pillar-indicator"></span>
         <p class="card-tagline">{p.tagline}</p>
         <h3>{p.title}</h3>
@@ -62,9 +62,19 @@ const philosophies = architecturePhilosophy[locale];
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--accent) 0%, transparent 80%);
+    animation: draw-pillar 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.2s;
+  }
+  @keyframes draw-pillar {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
   }
   .card-tagline {
     font-size: 0.72rem;

@@ -86,6 +86,26 @@ watch(() => props.activeIndex, (newVal) => {
     activeEl.scrollIntoView({ block: 'nearest' });
   }
 });
+
+watch(() => props.results, () => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // stagger-reveal result items on every results change
+  setTimeout(() => {
+    const container = listRef.value;
+    if (!container) return;
+    Array.from(container.querySelectorAll('.result-item')).forEach((el, idx) => {
+      (el as HTMLElement).animate([
+        { opacity: 0, transform: 'translateY(6px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], {
+        duration: 160,
+        delay: idx * 30,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'forwards'
+      });
+    });
+  }, 0);
+}, { flush: 'post' });
 </script>
 
 <style scoped>
@@ -116,14 +136,29 @@ watch(() => props.activeIndex, (newVal) => {
   cursor: pointer;
   background: transparent;
   transition: background 0.15s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.result-item.active {
+.result-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: var(--btn-secondary-bg);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+  border-radius: inherit;
 }
 
-:global([data-theme="light"]) .result-item.active {
+:global([data-theme="light"]) .result-item::before {
   background: rgba(15, 23, 42, 0.05);
+}
+
+.result-item.active::before {
+  transform: scaleX(1);
 }
 
 .icon {

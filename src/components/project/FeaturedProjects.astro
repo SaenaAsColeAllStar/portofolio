@@ -19,20 +19,20 @@ function getCleanSlug(id: string) {
 ---
 
 <section class="section">
-	<div class="section-heading">
+	<div class="section-heading" data-animate="fade-up">
 		<div>
 			<p class="eyebrow">{locale === 'en' ? 'Selected Projects' : 'Proyek Pilihan'}</p>
 			<h2>{t("home.projectsHeadline")}</h2>
 		</div>
 		<a href={getLocalizedUrl("/projects", locale)}>{t("btn.viewAll")}</a>
 	</div>
-	<div class="grid grid-2">
+	<div class="grid grid-2" data-animate="stagger" data-animate-stagger="100" data-animate-children="fade-up" data-animate-duration="500">
 		{featuredProjects.map((project) => (
-			<article class="card project-card">
+			<article class="card project-card" data-tilt data-card-meta-parent data-cursor="view-project">
 				<p class="eyebrow">{project.data.category}</p>
 				<h3><a href={getLocalizedUrl(`/projects/${getCleanSlug(project.id)}`, locale)}>{project.data.title}</a></h3>
 				<p>{project.data.excerpt}</p>
-				<div class="badge-row">
+				<div class="badge-row" data-card-meta>
 					{project.data.domains.map((domain) => <span class="badge">{domain}</span>)}
 				</div>
 			</article>

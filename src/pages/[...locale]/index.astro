@@ -50,23 +50,23 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 		<main>
 			<section class="hero">
 				<div class="hero-copy">
-					<p class="eyebrow">{activePositioning.title}</p>
-					<h1>{activePositioning.headline}</h1>
-					<p class="lede">{activePositioning.subheadline}</p>
-					<div class="button-row">
-						<a class="button" href={getLocalizedUrl(activePositioning.primaryCta.href, locale)} data-track="hero-primary-cta">{activePositioning.primaryCta.label}</a>
-						<a class="button secondary" href={getLocalizedUrl(activePositioning.secondaryCta.href, locale)} data-track="hero-secondary-cta">{activePositioning.secondaryCta.label}</a>
+					<p class="eyebrow" data-hero-text>{activePositioning.title}</p>
+					<h1 data-hero-text>{activePositioning.headline}</h1>
+					<p class="lede" data-hero-text>{activePositioning.subheadline}</p>
+					<div class="button-row" data-hero-text>
+						<a class="button" href={getLocalizedUrl(activePositioning.primaryCta.href, locale)} data-track="hero-primary-cta" data-magnetic data-cursor="explore">{activePositioning.primaryCta.label}</a>
+						<a class="button secondary" href={getLocalizedUrl(activePositioning.secondaryCta.href, locale)} data-track="hero-secondary-cta" data-magnetic data-cursor="explore">{activePositioning.secondaryCta.label}</a>
 					</div>
 				</div>
 				<HeroSystemMap />
 			</section>
 
 			<section class="section">
-				<p class="eyebrow">{locale === 'en' ? 'Proof Snapshot' : 'Bukti Singkat'}</p>
-				<h2>{t("home.proofHeadline")}</h2>
-				<div class="grid grid-3 proof-grid">
+				<p class="eyebrow" data-animate="fade-in">{locale === 'en' ? 'Proof Snapshot' : 'Bukti Singkat'}</p>
+				<h2 data-animate="fade-up" data-animate-delay="80">{t("home.proofHeadline")}</h2>
+				<div class="grid grid-3 proof-grid" data-animate="stagger" data-animate-stagger="120" data-animate-children="scale-reveal" data-animate-duration="500">
 					{activeProofSignals.map((signal) => (
-						<article class="card">
+						<article class="card" data-tilt>
 							<p class="eyebrow">{signal.label}</p>
 							<h3>{signal.value}</h3>
 							<p>{signal.description}</p>
@@ -76,7 +76,7 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 			</section>
 
 			{featuredCaseStudy && (
-				<section class="section featured card">
+				<section class="section featured card" data-tilt data-cursor="view-case-study">
 					<div>
 						<p class="eyebrow">{t("home.featuredCaseStudy")}</p>
 						<h2>{featuredCaseStudy.data.title}</h2>
@@ -87,11 +87,11 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 			)}
 
 			<section class="section">
-				<p class="eyebrow">{locale === 'en' ? 'Capability Matrix' : 'Matriks Keahlian'}</p>
-				<h2>{t("home.capabilityHeadline")}</h2>
-				<div class="grid grid-3">
+				<p class="eyebrow" data-animate="fade-in">{locale === 'en' ? 'Capability Matrix' : 'Matriks Keahlian'}</p>
+				<h2 data-animate="fade-up" data-animate-delay="60">{t("home.capabilityHeadline")}</h2>
+				<div class="grid grid-3" data-animate="stagger" data-animate-stagger="90" data-animate-children="fade-up" data-animate-duration="480">
 					{activeCapabilityMatrix.map((capability) => (
-						<article class="card">
+						<article class="card" data-tilt data-cursor="explore">
 							<h3>{capability.name}</h3>
 							<p>{capability.description}</p>
 						</article>

@@ -38,7 +38,7 @@ function getCleanSlug(id: string) {
 			</section>
 			<section class="grid grid-2 section">
 				{studies.map((study) => (
-					<article class="card study-card">
+					<article class="card study-card" data-tilt data-cursor="view-case-study">
 						<p class="eyebrow">{study.data.role} · {study.data.year}</p>
 						<h2><a href={getLocalizedUrl(`/case-studies/${getCleanSlug(study.id)}`, locale)}>{study.data.title}</a></h2>
 						<p>{study.data.excerpt}</p>

@@ -170,15 +170,45 @@ const websiteSchema = {
 <!-- Motion Foundation Engine -->
 <script>
 	import { initRevealAnimations } from '../../lib/motion/reveal';
-	import { initCardAnimations } from '../../lib/motion/cards';
-	import { initNavigationAnimations } from '../../lib/motion/navigation';
+	import { initCardAnimations, initCardTilt, initCardMetaReveal } from '../../lib/motion/cards';
+	import { initNavigationAnimations, initNavScrollBehavior } from '../../lib/motion/navigation';
 	import { initCursorTracking } from '../../lib/motion/cursor';
+	import { initHeroAnimations, initHeroTextStagger, initHeroNodePulse, initCTAMagnetic, initDynamicArrows, initSectionIndicator } from '../../lib/motion/hero';
+	import { initSVGStrokeDraw, initSVGNodePulse, initGradientShift, initConnectionPulse } from '../../lib/motion/svg';
+	import { initSearchAnimations } from '../../lib/motion/search';
 
 	function initMotionEngine() {
+		// M1 — Foundation
 		initRevealAnimations();
+
+		// M2 — Cards (lift + tilt + meta)
 		initCardAnimations();
+		initCardTilt();
+		initCardMetaReveal();
+
+		// M3 — Navigation
 		initNavigationAnimations();
+		initNavScrollBehavior();
+
+		// M4 — Hero
+		initHeroAnimations();
+		initHeroTextStagger();
+		initHeroNodePulse();
+		initCTAMagnetic();
+		initDynamicArrows();
+		initSectionIndicator();
+
+		// M5 — SVG
+		initSVGStrokeDraw();
+		initSVGNodePulse();
+		initGradientShift();
+		initConnectionPulse();
+
+		// M6 — Cursor
 		initCursorTracking();
+
+		// M9 — Search
+		initSearchAnimations();
 	}
 
 	document.addEventListener('astro:page-load', initMotionEngine);

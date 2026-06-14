@@ -23,16 +23,16 @@ function getCleanSlug(id: string) {
 
 {certificates.length > 0 && (
 	<section class="section">
-		<div class="section-heading">
+		<div class="section-heading" data-animate="fade-up">
 			<div>
 				<p class="eyebrow">{locale === 'en' ? 'Certificate Vault' : 'Kubah Sertifikat'}</p>
 				<h2>{t("home.certsHeadline")}</h2>
 			</div>
 			<a href={getLocalizedUrl("/certificates", locale)}>{t("btn.viewAll")}</a>
 		</div>
-		<div class="grid grid-3">
+		<div class="grid grid-3" data-animate="stagger" data-animate-stagger="80" data-animate-children="scale-reveal" data-animate-duration="450">
 			{certificates.map((cert) => (
-				<article class="card cert-preview-card">
+				<article class="card cert-preview-card" data-tilt data-cursor="view-cert">
 					<h3><a href={getLocalizedUrl(`/certificates/${getCleanSlug(cert.id)}`, locale)}>{cert.data.title}</a></h3>
 					<p class="cert-issuer">{cert.data.issuer}</p>
 					<p class="cert-date"><FormattedDate date={cert.data.issuedAt} /></p>

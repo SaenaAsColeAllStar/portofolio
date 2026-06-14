@@ -3,6 +3,7 @@
     class="node-group" 
     :class="{ active: isActive, hovered: isHovered, 'center-node': isCenter }"
     :transform="`translate(${data.x}, ${data.y})`"
+    data-hero-node
     tabindex="0"
     role="button"
     :aria-label="data.title"

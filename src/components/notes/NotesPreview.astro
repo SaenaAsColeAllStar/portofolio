@@ -22,16 +22,16 @@ function getCleanSlug(id: string) {
 
 {notes.length > 0 && (
 	<section class="section">
-		<div class="section-heading">
+		<div class="section-heading" data-animate="fade-up">
 			<div>
 				<p class="eyebrow">{locale === 'en' ? 'Technical Notes' : 'Catatan Teknis'}</p>
 				<h2>{t("home.notesHeadline")}</h2>
 			</div>
 			<a href={getLocalizedUrl("/notes", locale)}>{t("btn.viewAll")}</a>
 		</div>
-		<div class="grid grid-3">
+		<div class="grid grid-3" data-animate="stagger" data-animate-stagger="80" data-animate-children="fade-up" data-animate-duration="460">
 			{notes.map((note) => (
-				<article class="card note-card">
+				<article class="card note-card" data-tilt data-cursor="read-note">
 					<p class="eyebrow">{note.data.category}</p>
 					<h3><a href={getLocalizedUrl(`/notes/${getCleanSlug(note.id)}`, locale)}>{note.data.title}</a></h3>
 					<p>{note.data.excerpt}</p>

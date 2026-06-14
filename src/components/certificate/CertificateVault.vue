@@ -28,6 +28,8 @@
         class="card cert-card"
         @click="openModal(cert)"
         data-animate="card-hover"
+        data-tilt
+        data-cursor="view-cert"
       >
         <span class="folder-tab"></span>
         <div class="folder-header">
@@ -119,7 +121,8 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, nextTick, watch } from 'vue';
+import { initCardTilt } from '../../lib/motion/cards';
 
 const props = defineProps({
   certificates: {
@@ -148,18 +151,119 @@ const filteredCertificates = computed(() => {
   return props.certificates.filter(c => c.category === selectedCategory.value);
 });
 
+watch(filteredCertificates, () => {
+  if (typeof window === 'undefined') return;
+  nextTick(() => {
+    initCardTilt();
+    
+    // Stagger reveal animation for the cert cards in the grid
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cards = document.querySelectorAll('.cert-card');
+    cards.forEach((card, idx) => {
+      const el = card;
+      el.style.opacity = '0';
+      el.animate([
+        { opacity: 0, transform: 'translateY(15px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], {
+        duration: 400,
+        delay: idx * 50,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'forwards'
+      });
+    });
+  });
+}, { deep: true, immediate: true });
+
 const openModal = (cert) => {
   activeCert.value = cert;
-  // Trap focus next tick
   nextTick(() => {
     if (modalRef.value) {
       modalRef.value.focus();
+    }
+    
+    const backdrop = document.querySelector('.modal-backdrop');
+    const content = document.querySelector('.modal-content');
+    
+    if (backdrop && content && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      backdrop.animate([
+        { opacity: 0 },
+        { opacity: 1 }
+      ], {
+        duration: 250,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'forwards'
+      });
+      
+      content.animate([
+        { opacity: 0, transform: 'scale(0.92) translateY(10px)' },
+        { opacity: 1, transform: 'scale(1) translateY(0)' }
+      ], {
+        duration: 300,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        fill: 'forwards'
+      });
+    }
+
+    const badges = document.querySelectorAll('.skill-badge');
+    if (badges.length > 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      badges.forEach((badge, idx) => {
+        const el = badge;
+        el.style.opacity = '0';
+        el.animate([
+          { opacity: 0, transform: 'scale(0.8) translateY(6px)' },
+          { opacity: 1, transform: 'scale(1) translateY(0)' }
+        ], {
+          duration: 250,
+          delay: 100 + idx * 30,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'forwards'
+        });
+      });
+    }
+
+    const verifyBtn = document.querySelector('.modal-actions .button:not(.secondary)');
+    if (verifyBtn && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      verifyBtn.animate([
+        { boxShadow: '0 0 0 0 rgba(79, 140, 255, 0.4)' },
+        { boxShadow: '0 0 0 10px rgba(79, 140, 255, 0)' }
+      ], {
+        duration: 1000,
+        delay: 500,
+        iterations: 2,
+        easing: 'ease-out'
+      });
     }
   });
 };
 
 const closeModal = () => {
-  activeCert.value = null;
+  const backdrop = document.querySelector('.modal-backdrop');
+  const content = document.querySelector('.modal-content');
+  
+  if (backdrop && content && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    backdrop.animate([
+      { opacity: 1 },
+      { opacity: 0 }
+    ], {
+      duration: 180,
+      easing: 'ease-in',
+      fill: 'forwards'
+    });
+    
+    content.animate([
+      { opacity: 1, transform: 'scale(1) translateY(0)' },
+      { opacity: 0, transform: 'scale(0.92) translateY(8px)' }
+    ], {
+      duration: 180,
+      easing: 'ease-in',
+      fill: 'forwards'
+    }).onfinish = () => {
+      activeCert.value = null;
+    };
+  } else {
+    activeCert.value = null;
+  }
 };
 
 const formatDate = (dateStr) => {

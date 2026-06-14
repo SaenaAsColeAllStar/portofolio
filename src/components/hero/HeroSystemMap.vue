@@ -79,9 +79,22 @@
       @click.stop
     >
       <div class="drawer-header">
-        <div>
-          <span class="drawer-subtitle">System Node Detail</span>
-          <h3>{{ activeNode?.title }}</h3>
+        <div class="drawer-header-left">
+          <svg class="drawer-node-icon" width="28" height="28" viewBox="0 0 24 24">
+            <path 
+              ref="drawerIconPathRef" 
+              d="M12 2L22 12L12 22L2 12Z" 
+              fill="none" 
+              stroke="var(--accent)" 
+              stroke-width="1.8" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div>
+            <span class="drawer-subtitle">System Node Detail</span>
+            <h3>{{ activeNode?.title }}</h3>
+          </div>
         </div>
         <button 
           class="close-drawer-btn" 
@@ -113,7 +126,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, defineProps } from 'vue';
+import { ref, computed, onMounted, onUnmounted, defineProps, watch } from 'vue';
+import { morphPath } from '../../lib/motion/svg';
 import HeroConnection from './HeroConnection.vue';
 import HeroSignal from './HeroSignal.vue';
 import HeroNode from './HeroNode.vue';
@@ -298,6 +312,25 @@ const activeNodeId = ref<string | null>(null);
 const hoveredNodeId = ref<string | null>(null);
 
 const tooltipVisible = ref(false);
+
+const drawerIconPathRef = ref<SVGPathElement | null>(null);
+
+const nodePaths = {
+  infrastructure: 'M12 2L16 6H20V10L24 14V18H20V22H16L12 18L8 22H4V18H0V14L4 10V6H8L12 2Z',
+  cloud: 'M19.3 10C18.6 6.5 15.6 4 12 4 9.1 4 6.6 5.6 5.3 8 2.3 8.3 0 10.9 0 14c0 3.3 2.7 6 6 6h13c2.7 0 5-2.2 5-5 0-2.6-2-4.7-4.6-4.9Z',
+  automation: 'M12 4V1L8 5L12 9V6C15.3 6 18 8.6 18 12C18 13 17.7 13.9 17.3 14.8L18.8 16.3C19.5 15 20 13.5 20 12C20 7.5 16.4 4 12 4ZM12 18C8.6 18 6 15.3 6 12C6 11 6.2 10 6.7 9.2L5.2 7.7C4.4 8.9 4 10.4 4 12C4 16.4 7.5 20 12 20V23L16 19L12 15V18Z',
+  ai: 'M12 2C6.4 2 2 6.4 2 12C2 17.5 6.4 22 12 22C17.5 22 22 17.5 22 12C22 6.4 17.5 2 12 2ZM12 19.8C7.7 19.8 4.2 16.3 4.2 12C4.2 7.7 7.7 4.2 12 4.2C16.3 4.2 19.8 7.7 19.8 12C19.8 16.3 16.3 19.8 12 19.8Z',
+  product: 'M20 18C21.1 18 22 17.1 22 16V6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V16C2 17.1 2.9 18 4 18H0V20H24V18H20ZM4 6H20V16H4V6Z',
+  architecture: 'M12 2L22 12L12 22L2 12Z'
+};
+
+watch(activeNodeId, (newId) => {
+  if (!newId || typeof window === 'undefined') return;
+  const targetD = nodePaths[newId as keyof typeof nodePaths];
+  if (targetD && drawerIconPathRef.value) {
+    morphPath(drawerIconPathRef.value, targetD, 400);
+  }
+});
 const tooltipX = ref(0);
 const tooltipY = ref(0);
 
@@ -495,5 +528,16 @@ onUnmounted(() => {
     right: -340px;
     width: 310px;
   }
+}
+
+.drawer-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 0.75rem);
+}
+
+.drawer-node-icon {
+  flex-shrink: 0;
+  color: var(--accent);
 }
 </style>

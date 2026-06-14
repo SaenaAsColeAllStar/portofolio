@@ -44,17 +44,17 @@ function getCleanSlug(id: string) {
 		<main>
 			<!-- Page Hero & Download CTA -->
 			<section class="page-hero">
-				<p class="eyebrow">{t("nav.resume")}</p>
-				<h1>{activePositioning.title}</h1>
-				<p class="lede">{activePositioning.recruiterSummary}</p>
-				<div class="button-row">
-					<a class="button" href="/resume.pdf" download data-track="resume-download">
+				<p class="eyebrow" data-hero-text>{t("nav.resume")}</p>
+				<h1 data-hero-text>{activePositioning.title}</h1>
+				<p class="lede" data-hero-text>{activePositioning.recruiterSummary}</p>
+				<div class="button-row" data-hero-text>
+					<a class="button btn-pulse" href="/resume.pdf" download data-track="resume-download" data-magnetic data-cursor="download-resume">
 						{locale === 'en' ? 'Download Resume' : 'Unduh Resume'}
 					</a>
-					<a class="button secondary" href={getLocalizedUrl("/contact", locale)}>
+					<a class="button secondary" href={getLocalizedUrl("/contact", locale)} data-cursor="send">
 						{t("btn.contact")}
 					</a>
-					<a class="button secondary" href={getLocalizedUrl("/case-studies", locale)}>
+					<a class="button secondary" href={getLocalizedUrl("/case-studies", locale)} data-cursor="view-case-study">
 						{locale === 'en' ? 'View Case Studies' : 'Lihat Studi Kasus'}
 					</a>
 				</div>

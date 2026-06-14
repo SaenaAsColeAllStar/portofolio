@@ -127,31 +127,47 @@ const close = () => {
 };
 
 const executeAction = (item: any) => {
-  close();
+  const activeEl = document.querySelector('.result-item.active') as HTMLElement | null;
   
-  if (item.action) {
-    if (item.action.startsWith('theme-')) {
-      const theme = item.action.replace('theme-', '');
-      localStorage.setItem('theme', theme);
-      if (theme === 'system') {
-        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', theme);
+  const proceed = () => {
+    close();
+    if (item.action) {
+      if (item.action.startsWith('theme-')) {
+        const theme = item.action.replace('theme-', '');
+        localStorage.setItem('theme', theme);
+        if (theme === 'system') {
+          const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+        
+        // Dispatch custom theme change event to notify other UI parts
+        window.dispatchEvent(new Event('theme-change'));
+      } else if (item.action === 'lang-en') {
+        const target = window.location.pathname.replace(/^\/id/, '') || '/';
+        window.location.href = target;
+      } else if (item.action === 'lang-id') {
+        const current = window.location.pathname;
+        const target = current.startsWith('/id') ? current : `/id${current === '/' ? '' : current}`;
+        window.location.href = target;
       }
-      
-      // Dispatch custom theme change event to notify other UI parts
-      window.dispatchEvent(new Event('theme-change'));
-    } else if (item.action === 'lang-en') {
-      const target = window.location.pathname.replace(/^\/id/, '') || '/';
-      window.location.href = target;
-    } else if (item.action === 'lang-id') {
-      const current = window.location.pathname;
-      const target = current.startsWith('/id') ? current : `/id${current === '/' ? '' : current}`;
-      window.location.href = target;
+    } else if (item.url) {
+      window.location.href = item.url;
     }
-  } else if (item.url) {
-    window.location.href = item.url;
+  };
+
+  if (activeEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    activeEl.animate([
+      { transform: 'scale(1)', opacity: 1 },
+      { transform: 'scale(0.96)', opacity: 0 }
+    ], {
+      duration: 150,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      fill: 'forwards'
+    }).onfinish = proceed;
+  } else {
+    proceed();
   }
 };
 
@@ -237,14 +253,26 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-/* Transitions */
+/* Transitions — backdrop */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.15s ease;
+  transition: opacity 120ms ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
+  opacity: 0;
+}
+
+/* Command palette panel scale */
+.fade-enter-active .command-palette,
+.fade-leave-active .command-palette {
+  transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1), opacity 120ms ease;
+}
+
+.fade-enter-from .command-palette,
+.fade-leave-to .command-palette {
+  transform: scale(0.95) translateY(-8px);
   opacity: 0;
 }
 </style>

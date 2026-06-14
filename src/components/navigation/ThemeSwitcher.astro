@@ -26,6 +26,11 @@
 		toggle?.addEventListener('click', () => {
 			const current = getTheme();
 			setTheme(current === 'dark' ? 'light' : 'dark');
+			
+			toggle.classList.add('spin-active');
+			setTimeout(() => {
+				toggle.classList.remove('spin-active');
+			}, 500);
 		});
 	}
 
@@ -34,6 +39,10 @@
 </script>
 
 <style>
+	:global(html) {
+		transition: background-color 400ms ease, color 400ms ease;
+	}
+
 	.theme-toggle {
 		align-items: center;
 		background: var(--btn-secondary-bg);
@@ -52,6 +61,19 @@
 	.theme-toggle:hover {
 		background: var(--btn-secondary-hover);
 		color: var(--text);
+	}
+
+	.theme-toggle.spin-active svg {
+		animation: theme-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	@keyframes theme-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
 	}
 
 	/* Dark mode: show sun, hide moon */

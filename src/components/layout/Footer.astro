@@ -8,18 +8,18 @@ import ChatWidget from "../contact/ChatWidget.astro";
 const today = new Date();
 ---
 
-<footer>
-	<div>
+<footer class="footer-reveal">
+	<div data-animate="fade-up">
 		<strong>{SITE_TITLE}</strong>
 		<p>Bridging Infrastructure, AI, and Product Engineering.</p>
 		<div style="margin-top: 0.8rem;">
 			<PageView />
 		</div>
 	</div>
-	<div class="social-links">
-		{socials.map((social) => <a href={social.href} data-track={`social-${social.label.toLowerCase()}`}>{social.label}</a>)}
+	<div class="social-links" data-animate="stagger" data-animate-stagger="60" data-animate-children="fade-up" data-animate-duration="400">
+		{socials.map((social) => <a href={social.href} data-track={`social-${social.label.toLowerCase()}`} data-cursor="explore">{social.label}</a>)}
 	</div>
-	<p class="copyright">&copy; {today.getFullYear()} CTOS. All rights reserved. <span class="cmd-hint">Press <kbd>CMD</kbd>+<kbd>K</kbd> or <kbd>CTRL</kbd>+<kbd>K</kbd> to search.</span> · <a href="/analytics" class="privacy-link">System Analytics</a> · <a href="/privacy" class="privacy-link">Privacy Policy</a></p>
+	<p class="copyright" data-animate="fade-in" data-animate-delay="200">&copy; {today.getFullYear()} CTOS. All rights reserved. <span class="cmd-hint">Press <kbd>CMD</kbd>+<kbd>K</kbd> or <kbd>CTRL</kbd>+<kbd>K</kbd> to search.</span> · <a href="/analytics" class="privacy-link">System Analytics</a> · <a href="/privacy" class="privacy-link">Privacy Policy</a></p>
 </footer>
 
 <CommandPalette />

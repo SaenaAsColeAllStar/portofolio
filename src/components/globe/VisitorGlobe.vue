@@ -1,5 +1,5 @@
 <template>
-  <div class="visitor-globe-card">
+  <div class="visitor-globe-card" ref="cardRef">
     <div class="card-header">
       <div>
         <h2>Global Node Connections</h2>
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue';
 import { latLngToVector3, rotateVector, getCountryCoords, formatRelativeTime } from '../../utils/globe-math';
 import GlobeControls from './GlobeControls.vue';
 import CountryTooltip from './CountryTooltip.vue';
@@ -304,7 +304,72 @@ const drawCountryMarkers = (ctx) => {
 
 let resizeObserver = null;
 
+const cardRef = ref(null);
+
+watch(processedCountries, () => {
+  if (typeof window === 'undefined') return;
+  nextTick(() => {
+    // Country sidebar items stagger-appear
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const items = document.querySelectorAll('.country-item');
+    items.forEach((item, idx) => {
+      const el = item;
+      el.style.opacity = '0';
+      el.animate([
+        { opacity: 0, transform: 'translateX(10px)' },
+        { opacity: 1, transform: 'translateX(0)' }
+      ], {
+        duration: 400,
+        delay: idx * 60,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'forwards'
+      });
+    });
+  });
+}, { deep: true, immediate: true });
+
 onMounted(() => {
+  // Fade-in entrance on scroll enter via IntersectionObserver on mount
+  const card = cardRef.value;
+  if (card && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          card.animate([
+            { opacity: 0, transform: 'translateY(20px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ], {
+            duration: 600,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'forwards'
+          });
+          
+          // Canvas scale 0.95 -> 1 on scroll enter
+          if (canvasRef.value) {
+            canvasRef.value.animate([
+              { opacity: 0, transform: 'scale(0.95)' },
+              { opacity: 1, transform: 'scale(1)' }
+            ], {
+              duration: 800,
+              delay: 100,
+              easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+              fill: 'forwards'
+            });
+          }
+
+          observer.unobserve(card);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    observer.observe(card);
+  } else if (card) {
+    card.style.opacity = '1';
+  }
+
   if (props.countries.length === 0) {
     fetch('/api/globe-data')
       .then(r => r.json())

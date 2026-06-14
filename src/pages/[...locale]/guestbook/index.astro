@@ -310,6 +310,16 @@ try {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  .shake {
+    animation: shake-form 0.4s ease-in-out;
+  }
+
+  @keyframes shake-form {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
 </style>
 
 <script>
@@ -382,7 +392,13 @@ try {
         if (turnstileError) turnstileError.textContent = securityCheckMsg;
       }
 
-      if (!allValid) return;
+      if (!allValid) {
+        form.classList.add('shake');
+        setTimeout(() => {
+          form.classList.remove('shake');
+        }, 400);
+        return;
+      }
 
       try {
         submitBtn.disabled = true;

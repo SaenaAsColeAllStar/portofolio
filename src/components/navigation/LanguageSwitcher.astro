@@ -9,7 +9,7 @@ if (locale === 'en') {
 	alternateUrl = pathname.replace(/^\/id/, '') || '/';
 }
 ---
-<a href={alternateUrl} class="lang-switch-btn" title={locale === 'en' ? "Terjemahkan ke Bahasa Indonesia" : "Translate to English"}>
+<a href={alternateUrl} class="lang-switch-btn" transition:name="lang-badge" title={locale === 'en' ? "Terjemahkan ke Bahasa Indonesia" : "Translate to English"}>
 	{locale === 'en' ? 'ID' : 'EN'}
 </a>
 
@@ -24,7 +24,7 @@ if (locale === 'en') {
 		display: inline-flex;
 		height: 2.2rem;
 		justify-content: center;
-		transition: color var(--duration-fast), background var(--duration-fast);
+		transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color var(--duration-fast), background var(--duration-fast);
 		width: 2.2rem;
 		flex-shrink: 0;
 		font-size: 0.78rem;
@@ -33,7 +33,12 @@ if (locale === 'en') {
 	}
 
 	.lang-switch-btn:hover {
+		transform: translateY(-2px);
 		background: var(--btn-secondary-hover);
 		color: var(--text);
+	}
+
+	.lang-switch-btn:active {
+		transform: translateY(1px) scale(0.95);
 	}
 </style>

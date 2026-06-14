@@ -3,13 +3,19 @@
     <a 
       v-if="ctaType === 'link'" 
       :href="ctaHref" 
-      class="cta-button"
+      class="cta-button btn-pulse"
+      data-magnetic
+      data-magnetic-strength="0.25"
+      data-cursor="explore"
     >
       {{ ctaLabel }}
     </a>
     <button 
       v-else-if="ctaType === 'chat'" 
-      class="cta-button" 
+      class="cta-button btn-pulse" 
+      data-magnetic
+      data-magnetic-strength="0.25"
+      data-cursor="open"
       @click="triggerChat"
     >
       {{ ctaLabel }}
