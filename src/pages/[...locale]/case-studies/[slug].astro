@@ -76,7 +76,7 @@ const extraSchemas = [articleSchema, breadcrumbSchema];
 	<body>
 		<Header />
 		<main>
-			<section class="page-hero">
+			<section class="page-hero" id="overview">
 				<p class="eyebrow">{locale === 'en' ? 'Case Study' : 'Studi Kasus'} · {study.data.year}</p>
 				<h1>{study.data.title}</h1>
 				<p class="lede">{study.data.summary}</p>
@@ -89,10 +89,10 @@ const extraSchemas = [articleSchema, breadcrumbSchema];
 				)}
 			</section>
 			<section class="grid grid-2 section">
-				<div class="card"><h2>{locale === 'en' ? 'Problem' : 'Masalah'}</h2><p>{study.data.problem}</p></div>
-				<div class="card"><h2>{locale === 'en' ? 'Architecture' : 'Arsitektur'}</h2><p>{study.data.architecture}</p></div>
+				<div class="card" id="problem"><h2>{locale === 'en' ? 'Problem' : 'Masalah'}</h2><p>{study.data.problem}</p></div>
+				<div class="card" id="solution"><h2>{locale === 'en' ? 'Architecture' : 'Arsitektur'}</h2><p>{study.data.architecture}</p></div>
 				<div class="card"><h2>{locale === 'en' ? 'Requirements' : 'Persyaratan'}</h2><ul>{study.data.requirements.map((item) => <li>{item}</li>)}</ul></div>
-				<div class="card"><h2>{locale === 'en' ? 'Results' : 'Hasil'}</h2><ul>{study.data.results.map((item) => <li>{item}</li>)}</ul></div>
+				<div class="card" id="result"><h2>{locale === 'en' ? 'Results' : 'Hasil'}</h2><ul>{study.data.results.map((item) => <li>{item}</li>)}</ul></div>
 				{study.data.constraints && study.data.constraints.length > 0 && (
 					<div class="card"><h2>{locale === 'en' ? 'Constraints' : 'Batasan'}</h2><ul>{study.data.constraints.map((item) => <li>{item}</li>)}</ul></div>
 				)}

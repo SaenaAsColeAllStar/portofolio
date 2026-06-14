@@ -1,122 +1,327 @@
 ---
-// MobileNav.astro - Bottom tab-bar navigation for mobile screens
-import { useTranslations } from "../../utils/i18n";
+// MobileNav.astro - Floating System Dock navigation for mobile screens
+import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
 const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
 const t = useTranslations(locale);
 
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '/id' || pathname === '/id/';
+const isProjects = pathname.includes('/projects');
+const isCases = pathname.includes('/case-studies');
+const isNotes = pathname.includes('/notes');
+
+// Context aware flag
+const isCaseStudyDetail = isCases && pathname.split('/').filter(Boolean).pop() !== 'case-studies';
+
 const homeHref = locale === 'en' ? '/' : '/id';
-const aboutHref = locale === 'en' ? '/about' : '/id/about';
 const projectsHref = locale === 'en' ? '/projects' : '/id/projects';
+const casesHref = locale === 'en' ? '/case-studies' : '/id/case-studies';
 const notesHref = locale === 'en' ? '/notes' : '/id/notes';
+const contactHref = locale === 'en' ? '/contact' : '/id/contact';
+
+// Context labels translations
+const isId = locale === 'id';
+const overviewLabel = isId ? 'Ikhtisar' : 'Overview';
+const problemLabel = isId ? 'Masalah' : 'Problem';
+const solutionLabel = isId ? 'Solusi' : 'Solution';
+const resultLabel = isId ? 'Hasil' : 'Result';
+const contactLabel = isId ? 'Kontak' : 'Contact';
 ---
 
-<nav class="mobile-bottom-nav" aria-label="Mobile navigation">
-	<a href={homeHref} class="nav-item" aria-label={t("nav.home")}>
-		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-			<polyline points="9 22 9 12 15 12 15 22"></polyline>
-		</svg>
-		<span>{t("nav.home")}</span>
-	</a>
-	<a href={aboutHref} class="nav-item" aria-label={t("nav.about")}>
-		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-			<circle cx="12" cy="7" r="4"></circle>
-		</svg>
-		<span>{t("nav.about")}</span>
-	</a>
-	<a href={projectsHref} class="nav-item" aria-label={t("nav.projects")}>
-		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<polyline points="16 18 22 12 16 6"></polyline>
-			<polyline points="8 6 2 12 8 18"></polyline>
-		</svg>
-		<span>{t("nav.projects")}</span>
-	</a>
-	<a href={notesHref} class="nav-item" aria-label={t("nav.notes")}>
-		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
-			<path d="M6 6h10"></path>
-			<path d="M6 10h10"></path>
-		</svg>
-		<span>{t("nav.notes")}</span>
-	</a>
-	<button id="mobile-search-trigger" class="nav-item btn-trigger" aria-label="Search">
-		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<circle cx="11" cy="11" r="8"></circle>
-			<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-		</svg>
-		<span>{locale === 'en' ? 'Search' : 'Cari'}</span>
-	</button>
-</nav>
+<div class="mobile-nav-wrapper">
+	{isCaseStudyDetail ? (
+		<nav id="floating-system-dock" class="mobile-bottom-nav context-dock" aria-label="Case study navigation" data-transition-persist>
+			<a href="#overview" class="nav-item dock-context-item active" data-page="overview">
+				<div class="active-indicator-bg" transition:name="active-dock-indicator"></div>
+				<!-- Icon Overview: Circle / Document -->
+				<svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+					<line x1="9" y1="9" x2="15" y2="9"></line>
+					<line x1="9" y1="13" x2="15" y2="13"></line>
+					<line x1="9" y1="17" x2="13" y2="17"></line>
+				</svg>
+				<span class="nav-label">{overviewLabel}</span>
+			</a>
+			
+			<a href="#problem" class="nav-item dock-context-item" data-page="problem">
+				<div class="active-indicator-bg"></div>
+				<!-- Icon Problem: Alert Circle / Hexagon -->
+				<svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"></circle>
+					<line x1="12" y1="8" x2="12" y2="12"></line>
+					<line x1="12" y1="16" x2="12.01" y2="16"></line>
+				</svg>
+				<span class="nav-label">{problemLabel}</span>
+			</a>
+			
+			<a href="#solution" class="nav-item dock-context-item" data-page="solution">
+				<div class="active-indicator-bg"></div>
+				<!-- Icon Solution: Lightbulb / Delta -->
+				<svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .6 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+					<line x1="9" y1="18" x2="15" y2="18"></line>
+					<line x1="10" y1="22" x2="14" y2="22"></line>
+				</svg>
+				<span class="nav-label">{solutionLabel}</span>
+			</a>
+			
+			<a href="#result" class="nav-item dock-context-item" data-page="result">
+				<div class="active-indicator-bg"></div>
+				<!-- Icon Result: Check Circle / Trend Line -->
+				<svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+					<polyline points="22 4 12 14.01 9 11.01"></polyline>
+				</svg>
+				<span class="nav-label">{resultLabel}</span>
+			</a>
+			
+			<a href={contactHref} class="nav-item" data-page="contact">
+				<!-- Icon Contact: Envelope -->
+				<svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+					<polyline points="22,6 12,13 2,6"></polyline>
+				</svg>
+				<span class="nav-label">{contactLabel}</span>
+			</a>
+		</nav>
+	) : (
+		<nav id="floating-system-dock" class="mobile-bottom-nav main-dock" aria-label="Mobile navigation" data-transition-persist>
+			<a href={homeHref} class={`nav-item ${isHome ? 'active' : ''}`} data-page="home">
+				{isHome && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
+				<!-- Icon Home: Stylized ⌂ -->
+				<svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M3 10.5L12 3L21 10.5V20H15V14H9V20H3Z"></path>
+				</svg>
+				<span class="nav-label">{t("nav.home")}</span>
+			</a>
+			
+			<a href={projectsHref} class={`nav-item ${isProjects ? 'active' : ''}`} data-page="projects">
+				{isProjects && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
+				<!-- Icon Projects: Stylized ◈ -->
+				<svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12 2L2 12L12 22L22 12Z"></path>
+					<path d="M12 7L7 12L12 17L17 12Z"></path>
+				</svg>
+				<span class="nav-label">{t("nav.projects")}</span>
+			</a>
+			
+			<button id="dock-cmd-btn" class="nav-item cmd-button" aria-label="AI Command">
+				<!-- Icon AI Command: Stylized ✦ -->
+				<svg class="dock-icon cmd-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+					<path d="M12 2C12 2 12.5 8.5 13.5 9.5C14.5 10.5 21 11 21 11C21 11 14.5 11.5 13.5 12.5C12.5 13.5 12 20 12 20C12 20 11.5 13.5 10.5 12.5C9.5 11.5 3 11 3 11C3 11 9.5 10.5 10.5 9.5C11.5 8.5 12 2 12 2Z"></path>
+				</svg>
+			</button>
+			
+			<a href={casesHref} class={`nav-item ${isCases ? 'active' : ''}`} data-page="cases">
+				{isCases && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
+				<!-- Icon Cases: Stylized △ -->
+				<svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<polygon points="12 3 22 21 2 21"></polygon>
+					<polyline points="12 9 17 18 7 18"></polyline>
+				</svg>
+				<span class="nav-label">{t("nav.caseStudies")}</span>
+			</a>
+			
+			<a href={notesHref} class={`nav-item ${isNotes ? 'active' : ''}`} data-page="notes">
+				{isNotes && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
+				<!-- Icon Notes: Stylized ◎ -->
+				<svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"></circle>
+					<circle cx="12" cy="12" r="5"></circle>
+					<circle cx="12" cy="12" r="1"></circle>
+				</svg>
+				<span class="nav-label">{t("nav.notes")}</span>
+			</a>
+		</nav>
+	)}
+</div>
 
 <script>
-	function initMobileSearch() {
-		const trigger = document.getElementById('mobile-search-trigger');
-		trigger?.addEventListener('click', () => {
-			const palette = document.getElementById('command-palette');
-			if (palette) {
-				palette.classList.remove('hidden');
-				const input = document.getElementById('command-input') as HTMLInputElement | null;
-				input?.focus();
-			}
+	function initMobileDock() {
+		const dock = document.getElementById('floating-system-dock');
+		if (!dock) return;
+
+		// 1. AI Command Palette Event Binding
+		const cmdBtn = document.getElementById('dock-cmd-btn');
+		cmdBtn?.addEventListener('click', (e) => {
+			e.preventDefault();
+			window.dispatchEvent(new CustomEvent('open-command-palette'));
 		});
+
+		// 2. Liquid Magnet Physics
+		const handleMouseMoveOrTouch = (e: MouseEvent | TouchEvent) => {
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+			const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+			const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+			const rect = dock.getBoundingClientRect();
+			const dockX = rect.left + rect.width / 2;
+			const dockY = rect.top + rect.height / 2;
+
+			const dx = clientX - dockX;
+			const dy = clientY - dockY;
+			const distance = Math.hypot(dx, dy);
+
+			const maxDistance = 110; // Magnetic activation distance
+			if (distance < maxDistance) {
+				const pull = (maxDistance - distance) / maxDistance; // 0 to 1
+				const tx = dx * pull * 0.22;
+				const ty = dy * pull * 0.22;
+				dock.style.setProperty('--magnet-x', `${tx}px`);
+				dock.style.setProperty('--magnet-y', `${ty}px`);
+			} else {
+				dock.style.setProperty('--magnet-x', '0px');
+				dock.style.setProperty('--magnet-y', '0px');
+			}
+		};
+
+		window.addEventListener('mousemove', handleMouseMoveOrTouch);
+		window.addEventListener('touchmove', handleMouseMoveOrTouch, { passive: true });
+		window.addEventListener('touchend', () => {
+			dock.style.setProperty('--magnet-x', '0px');
+			dock.style.setProperty('--magnet-y', '0px');
+		});
+
+		// 3. Dock Scroll Scaling Physics
+		let lastScroll = window.scrollY;
+		const handleScroll = () => {
+			const currentScroll = window.scrollY;
+			if (currentScroll > lastScroll && currentScroll > 60) {
+				dock.classList.add('dock-scrolled');
+			} else {
+				dock.classList.remove('dock-scrolled');
+			}
+			lastScroll = currentScroll;
+		};
+		window.addEventListener('scroll', handleScroll, { passive: true });
+
+		// 4. Context Aware: In-Page Section ScrollSpy and Navigation
+		const contextItems = document.querySelectorAll('.dock-context-item');
+		if (contextItems.length > 0) {
+			// Click navigation override
+			contextItems.forEach(item => {
+				item.addEventListener('click', (e) => {
+					e.preventDefault();
+					const targetId = item.getAttribute('href')?.slice(1);
+					const targetEl = document.getElementById(targetId || '');
+					if (targetEl) {
+						targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}
+				});
+			});
+
+			// ScrollSpy intersection observer
+			const observerOptions = {
+				root: null,
+				rootMargin: '-25% 0px -55% 0px',
+				threshold: 0
+			};
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const id = entry.target.id;
+						contextItems.forEach(item => {
+							if (item.getAttribute('href') === `#${id}`) {
+								item.classList.add('active');
+								// Move dynamic indicator to active item
+								const activeIndicator = dock.querySelector('[transition\\:name="active-dock-indicator"]');
+								if (activeIndicator && activeIndicator.parentElement !== item) {
+									item.appendChild(activeIndicator);
+								}
+							} else {
+								item.classList.remove('active');
+							}
+						});
+					}
+				});
+			}, observerOptions);
+
+			const sections = ['overview', 'problem', 'solution', 'result'];
+			sections.forEach(id => {
+				const el = document.getElementById(id);
+				if (el) observer.observe(el);
+			});
+		}
 	}
-	document.addEventListener('astro:page-load', initMobileSearch);
+
+	// Bootstrap mobile dock on page transitions and direct load
+	document.addEventListener('astro:page-load', initMobileDock);
 </script>
 
 <style>
+	/* Floating Dock Base Container */
 	.mobile-bottom-nav {
 		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height: calc(64px + env(safe-area-inset-bottom, 0px));
-		background: rgba(18, 26, 44, 0.85);
-		backdrop-filter: blur(18px);
-		-webkit-backdrop-filter: blur(18px);
-		border-top: 1px solid var(--border);
-		display: flex;
-		justify-content: space-around;
+		bottom: 1.8rem;
+		left: 50%;
+		transform: translate(calc(-50% + var(--magnet-x, 0px)), var(--magnet-y, 0px)) scale(1);
+		height: 54px;
+		max-width: 90vw;
+		width: max-content;
+		background: rgba(15, 15, 15, 0.45);
+		backdrop-filter: blur(24px);
+		-webkit-backdrop-filter: blur(24px);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+		border-radius: 999px;
+		display: inline-flex;
 		align-items: center;
+		justify-content: center;
+		gap: 0.35rem;
+		padding: 0.35rem;
 		z-index: 90;
-		padding: 0.2rem 0.5rem;
-		padding-bottom: env(safe-area-inset-bottom, 0px);
-		box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.25);
-		animation: mobile-nav-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+		transition: 
+			transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+			opacity 0.4s ease,
+			background-color 0.4s,
+			border-color 0.4s,
+			width 0.4s;
+		will-change: transform;
 	}
 
-	@keyframes mobile-nav-slide-up {
-		from {
-			transform: translateY(100%);
-		}
-		to {
-			transform: translateY(0);
-		}
-	}
-
+	/* Light mode styles */
 	:global([data-theme="light"]) .mobile-bottom-nav {
-		background: rgba(255, 255, 255, 0.85);
-		box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.05);
+		background: rgba(240, 240, 240, 0.45);
+		border: 1px solid rgba(15, 15, 15, 0.08);
+		box-shadow: 0 15px 50px rgba(15, 23, 42, 0.1);
 	}
 
+	/* Scroll Shrink physics */
+	.mobile-bottom-nav.dock-scrolled {
+		transform: translate(calc(-50% + var(--magnet-x, 0px)), var(--magnet-y, 0px)) scale(0.82);
+		opacity: 0.72;
+	}
+
+	.mobile-bottom-nav:hover,
+	.mobile-bottom-nav:focus-within {
+		opacity: 1 !important;
+		transform: translate(calc(-50% + var(--magnet-x, 0px)), var(--magnet-y, 0px)) scale(1) !important;
+	}
+
+	/* Navigation Item Styling */
 	.nav-item {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		color: var(--muted);
 		text-decoration: none;
-		gap: 0.2rem;
-		font-size: 0.68rem;
-		font-weight: var(--font-weight-medium);
+		height: 42px;
+		width: 42px;
+		padding: 0.5rem;
+		border-radius: 999px;
 		background: transparent;
 		border: none;
 		cursor: pointer;
-		padding: 0.4rem 0.6rem;
-		border-radius: var(--radius-md);
-		transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color var(--duration-fast), background var(--duration-fast);
-		width: 20%;
+		position: relative;
+		overflow: hidden;
+		transition: 
+			width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+			padding 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+			color var(--duration-fast, 0.2s),
+			background var(--duration-fast, 0.2s);
 		outline: none;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	.nav-item:hover,
@@ -125,15 +330,114 @@ const notesHref = locale === 'en' ? '/notes' : '/id/notes';
 		background: var(--hover-bg);
 	}
 
-	.nav-item:active {
-		transform: scale(0.88);
+	/* Dynamic Island Expansion (Active State) */
+	.nav-item.active {
+		width: auto;
+		padding: 0.5rem 1.1rem;
+		color: var(--accent);
+		background: transparent;
 	}
 
-	.nav-item svg {
-		transition: transform var(--duration-fast);
+	/* Hide labels by default for non-active states */
+	.nav-label {
+		font-size: 0.76rem;
+		font-weight: 700;
+		max-width: 0;
+		opacity: 0;
+		overflow: hidden;
+		white-space: nowrap;
+		transition: 
+			max-width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+			opacity 0.25s ease;
 	}
 
-	/* Display only on mobile screens */
+	.nav-item.active .nav-label {
+		max-width: 120px;
+		opacity: 1;
+		margin-left: 0.4rem;
+	}
+
+	.dock-icon {
+		flex-shrink: 0;
+		transition: transform var(--duration-fast, 0.2s);
+	}
+
+	.nav-item:active .dock-icon {
+		transform: scale(0.85);
+	}
+
+	/* Central AI Command button custom animations */
+	.cmd-button {
+		background: var(--text);
+		color: var(--bg);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+	}
+	
+	:global([data-theme="light"]) .cmd-button {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+	}
+
+	.cmd-button:hover,
+	.cmd-button:focus {
+		background: var(--accent);
+		color: #ffffff;
+		transform: translateY(-2px);
+	}
+	
+	.cmd-button:active {
+		transform: scale(0.9) translateY(0);
+	}
+
+	.cmd-icon {
+		animation: pulse-glow 3s infinite ease-in-out;
+	}
+
+	@keyframes pulse-glow {
+		0%, 100% { filter: drop-shadow(0 0 1px rgba(79, 140, 255, 0.4)); }
+		50% { filter: drop-shadow(0 0 5px rgba(79, 140, 255, 0.9)); }
+	}
+
+	/* ---------------- Active Indicator Shape Morphing ---------------- */
+	.active-indicator-bg {
+		position: absolute;
+		inset: 0;
+		background: var(--accent-glow-1, rgba(79, 140, 255, 0.12));
+		border: 1px solid rgba(79, 140, 255, 0.22);
+		z-index: -1;
+		transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+		pointer-events: none;
+	}
+
+	/* Home: Circle Shape */
+	.nav-item.active[data-page="home"] .active-indicator-bg,
+	.nav-item.active[data-page="overview"] .active-indicator-bg {
+		border-radius: 999px;
+	}
+
+	/* Projects: Hexagon Shape */
+	.nav-item.active[data-page="projects"] .active-indicator-bg,
+	.nav-item.active[data-page="problem"] .active-indicator-bg {
+		clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+		border-radius: 0;
+	}
+
+	/* Cases: Triangle/Delta Shape */
+	.nav-item.active[data-page="cases"] .active-indicator-bg,
+	.nav-item.active[data-page="solution"] .active-indicator-bg {
+		clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+		border-radius: 0;
+	}
+
+	/* Notes: Document/Rounded Page Shape */
+	.nav-item.active[data-page="notes"] .active-indicator-bg,
+	.nav-item.active[data-page="result"] .active-indicator-bg {
+		clip-path: polygon(0% 0%, 76% 0%, 100% 24%, 100% 100%, 0% 100%);
+		border-radius: 0;
+	}
+
+	/* Mobile visibility check */
 	@media (min-width: 769px) {
 		.mobile-bottom-nav {
 			display: none;

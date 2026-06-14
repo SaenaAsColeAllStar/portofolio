@@ -212,11 +212,13 @@ const handleFocusTrap = (e: KeyboardEvent) => {
 onMounted(() => {
   document.addEventListener('keydown', handleGlobalKeyDown);
   document.addEventListener('keydown', handleFocusTrap);
+  window.addEventListener('open-command-palette', open);
 });
 
 onUnmounted(() => {
   document.removeEventListener('keydown', handleGlobalKeyDown);
   document.removeEventListener('keydown', handleFocusTrap);
+  window.removeEventListener('open-command-palette', open);
 });
 </script>
 
