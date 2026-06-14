@@ -21,6 +21,7 @@ import Logo from "../ui/Logo.astro";
 		// Session storage flag to only show splash once per session
 		if (sessionStorage.getItem('ctos-splash-played')) {
 			splash.style.display = 'none';
+			document.documentElement.classList.add('ctos-splash-played');
 			return;
 		}
 
@@ -31,6 +32,7 @@ import Logo from "../ui/Logo.astro";
 			splash.classList.add('fade-out');
 			setTimeout(() => {
 				splash.style.display = 'none';
+				document.documentElement.classList.add('ctos-splash-played');
 			}, 600);
 		}, 2200);
 	});
@@ -52,6 +54,10 @@ import Logo from "../ui/Logo.astro";
 
 	:global([data-theme="light"]) .ctos-splash-screen {
 		background: #f8fafc;
+	}
+
+	:global(.ctos-splash-played) .ctos-splash-screen {
+		display: none !important;
 	}
 
 	.ctos-splash-screen.fade-out {

@@ -101,11 +101,15 @@ const websiteSchema = {
 
 <ClientRouter />
 
-<!-- Theme initialization script to prevent flash -->
+<!-- Theme and splash initialization script to prevent flash -->
 <script is:inline>
 	(function() {
 		const theme = localStorage.getItem('theme') || 'dark';
 		document.documentElement.setAttribute('data-theme', theme);
+
+		if (sessionStorage.getItem('ctos-splash-played')) {
+			document.documentElement.classList.add('ctos-splash-played');
+		}
 	})();
 </script>
 
