@@ -25,7 +25,10 @@
 
 		toggle?.addEventListener('click', () => {
 			const current = getTheme();
-			setTheme(current === 'dark' ? 'light' : 'dark');
+			const nextTheme = current === 'dark' ? 'light' : 'dark';
+			setTheme(nextTheme);
+			
+			window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: nextTheme } }));
 			
 			toggle.classList.add('spin-active');
 			setTimeout(() => {

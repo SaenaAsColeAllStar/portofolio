@@ -326,11 +326,12 @@ try {
   function renderTurnstile() {
     if ((window as any).turnstile) {
       const containers = document.querySelectorAll('.cf-turnstile:not([data-rendered])');
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       containers.forEach(container => {
         if (container.hasChildNodes()) return;
         (window as any).turnstile.render(container, {
           sitekey: container.getAttribute('data-sitekey') || '0x4AAAAAADkIUxBJqfBfxBXy',
-          theme: container.getAttribute('data-theme') || 'dark'
+          theme: activeTheme === 'light' ? 'light' : 'dark'
         });
         container.setAttribute('data-rendered', 'true');
       });
@@ -339,6 +340,15 @@ try {
 
   // Bind global callback
   (window as any).onloadTurnstileCallback = renderTurnstile;
+
+  window.addEventListener('theme-changed', () => {
+    const containers = document.querySelectorAll('.cf-turnstile[data-rendered]');
+    containers.forEach(container => {
+      container.innerHTML = '';
+      container.removeAttribute('data-rendered');
+    });
+    renderTurnstile();
+  });
 
   document.addEventListener('astro:page-load', () => {
     renderTurnstile();
