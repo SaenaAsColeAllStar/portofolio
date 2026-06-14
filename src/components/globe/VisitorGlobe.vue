@@ -173,6 +173,77 @@ const handleTouchMove = (e) => {
   }
 };
 
+const CONTINENTS = [
+  // North America
+  [
+    [70, -160], [72, -120], [68, -100], [74, -80], [60, -50],
+    [45, -64], [25, -80], [18, -94], [8, -80], [15, -100],
+    [32, -117], [48, -125], [58, -135], [60, -145]
+  ],
+  // South America
+  [
+    [10, -73], [5, -50], [-7, -35], [-23, -42], [-54, -68],
+    [-40, -74], [-18, -70], [-5, -80], [2, -75]
+  ],
+  // Africa
+  [
+    [35, -5], [36, 10], [32, 30], [30, 32], [22, 36], 
+    [12, 43], [11, 51], [-4, 39], [-34, 19], [-30, 15], 
+    [-10, 12], [5, 9], [4, -8], [14, -17], [22, -16], 
+    [31, -10]
+  ],
+  // Eurasia
+  [
+    [36, -5], [43, -9], [50, -1], [60, 5], [62, 15], 
+    [70, 20], [70, 40], [73, 70], [73, 100], [76, 120], 
+    [72, 140], [65, 170], [55, 160], [43, 140], [35, 120], 
+    [22, 114], [10, 105], [15, 96], [8, 78], [24, 68], 
+    [25, 50], [12, 44], [30, 32], [41, 28], [40, 15], 
+    [44, 10], [43, 5]
+  ],
+  // Australia
+  [
+    [-11, 142], [-23, 151], [-37, 150], [-38, 145], [-35, 138], 
+    [-32, 115], [-22, 114], [-12, 131]
+  ],
+  // Greenland
+  [
+    [78, -70], [83, -40], [80, -10], [70, -20], [60, -43], 
+    [65, -53], [74, -58]
+  ]
+];
+
+function isPointInPolygon(latitude, longitude, polygon) {
+  let x = longitude, y = latitude;
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    let xi = polygon[i][1], yi = polygon[i][0];
+    let xj = polygon[j][1], yj = polygon[j][0];
+    let intersect = ((yi > y) !== (yj > y))
+        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+const landPoints = [];
+for (let lat = -60; lat <= 80; lat += 3.5) {
+  const cosLat = Math.cos((lat * Math.PI) / 180);
+  const stepLng = 3.5 / cosLat;
+  for (let lng = -180; lng < 180; lng += stepLng) {
+    let isLand = false;
+    for (const poly of CONTINENTS) {
+      if (isPointInPolygon(lat, lng, poly)) {
+        isLand = true;
+        break;
+      }
+    }
+    if (isLand) {
+      landPoints.push({ lat, lng });
+    }
+  }
+}
+
 let projectedCountriesList = [];
 
 const checkCountryHover = (mouseX, mouseY) => {
@@ -281,6 +352,26 @@ const drawConnections = (ctx, idNode, drawFront) => {
       ctx.fillStyle = isLightMode.value
         ? (drawFront ? '#1d4ed8' : 'rgba(37, 99, 235, 0.3)')
         : (drawFront ? '#6ba4ff' : 'rgba(79, 140, 255, 0.3)');
+      ctx.fill();
+    }
+  });
+  ctx.restore();
+};
+
+const drawLandMap = (ctx, drawFront) => {
+  ctx.save();
+  ctx.fillStyle = isLightMode.value 
+    ? (drawFront ? 'rgba(37, 99, 235, 0.12)' : 'rgba(37, 99, 235, 0.03)')
+    : (drawFront ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.03)');
+
+  landPoints.forEach(pt => {
+    const v = latLngToVector3(pt.lat, pt.lng, radius);
+    const rot = rotateVector(v, rotationX.value, rotationY.value);
+    const isFront = rot.z >= 0;
+
+    if (isFront === drawFront) {
+      ctx.beginPath();
+      ctx.arc(cx + rot.x, cy + rot.y, 1.2, 0, 2 * Math.PI);
       ctx.fill();
     }
   });
@@ -435,6 +526,7 @@ onMounted(() => {
     ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
     drawGrid(ctx, false);
+    drawLandMap(ctx, false);
 
     projectedCountriesList = [];
     processedCountries.value.forEach(c => {
@@ -445,6 +537,7 @@ onMounted(() => {
 
     const idNode = projectedCountriesList.find(p => p.country.code === 'ID');
     drawConnections(ctx, idNode, false);
+    drawLandMap(ctx, true);
     drawGrid(ctx, true);
     drawConnections(ctx, idNode, true);
     drawCountryMarkers(ctx);
