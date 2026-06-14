@@ -142,10 +142,13 @@ import HeroTooltip from './HeroTooltip.vue';
 import HeroStats from './HeroStats.vue';
 import HeroCTA from './HeroCTA.vue';
 import SentinelCrab from '../systems/SentinelCrab.vue';
+import { useInteractionMemory } from '../animation/orchestration/interactionMemory';
 
 const props = defineProps<{
   locale: 'en' | 'id';
 }>();
+
+const { markNodeViewed } = useInteractionMemory();
 
 // Node metadata containing positions and localized contents
 const nodesData = {
@@ -458,6 +461,7 @@ const handleNodeHover = (payload: { id: string | null; event?: MouseEvent }) => 
 const handleNodeClick = (id: string) => {
   activeNodeId.value = id;
   drawerVisible.value = true;
+  markNodeViewed(id);
 };
 
 const closeDrawer = () => {

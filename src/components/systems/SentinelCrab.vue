@@ -169,17 +169,23 @@
     </svg>
 
     <!-- Floating Bubble Notification (Easter Egg hint / dialog) -->
-    <transition name="fade">
-      <div v-if="bubbleText" class="crab-bubble">
-        <span class="bubble-arrow"></span>
-        <p>{{ bubbleText }}</p>
-      </div>
-    </transition>
+    <div 
+      v-if="bubbleText" 
+      class="crab-bubble"
+      :style="{ transform: `translateX(-50%) scale(${bubbleScale})`, opacity: bubbleScale }"
+    >
+      <span class="bubble-arrow"></span>
+      <p>{{ bubbleText }}</p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, defineProps, watch } from 'vue';
+import { createStateMachine } from '../animation/state-machine/stateMachine';
+import { useCursorAwareness } from '../animation/interactions/cursorAwareness';
+import { Spring } from '../animation/physics/spring';
+import { useInteractionMemory } from '../animation/orchestration/interactionMemory';
 
 const props = defineProps<{
   hoveredNodeId?: string | null;
@@ -191,9 +197,28 @@ const props = defineProps<{
 
 const crabRef = ref<HTMLDivElement | null>(null);
 
-// Stalk eyes cursor tracking
-const pupilOffset = ref({ x: 0, y: 0 });
-const eyeTarget = { x: 0, y: 0 };
+// State Machine System
+const { currentState, transitionTo } = createStateMachine('idle');
+
+// Cursor Awareness System (detection zones 1-4)
+const { zone, distance, relativeCoords } = useCursorAwareness(crabRef, {
+  nearbyRadius: props.variant === 'dock' ? 120 : 240,
+  activeRadius: props.variant === 'dock' ? 40 : 70
+});
+
+// Spring Physics System for dialog bubble bounce
+const bubbleScale = ref(0);
+const bubbleSpring = new Spring(0, { stiffness: 140, damping: 14 });
+let springAnimFrame: number;
+
+const tickSpring = () => {
+  bubbleSpring.update(0.016);
+  bubbleScale.value = bubbleSpring.value;
+  springAnimFrame = requestAnimationFrame(tickSpring);
+};
+
+// Interaction Memory System
+const memory = useInteractionMemory();
 
 // Blinking & Idle states
 const isBlinking = ref(false);
@@ -211,6 +236,10 @@ const bodyStyle = computed(() => {
   }
   if (props.hoveredNodeId === 'infrastructure') {
     return { transform: 'skewX(6deg) translateY(-2px)', transition: 'transform 0.3s ease' };
+  }
+  // Lean in spatial awareness state
+  if (currentState.value === 'inspect') {
+    return { transform: 'translateY(-2px) scale(1.02)', transition: 'transform 0.4s ease' };
   }
   return {};
 });
@@ -230,26 +259,47 @@ const rightClawStyle = computed(() => {
   return {};
 });
 
-// Cursor Tracking implementation
-const handleMouseMove = (e: MouseEvent) => {
-  if (isDancing.value || !crabRef.value) return;
+// Stalk eyes cursor tracking (computed using Spatial Zones)
+const pupilOffset = computed(() => {
+  if (isDancing.value) return { x: 0, y: 0 };
+  if (zone.value === 1) return { x: 0, y: 0 }; // Far: looking straight
 
-  const rect = crabRef.value.getBoundingClientRect();
-  const crabX = rect.left + rect.width / 2;
-  const crabY = rect.top + rect.height / 2;
+  const maxOffset = props.variant === 'dock' ? 1.5 : 2.5;
+  const dx = relativeCoords.value.x;
+  const dy = relativeCoords.value.y;
+  const d = distance.value;
 
-  const dx = e.clientX - crabX;
-  const dy = e.clientY - crabY;
-  const dist = Math.hypot(dx, dy);
+  if (d === 0) return { x: 0, y: 0 };
 
-  if (dist === 0) return;
-
-  const maxOffset = 2.5; // Max pupil displacement in SVG pixels
-  pupilOffset.value = {
-    x: (dx / dist) * maxOffset,
-    y: (dy / dist) * maxOffset
+  return {
+    x: (dx / d) * maxOffset,
+    y: (dy / d) * maxOffset
   };
-};
+});
+
+// Watch spatial zones to drive FSM transitions
+watch(zone, (newZone) => {
+  if (isDancing.value) {
+    transitionTo('celebrate');
+    return;
+  }
+
+  switch (newZone) {
+    case 4:
+      transitionTo('signal');
+      break;
+    case 3:
+      transitionTo('inspect');
+      break;
+    case 2:
+      transitionTo('observe');
+      break;
+    case 1:
+    default:
+      transitionTo('idle');
+      break;
+  }
+});
 
 // Periodic eye blinks
 let blinkTimer: any = null;
@@ -271,9 +321,22 @@ const startBlinkLoop = () => {
 const handleCrabHover = () => {
   hoverCount.value++;
   if (hoverCount.value === 1) {
-    showBubble(props.locale === 'id' ? 'Halo, saya Sentinel!' : 'Hello, I am Sentinel!');
+    // Greet and query memory on first hover
+    const viewedCount = memory.totalVisitedNodesCount();
+    if (viewedCount > 0) {
+      showBubble(props.locale === 'id' 
+        ? `Senang melihat Anda kembali! Anda sudah mengamati ${viewedCount} node.` 
+        : `Great to see you again! You've mapped ${viewedCount} nodes.`);
+    } else {
+      showBubble(props.locale === 'id' ? 'Halo, saya Sentinel!' : 'Hello, I am Sentinel!');
+    }
   } else if (hoverCount.value === 5) {
-    showBubble(props.locale === 'id' ? 'Terus usap untuk rahasia...' : 'Keep rubbing for a secret...');
+    // Check if they viewed Proxmox
+    if (memory.isNodeViewed('proxmox')) {
+      showBubble(props.locale === 'id' ? 'Saya ingat Anda membuka Proxmox VE!' : 'I remember you checking Proxmox VE!');
+    } else {
+      showBubble(props.locale === 'id' ? 'Terus usap untuk rahasia...' : 'Keep rubbing for a secret...');
+    }
   } else if (hoverCount.value >= 10 && !isDancing.value) {
     isDancing.value = true;
     showBubble(props.locale === 'id' ? 'Level 1 Terbuka: Sentinel Dance!' : 'Level 1 Unlocked: Sentinel Dance!');
@@ -288,9 +351,13 @@ const handleCrabHover = () => {
 let bubbleClearTimer: any = null;
 const showBubble = (text: string) => {
   bubbleText.value = text;
+  bubbleSpring.setTarget(1);
   clearTimeout(bubbleClearTimer);
   bubbleClearTimer = setTimeout(() => {
-    bubbleText.value = null;
+    bubbleSpring.setTarget(0);
+    setTimeout(() => {
+      bubbleText.value = null;
+    }, 300); // Wait for spring to settle scale to 0
   }, 3000);
 };
 
@@ -342,13 +409,13 @@ watch(() => props.searchActive, (active) => {
 });
 
 onMounted(() => {
-  window.addEventListener('mousemove', handleMouseMove);
+  tickSpring();
   startBlinkLoop();
   checkSystemsVisited();
 });
 
 onUnmounted(() => {
-  window.removeEventListener('mousemove', handleMouseMove);
+  cancelAnimationFrame(springAnimFrame);
   clearTimeout(blinkTimer);
   clearTimeout(bubbleClearTimer);
 });
@@ -546,6 +613,7 @@ onUnmounted(() => {
   bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
+  transform-origin: bottom center;
   background: rgba(18, 26, 44, 0.95);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border);
