@@ -203,33 +203,65 @@ const websiteSchema = {
 
 			if (eventTimeout) clearTimeout(eventTimeout);
 
-			// Random timeout window between 12 and 30 seconds
-			const delay = 12000 + Math.random() * 18000;
+			// Calm rule: 12 to 36 seconds of stillness (90% stillness ratio)
+			const delay = 12000 + Math.random() * 24000;
 
 			eventTimeout = setTimeout(() => {
 				if (currentState !== 'default') return;
 
-				// 35% chance to observe, 65% chance to blink
-				if (Math.random() < 0.35) {
+				const randBehavior = Math.random();
+				if (randBehavior < 0.30) {
+					// 30% chance to observe (saccadic glance + hesitation)
 					currentState = 'observing';
-					const direction = Math.random() > 0.5 ? 2.0 : -2.0;
-					animateTo(6, direction, 1, 250, () => {
-						// Hold observation look for 1.2s
+					const direction = Math.random() > 0.5 ? 1.8 : -1.8;
+					
+					// Step 1: Look to side
+					animateTo(6, direction, 1, 280, () => {
+						// Step 2: Hesitate/observe for 1s
 						eventTimeout = setTimeout(() => {
-							animateTo(6, 0, 1, 250, () => {
+							// Step 3: Return to center
+							animateTo(6, 0, 1, 240, () => {
 								currentState = 'default';
 								scheduleNextEvent();
 							});
-						}, 1200);
+						}, 1000);
 					});
 				} else {
+					// 70% chance to blink using Type A/B/C system
 					currentState = 'blinking';
-					animateTo(0.5, currentXOffset, currentOpacity, 80, () => {
-						animateTo(6, currentXOffset, currentOpacity, 100, () => {
-							currentState = 'default';
-							scheduleNextEvent();
+					const randBlink = Math.random();
+					
+					if (randBlink < 0.70) {
+						// Type A: Normal Blink
+						animateTo(0.5, currentXOffset, currentOpacity, 140, () => {
+							animateTo(6, currentXOffset, currentOpacity, 140, () => {
+								currentState = 'default';
+								scheduleNextEvent();
+							});
 						});
-					});
+					} else if (randBlink < 0.90) {
+						// Type B: Fast Blink
+						animateTo(0.5, currentXOffset, currentOpacity, 70, () => {
+							animateTo(6, currentXOffset, currentOpacity, 75, () => {
+								currentState = 'default';
+								scheduleNextEvent();
+							});
+						});
+					} else {
+						// Type C: Double Blink
+						animateTo(0.5, currentXOffset, currentOpacity, 110, () => {
+							animateTo(6, currentXOffset, currentOpacity, 110, () => {
+								eventTimeout = setTimeout(() => {
+									animateTo(0.5, currentXOffset, currentOpacity, 100, () => {
+										animateTo(6, currentXOffset, currentOpacity, 110, () => {
+											currentState = 'default';
+											scheduleNextEvent();
+										});
+									});
+								}, 140);
+							});
+						});
+					}
 				}
 			}, delay);
 		}

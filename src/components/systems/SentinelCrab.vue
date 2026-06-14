@@ -290,6 +290,18 @@ const leanYSpring = new Spring(0, { stiffness: 80, damping: 14 });
 const leanX = ref(0);
 const leanY = ref(0);
 
+// Saccadic Pupil tracking springs (Problem 02)
+const currentPupilX = ref(0);
+const currentPupilY = ref(0);
+const pupilXSpring = new Spring(0, { stiffness: 220, damping: 18 });
+const pupilYSpring = new Spring(0, { stiffness: 220, damping: 18 });
+let nextSaccadeTime = 0;
+let saccadeTargetX = 0;
+let saccadeTargetY = 0;
+
+// Dance state sequencing (Problem 03)
+const danceState = ref<'none' | 'notice' | 'prepare' | 'dancing' | 'recover'>('none');
+
 // User Inactivity trackers
 const idleTime = ref(0);
 const randomLookOffset = ref({ x: 0, y: 0 });
@@ -313,9 +325,25 @@ const resetIdleTime = () => {
   idleTime.value = 0;
 };
 
+// Secondary body tilt when claws move (Problem 04)
+const bodySecondarySkew = computed(() => {
+  let skew = 0;
+  if (props.hoveredNodeId === 'proxmox') {
+    skew = 3; // Tilt body slightly to right to balance left claw extension
+  } else if (props.hoveredNodeId === 'automation') {
+    skew = -3; // Tilt body slightly to left to balance right claw extension
+  }
+  
+  if (idleTime.value >= 30 && (Math.floor(idleTime.value) % 10) < 3) {
+    // Sway body in sync with claw wave
+    skew = Math.sin(Date.now() * 0.01) * 2;
+  }
+  return skew;
+});
+
 // 60FPS tick solver
 const tick = () => {
-  // 1. Spring-driven bubble scale
+  // 1. Spring-driven dialogue bubble scale
   bubbleSpring.update(0.016);
   bubbleScale.value = bubbleSpring.value;
 
@@ -331,6 +359,8 @@ const tick = () => {
     leanX.value = 0;
     leanY.value = 0;
     idleTime.value = 0;
+    currentPupilX.value = 0;
+    currentPupilY.value = 0;
   } else {
     const now = Date.now() * 0.001;
 
@@ -344,7 +374,7 @@ const tick = () => {
     breathingScale.value = 1 + Math.sin(breathingTime) * 0.012;
     breathingTranslateY.value = Math.sin(breathingTime) * -0.6;
 
-    // 3. Claw Idle Drift (Phase 01)
+    // 3. Claw Idle Drift (Phase 01) - only when not dancing/celebrating
     if (currentState.value === 'idle' || currentState.value === 'observe') {
       leftClawDrift.value = {
         rotate: Math.sin(now * 0.8) * 1.5,
@@ -365,20 +395,31 @@ const tick = () => {
     leftAntennaSkew.value = Math.sin(now * 1.2) * 2;
     rightAntennaSkew.value = Math.cos(now * 1.1) * 2;
 
-    // 5. Leg Adjustment Timings (Phase 01)
-    if (Date.now() > nextLegTime) {
-      const idx = Math.floor(Math.random() * 6);
-      const dir = Math.random() > 0.5 ? 1 : -1;
-      legSprings[idx].setTarget(dir * (2.0 + Math.random() * 3.0));
-      setTimeout(() => {
-        legSprings[idx].setTarget(0);
-      }, 250);
-      nextLegTime = Date.now() + 8000 + Math.random() * 7000; // 8-15 seconds
+    // 5. Leg Adjustment wiggles & Dance staggered wiggles (Problem 05)
+    if (isDancing.value || isCelebrating.value) {
+      // Staggered asynchronous leg wiggles for dance
+      const time = now * 12;
+      legRotations.value[0] = Math.sin(time) * 5;
+      legRotations.value[1] = Math.sin(time + 0.5) * 5;
+      legRotations.value[2] = Math.sin(time + 1.0) * 5;
+      legRotations.value[3] = Math.cos(time) * 5;
+      legRotations.value[4] = Math.cos(time + 0.5) * 5;
+      legRotations.value[5] = Math.cos(time + 1.0) * 5;
+    } else {
+      if (Date.now() > nextLegTime) {
+        const idx = Math.floor(Math.random() * 6);
+        const dir = Math.random() > 0.5 ? 1 : -1;
+        legSprings[idx].setTarget(dir * (2.0 + Math.random() * 3.0));
+        setTimeout(() => {
+          legSprings[idx].setTarget(0);
+        }, 250);
+        nextLegTime = Date.now() + 8000 + Math.random() * 7000; // 8-15 seconds
+      }
+      legSprings.forEach((spring, idx) => {
+        spring.update(0.016);
+        legRotations.value[idx] = spring.value;
+      });
     }
-    legSprings.forEach((spring, idx) => {
-      spring.update(0.016);
-      legRotations.value[idx] = spring.value;
-    });
 
     // 6. Dynamic Lean Calculations (Phase 02)
     let targetLeanX = 0;
@@ -390,6 +431,19 @@ const tick = () => {
       targetLeanX = (dx / d) * 6;  // skewX
       targetLeanY = (dy / d) * -3; // translateY
     }
+    
+    // Squash/stretch overrides driven by dance sequencing (Problem 03)
+    if (danceState.value === 'notice') {
+      targetLeanY = 4; // Squash body
+      targetLeanX = 0;
+    } else if (danceState.value === 'prepare') {
+      targetLeanY = -8; // Stretch up
+      targetLeanX = 0;
+    } else if (danceState.value === 'recover') {
+      targetLeanY = 6; // Land squash
+      targetLeanX = 0;
+    }
+
     leanXSpring.setTarget(targetLeanX);
     leanYSpring.setTarget(targetLeanY);
     leanXSpring.update(0.016);
@@ -397,21 +451,68 @@ const tick = () => {
     leanX.value = leanXSpring.value;
     leanY.value = leanYSpring.value;
 
-    // 7. Inactivity tracker (Phase 06)
-    idleTime.value += 0.016;
-
-    // 8. Curious Wander pupils when user is idle
-    if (personalityMode.value === 'curious' && idleTime.value >= 3 && idleTime.value < 10) {
-      if (Date.now() > nextLookTime) {
-        randomLookOffset.value = {
-          x: (Math.random() - 0.5) * 4.0,
-          y: (Math.random() - 0.5) * 4.0
-        };
-        nextLookTime = Date.now() + 2500 + Math.random() * 2500;
+    // 7. Natural Saccadic Eye Movement (Problem 02)
+    if (isDancing.value || isCelebrating.value) {
+      pupilXSpring.setTarget(0);
+      pupilYSpring.setTarget(0);
+    } else if (zone.value >= 2) {
+      // User is active/nearby: track cursor with saccadic jumps & pause hesitation
+      if (Date.now() > nextSaccadeTime) {
+        const maxOffset = props.variant === 'dock' ? 1.5 : 2.5;
+        const dx = relativeCoords.value.x;
+        const dy = relativeCoords.value.y;
+        const d = distance.value || 1;
+        
+        // Target is the cursor angle, but only updated at intervals
+        // Add tiny imperfection (Phase 04/Problem 05)
+        const imperfectionX = (Math.random() - 0.5) * 0.4;
+        const imperfectionY = (Math.random() - 0.5) * 0.4;
+        
+        saccadeTargetX = (dx / d) * maxOffset + imperfectionX;
+        saccadeTargetY = (dy / d) * maxOffset + imperfectionY;
+        
+        // Random pause between saccades (hesitate/inspect: 400ms - 1000ms)
+        nextSaccadeTime = Date.now() + 400 + Math.random() * 600;
       }
+      pupilXSpring.setTarget(saccadeTargetX);
+      pupilYSpring.setTarget(saccadeTargetY);
     } else {
-      randomLookOffset.value = { x: 0, y: 0 };
+      // Idle look behavior pool (Problem 06 & Problem 02)
+      if (Date.now() > nextSaccadeTime) {
+        const rand = Math.random();
+        if (rand < 0.60) {
+          // Idle A: Look Straight (60%)
+          saccadeTargetX = 0;
+          saccadeTargetY = 0;
+          nextSaccadeTime = Date.now() + 3000 + Math.random() * 4000;
+        } else if (rand < 0.80) {
+          // Idle B: Look Left (20%)
+          saccadeTargetX = -2;
+          saccadeTargetY = 0.3;
+          nextSaccadeTime = Date.now() + 1500 + Math.random() * 2000;
+        } else if (rand < 0.95) {
+          // Idle C: Look Right (15%)
+          saccadeTargetX = 2;
+          saccadeTargetY = 0.3;
+          nextSaccadeTime = Date.now() + 1500 + Math.random() * 2000;
+        } else {
+          // Idle D: Look Up/Inspect (5%)
+          saccadeTargetX = 0;
+          saccadeTargetY = -1.8;
+          nextSaccadeTime = Date.now() + 1000 + Math.random() * 1000;
+        }
+      }
+      pupilXSpring.setTarget(saccadeTargetX);
+      pupilYSpring.setTarget(saccadeTargetY);
     }
+
+    pupilXSpring.update(0.016);
+    pupilYSpring.update(0.016);
+    currentPupilX.value = pupilXSpring.value;
+    currentPupilY.value = pupilYSpring.value;
+
+    // 8. Inactivity tracker
+    idleTime.value += 0.016;
 
     // 9. Context aware animation loops (Phase 05)
     if (props.hoveredNodeId === 'astro' || props.activeNodeId === 'astro') {
@@ -439,9 +540,12 @@ const tick = () => {
   tickAnimFrame = requestAnimationFrame(tick);
 };
 
-// Leg Style helper
+// Leg Style helper (with dynamic secondary motion body-tilt leg-compression compensation)
 const getLegStyle = (idx: number) => {
-  const rot = legRotations.value[idx] || 0;
+  const baseSkew = leanX.value + bodySecondarySkew.value;
+  // Apply rotation compensation dynamically so legs compress/stretch in tilt direction
+  const rot = (legRotations.value[idx] || 0) + baseSkew * 0.7;
+  
   let origin = '0px 0px';
   if (idx === 0) origin = '-32px 38px';
   else if (idx === 1) origin = '-28px 43px';
@@ -469,13 +573,13 @@ const bubbleText = ref<string | null>(null);
 // Level 02 Unlocked state
 const systemsBoosted = ref(false);
 
-// Dynamic reactive leaning
+// Dynamic reactive leaning (includes secondary motion body-tilt)
 const bodyStyle = computed(() => {
   if (isDancing.value || isCelebrating.value) return {};
 
   const scale = breathingScale.value;
   const transY = breathingTranslateY.value + leanY.value;
-  const skewX = leanX.value;
+  const skewX = leanX.value + bodySecondarySkew.value;
 
   // Base node leaning
   let staticSkew = 0;
@@ -489,13 +593,17 @@ const bodyStyle = computed(() => {
   };
 });
 
-// Dynamic claw rotations
+// Dynamic claw rotations with staggered dance wiggles (Problem 05 / Problem 03)
 const leftClawStyle = computed(() => {
   let baseRotate = 0;
   let baseTranslateX = 0;
   let baseTranslateY = 0;
 
-  if (props.hoveredNodeId === 'proxmox') {
+  if (isDancing.value || isCelebrating.value) {
+    const time = Date.now() * 0.012;
+    baseRotate = -10 + Math.sin(time) * 15;
+    baseTranslateY = -4 + Math.sin(time) * 4;
+  } else if (props.hoveredNodeId === 'proxmox') {
     baseRotate = -12;
     baseTranslateX = -5;
     baseTranslateY = -5;
@@ -516,7 +624,7 @@ const leftClawStyle = computed(() => {
   return {
     transform: `translate(${tx}px, ${ty}px) rotate(${r}deg)`,
     transformOrigin: '-35px 32px',
-    transition: isCelebrating.value || (idleTime.value >= 30 && (Math.floor(idleTime.value) % 10) < 3)
+    transition: isCelebrating.value || isDancing.value || (idleTime.value >= 30 && (Math.floor(idleTime.value) % 10) < 3)
       ? 'transform 0.08s linear'
       : 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
   };
@@ -527,7 +635,11 @@ const rightClawStyle = computed(() => {
   let baseTranslateX = 0;
   let baseTranslateY = 0;
 
-  if (props.hoveredNodeId === 'automation') {
+  if (isDancing.value || isCelebrating.value) {
+    const time = Date.now() * 0.012;
+    baseRotate = 10 + Math.cos(time + 0.5) * 15; // Phase offset imperfection (Problem 05)
+    baseTranslateY = -4 + Math.cos(time + 0.5) * 4;
+  } else if (props.hoveredNodeId === 'automation') {
     baseRotate = 12;
     baseTranslateX = 5;
     baseTranslateY = -5;
@@ -543,14 +655,16 @@ const rightClawStyle = computed(() => {
   return {
     transform: `translate(${tx}px, ${ty}px) rotate(${r}deg)`,
     transformOrigin: '35px 32px',
-    transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+    transition: isCelebrating.value || isDancing.value
+      ? 'transform 0.08s linear'
+      : 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
   };
 });
 
-// Dynamic skewing for eye stalks to look organic
+// Dynamic skewing for eye stalks to look organic (includes secondary tilt)
 const leftEyeStalkStyle = computed(() => {
   if (prefersReducedMotion.value) return {};
-  const skew = leanX.value * 0.6;
+  const skew = (leanX.value + bodySecondarySkew.value) * 0.6;
   return {
     transform: `skewX(${skew}deg)`,
     transformOrigin: '-12px 12px',
@@ -560,7 +674,7 @@ const leftEyeStalkStyle = computed(() => {
 
 const rightEyeStalkStyle = computed(() => {
   if (prefersReducedMotion.value) return {};
-  const skew = leanX.value * 0.6;
+  const skew = (leanX.value + bodySecondarySkew.value) * 0.6;
   return {
     transform: `skewX(${skew}deg)`,
     transformOrigin: '12px 12px',
@@ -594,35 +708,11 @@ const orbitParticlePos = computed(() => {
   };
 });
 
-// Stalk eyes cursor tracking (computed using Spatial Zones)
+// Stalk eyes cursor tracking (uses currentPupilX/Y from tick loop solver)
 const pupilOffset = computed(() => {
-  if (isDancing.value) return { x: 0, y: 0 };
-
-  // Idle look overrides (Phase 06)
-  if (idleTime.value >= 20) {
-    return { x: 2, y: 0.5 }; // Looking Right
-  }
-  if (idleTime.value >= 10) {
-    return { x: -2, y: 0.5 }; // Looking Left
-  }
-
-  // Curious wander override
-  if (personalityMode.value === 'curious' && idleTime.value >= 3) {
-    return randomLookOffset.value;
-  }
-
-  if (zone.value === 1) return { x: 0, y: 0 }; // Far: looking straight
-
-  const maxOffset = props.variant === 'dock' ? 1.5 : 2.5;
-  const dx = relativeCoords.value.x;
-  const dy = relativeCoords.value.y;
-  const d = distance.value;
-
-  if (d === 0) return { x: 0, y: 0 };
-
   return {
-    x: (dx / d) * maxOffset,
-    y: (dy / d) * maxOffset
+    x: currentPupilX.value,
+    y: currentPupilY.value
   };
 });
 
@@ -642,7 +732,6 @@ watch(zone, (newZone) => {
       transitionTo('inspect');
       
       // Perform claw/antenna micro wiggles on inspect trigger
-      const originalNextLeg = nextLegTime;
       nextLegTime = Date.now(); // Trigger immediate leg wiggles
       
       reactionTimeout = setTimeout(() => {
@@ -661,20 +750,80 @@ watch(zone, (newZone) => {
   }
 });
 
-// Periodic eye blinks
+// Periodic eye blinks (Type A/B/C System with 8-40s delay - Problem 01)
 let blinkTimer: any = null;
 const startBlinkLoop = () => {
   const scheduleBlink = () => {
-    const delay = 3000 + Math.random() * 4000;
+    // Timing rule: 8 to 40 seconds window
+    const delay = 8000 + Math.random() * 32000;
+    
     blinkTimer = setTimeout(() => {
-      isBlinking.value = true;
-      setTimeout(() => {
-        isBlinking.value = false;
-        scheduleBlink();
-      }, 150);
+      const rand = Math.random();
+      if (rand < 0.70) {
+        // Type A: Normal Blink (70%)
+        isBlinking.value = true;
+        setTimeout(() => {
+          isBlinking.value = false;
+          scheduleBlink();
+        }, 150);
+      } else if (rand < 0.90) {
+        // Type B: Fast Blink (20%)
+        isBlinking.value = true;
+        setTimeout(() => {
+          isBlinking.value = false;
+          scheduleBlink();
+        }, 80);
+      } else {
+        // Type C: Double Blink (10%)
+        isBlinking.value = true;
+        setTimeout(() => {
+          isBlinking.value = false;
+          setTimeout(() => {
+            isBlinking.value = true;
+            setTimeout(() => {
+              isBlinking.value = false;
+              scheduleBlink();
+            }, 120);
+          }, 150); // Pause between blinks
+        }, 120);
+      }
     }, delay);
   };
   scheduleBlink();
+};
+
+// Natural Dance Sequence (Problem 03)
+const runDanceSequence = () => {
+  danceState.value = 'notice';
+  
+  // Notice phase: squash body
+  leanYSpring.setTarget(4);
+  
+  setTimeout(() => {
+    if (danceState.value !== 'notice') return;
+    danceState.value = 'prepare';
+    // Prepare phase: raise claws, stretch body up
+    leanYSpring.setTarget(-8);
+    
+    setTimeout(() => {
+      if (danceState.value !== 'prepare') return;
+      danceState.value = 'dancing';
+      isDancing.value = true;
+      
+      setTimeout(() => {
+        // Recover phase: overshoot body squash and settle back to normal
+        isDancing.value = false;
+        danceState.value = 'recover';
+        leanYSpring.setTarget(6); // Squash on land
+        
+        setTimeout(() => {
+          danceState.value = 'none';
+          leanYSpring.setTarget(0); // Settle to normal
+          hoverCount.value = 0;
+        }, 500); // Settle duration
+      }, 3500); // Dance duration
+    }, 350); // Prepare duration
+  }, 250); // Notice duration
 };
 
 // Easter Egg Level 01: Hover 10 times triggers dance
@@ -698,13 +847,9 @@ const handleCrabHover = () => {
     } else {
       showBubble(props.locale === 'id' ? 'Terus usap untuk rahasia...' : 'Keep rubbing for a secret...');
     }
-  } else if (hoverCount.value >= 10 && !isDancing.value) {
-    isDancing.value = true;
+  } else if (hoverCount.value >= 10 && danceState.value === 'none') {
     showBubble(props.locale === 'id' ? 'Level 1 Terbuka: Sentinel Dance!' : 'Level 1 Unlocked: Sentinel Dance!');
-    setTimeout(() => {
-      isDancing.value = false;
-      hoverCount.value = 0;
-    }, 4000);
+    runDanceSequence();
   }
 };
 
@@ -808,39 +953,54 @@ watch(() => props.searchActive, (active) => {
 // Custom window celebration events (Phase 07)
 const handleCaseStudyOpen = () => {
   isCelebrating.value = true;
-  transitionTo('celebrate');
   showBubble(props.locale === 'id' 
     ? "Membuka pola arsitektur desain... Luar biasa!" 
     : "Analyzing architectural design patterns... Incredible!");
+  runDanceSequence();
   setTimeout(() => {
     isCelebrating.value = false;
-    transitionTo('idle');
-  }, 4000);
+  }, 4500);
 };
 
 const handleCommandPaletteOpen = () => {
   isCelebrating.value = true;
-  transitionTo('signal');
   showBubble(props.locale === 'id' 
     ? "Terminal sistem terbuka. Mengakses basis data..." 
     : "System terminal unlocked. Awaiting commands...");
+  runDanceSequence();
   setTimeout(() => {
     isCelebrating.value = false;
-    transitionTo('idle');
-  }, 4000);
+  }, 4500);
 };
 
 const handleArchitectureExplorerStep = (e: any) => {
   isCelebrating.value = true;
-  transitionTo('inspect');
   const stepId = e.detail?.stepId || '';
   showBubble(props.locale === 'id' 
     ? `Menganalisis Lapisan: ${stepId.toUpperCase()}...` 
     : `Inspecting Infrastructure Layer: ${stepId.toUpperCase()}...`);
+  
+  // Do a mini dance/celebrate sequence
+  danceState.value = 'notice';
+  leanYSpring.setTarget(4);
   setTimeout(() => {
-    isCelebrating.value = false;
-    transitionTo('idle');
-  }, 3000);
+    danceState.value = 'prepare';
+    leanYSpring.setTarget(-8);
+    setTimeout(() => {
+      danceState.value = 'dancing';
+      isDancing.value = true;
+      setTimeout(() => {
+        isDancing.value = false;
+        danceState.value = 'recover';
+        leanYSpring.setTarget(6);
+        setTimeout(() => {
+          danceState.value = 'none';
+          leanYSpring.setTarget(0);
+          isCelebrating.value = false;
+        }, 500);
+      }, 2000);
+    }, 300);
+  }, 200);
 };
 
 onMounted(() => {
