@@ -1,5 +1,14 @@
 [
   {
+    "title": "ColeAllStar Ecosystem",
+    "excerpt": "A unified home-lab and cloud infrastructure platform orchestrating self-hosted tools, CI/CD automation, and secure edge-native tunnels.",
+    "url": "/projects/cole-allstar-ecosystem",
+    "type": "Project",
+    "locale": "en",
+    "tags": [],
+    "category": "Infrastructure & Automation"
+  },
+  {
     "title": "CTOS Portfolio Platform",
     "excerpt": "A content-first personal branding platform for demonstrating infrastructure, AI workflows, automation, and product engineering capability.",
     "url": "/projects/ctos-portfolio-platform",
@@ -16,6 +25,15 @@
     "locale": "en",
     "tags": [],
     "category": "Education Technology"
+  },
+  {
+    "title": "Ekosistem ColeAllStar",
+    "excerpt": "Platform infrastruktur home-lab dan cloud terintegrasi yang mengatur alat mandiri, otomatisasi CI/CD, dan terowongan edge-native yang aman.",
+    "url": "/id/projects/cole-allstar-ecosystem",
+    "type": "Proyek",
+    "locale": "id",
+    "tags": [],
+    "category": "Infrastruktur & Otomatisasi"
   },
   {
     "title": "Platform Portofolio CTOS",
@@ -36,6 +54,15 @@
     "category": "Pendidikan & Teknologi"
   },
   {
+    "title": "ColeAllStar Ecosystem",
+    "excerpt": "A structured case study on building a resilient home-lab and cloud hypervisor system with outbound tunnels, automated backups, and integrated telemetries.",
+    "url": "/case-studies/cole-allstar-ecosystem",
+    "type": "Case Study",
+    "locale": "en",
+    "tags": [],
+    "category": ""
+  },
+  {
     "title": "CTOS Portfolio Platform",
     "excerpt": "How the portfolio itself becomes a credibility system for a Digital Systems Architect positioning.",
     "url": "/case-studies/ctos-portfolio-platform",
@@ -50,6 +77,15 @@
     "url": "/case-studies/smk-teknovo-ecosystem",
     "type": "Case Study",
     "locale": "en",
+    "tags": [],
+    "category": ""
+  },
+  {
+    "title": "Ekosistem ColeAllStar",
+    "excerpt": "Studi kasus terstruktur tentang membangun sistem hypervisor home-lab dan cloud yang tangguh dengan terowongan keluar, pencadangan otomatis, dan telemetri terintegrasi.",
+    "url": "/id/case-studies/cole-allstar-ecosystem",
+    "type": "Studi Kasus",
+    "locale": "id",
     "tags": [],
     "category": ""
   },
