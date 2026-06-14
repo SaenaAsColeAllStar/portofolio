@@ -115,57 +115,172 @@ const websiteSchema = {
 		const link = document.querySelector("link[rel='icon']") as HTMLLinkElement;
 		if (!link) return;
 
-		const img = new Image();
-		img.src = '/favicon.svg';
+		// Clean up existing instance if any to prevent leaks during view transitions
+		if ((window as any).__cleanupFavicon) {
+			(window as any).__cleanupFavicon();
+		}
 
-		const size = 64;
-		const canvas = document.createElement('canvas');
-		canvas.width = size;
-		canvas.height = size;
-		const ctx = canvas.getContext('2d');
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-		img.onload = () => {
-			if (!ctx) return;
+		let currentRy = 6;
+		let currentXOffset = 0;
+		let currentOpacity = 1;
+		const pupilR = 2;
 
-			let isAnimating = false;
-			let startTime = 0;
-			const animDuration = 600; // 0.6 seconds pulse duration
-			const cycleInterval = 3000; // runs every 3 seconds
+		function getTheme() {
+			return document.documentElement.getAttribute('data-theme') === 'dark' || 
+				(!document.documentElement.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+		}
 
-			function animate(timestamp: number) {
-				if (!startTime) startTime = timestamp;
-				const elapsed = timestamp - startTime;
-				const progress = Math.min(elapsed / animDuration, 1);
+		function updateFavicon() {
+			const isDark = getTheme();
+			const accent = isDark ? '#4f8cff' : '#2563eb';
+			const surface = isDark ? '#121a2c' : '#ffffff';
 
-				const ease = Math.sin(progress * Math.PI);
-				const scale = 1 + ease * 0.12; 
-				const rotate = (ease * 5 * Math.PI) / 180; 
+			const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+				<ellipse cx="10" cy="16" rx="6" ry="${currentRy.toFixed(2)}" fill="${surface}" stroke="${accent}" stroke-width="2.5" />
+				<ellipse cx="22" cy="16" rx="6" ry="${currentRy.toFixed(2)}" fill="${surface}" stroke="${accent}" stroke-width="2.5" />
+				<circle cx="${(10 + currentXOffset).toFixed(2)}" cy="16" r="${pupilR}" fill="${accent}" opacity="${currentOpacity.toFixed(2)}" />
+				<circle cx="${(22 + currentXOffset).toFixed(2)}" cy="16" r="${pupilR}" fill="${accent}" opacity="${currentOpacity.toFixed(2)}" />
+			</svg>`;
 
-				ctx!.clearRect(0, 0, size, size);
-				ctx!.save();
-				ctx!.translate(size / 2, size / 2);
-				ctx!.rotate(rotate);
-				ctx!.scale(scale, scale);
-				ctx!.drawImage(img, -size / 2, -size / 2, size, size);
-				ctx!.restore();
+			// Safe base64 conversion
+			link.href = 'data:image/svg+xml;base64,' + btoa(svg);
+		}
 
-				link.href = canvas.toDataURL('image/png');
+		let animFrameId: number | null = null;
+
+		function animateTo(targetRy: number, targetXOffset: number, targetOpacity: number, duration: number, onComplete?: () => void) {
+			if (prefersReducedMotion) {
+				currentRy = targetRy;
+				currentXOffset = targetXOffset;
+				currentOpacity = targetOpacity;
+				updateFavicon();
+				if (onComplete) onComplete();
+				return;
+			}
+
+			const startRy = currentRy;
+			const startXOffset = currentXOffset;
+			const startOpacity = currentOpacity;
+			const startTime = performance.now();
+
+			if (animFrameId) cancelAnimationFrame(animFrameId);
+
+			function tick(now: number) {
+				const elapsed = now - startTime;
+				const progress = Math.min(elapsed / duration, 1);
+				
+				// Ease-in-out quadratic
+				const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+				currentRy = startRy + (targetRy - startRy) * ease;
+				currentXOffset = startXOffset + (targetXOffset - startXOffset) * ease;
+				currentOpacity = startOpacity + (targetOpacity - startOpacity) * ease;
+
+				updateFavicon();
 
 				if (progress < 1) {
-					requestAnimationFrame(animate);
+					animFrameId = requestAnimationFrame(tick);
 				} else {
-					link.href = '/favicon.svg';
-					isAnimating = false;
+					currentRy = targetRy;
+					currentXOffset = targetXOffset;
+					currentOpacity = targetOpacity;
+					updateFavicon();
+					animFrameId = null;
+					if (onComplete) onComplete();
 				}
 			}
 
-			setInterval(() => {
-				if (isAnimating) return;
-				isAnimating = true;
-				startTime = 0;
-				requestAnimationFrame(animate);
-			}, cycleInterval);
+			animFrameId = requestAnimationFrame(tick);
+		}
+
+		let eventTimeout: any = null;
+		let currentState: 'default' | 'blinking' | 'observing' | 'focus' | 'sleeping' = 'default';
+
+		function scheduleNextEvent() {
+			if (currentState === 'sleeping') return;
+
+			if (eventTimeout) clearTimeout(eventTimeout);
+
+			// Random timeout window between 12 and 30 seconds
+			const delay = 12000 + Math.random() * 18000;
+
+			eventTimeout = setTimeout(() => {
+				if (currentState !== 'default') return;
+
+				// 35% chance to observe, 65% chance to blink
+				if (Math.random() < 0.35) {
+					currentState = 'observing';
+					const direction = Math.random() > 0.5 ? 2.0 : -2.0;
+					animateTo(6, direction, 1, 250, () => {
+						// Hold observation look for 1.2s
+						eventTimeout = setTimeout(() => {
+							animateTo(6, 0, 1, 250, () => {
+								currentState = 'default';
+								scheduleNextEvent();
+							});
+						}, 1200);
+					});
+				} else {
+					currentState = 'blinking';
+					animateTo(0.5, currentXOffset, currentOpacity, 80, () => {
+						animateTo(6, currentXOffset, currentOpacity, 100, () => {
+							currentState = 'default';
+							scheduleNextEvent();
+						});
+					});
+				}
+			}, delay);
+		}
+
+		function handleVisibilityChange() {
+			if (eventTimeout) clearTimeout(eventTimeout);
+			if (animFrameId) {
+				cancelAnimationFrame(animFrameId);
+				animFrameId = null;
+			}
+
+			if (document.visibilityState === 'hidden') {
+				currentState = 'sleeping';
+				// Go to sleep (eyes closed, pupils hidden)
+				animateTo(0.5, 0, 0, 300);
+			} else {
+				// Wake up sequence: Closed -> Half Open -> Focus -> Open
+				animateTo(3, 0, 0.5, 150, () => {
+					animateTo(4.5, 0, 1, 150, () => {
+						// Hold focus state for 600ms
+						eventTimeout = setTimeout(() => {
+							animateTo(6, 0, 1, 200, () => {
+								currentState = 'default';
+								scheduleNextEvent();
+							});
+						}, 600);
+					});
+				});
+			}
+		}
+
+		// Watch for document-level theme changes dynamically
+		const observer = new MutationObserver(() => {
+			updateFavicon();
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+		document.addEventListener('visibilitychange', handleVisibilityChange);
+
+		// Initialize State 01 (Default)
+		updateFavicon();
+		scheduleNextEvent();
+
+		// Register cleanup callback to prevent multiple intervals / listeners running concurrently
+		const cleanup = () => {
+			if (eventTimeout) clearTimeout(eventTimeout);
+			if (animFrameId) cancelAnimationFrame(animFrameId);
+			observer.disconnect();
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
 		};
+		(window as any).__cleanupFavicon = cleanup;
 	}
 
 	document.addEventListener('astro:page-load', initAnimatedFavicon);
