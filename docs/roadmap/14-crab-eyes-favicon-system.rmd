@@ -1,0 +1,465 @@
+# CTOS Portfolio
+# 14 — Crab Eyes Favicon System
+
+## Vision
+
+The favicon should evolve from:
+
+Animated Brand Mark
+
+into:
+
+Living Identity System
+
+The favicon should become a miniature representation of the CTOS Sentinel Crab.
+
+Not a full crab.
+
+Not a simplified logo.
+
+But a recognizable pair of sentinel eyes.
+
+---
+
+# Strategic Goal
+
+When a user has 30 browser tabs open.
+
+The CTOS tab should remain recognizable instantly.
+
+Users should identify:
+
+CTOS
+
+from:
+
+Two Eyes.
+
+---
+
+# Why Not Full Crab
+
+Browser favicons commonly render at:
+
+16x16
+32x32
+48x48
+
+A complete crab contains:
+
+- eyes
+- shell
+- claws
+- legs
+- antenna
+
+At favicon size:
+
+Most details disappear.
+
+Visual noise increases.
+
+Recognition decreases.
+
+---
+
+# Core Identity
+
+## Sentinel Eyes
+
+The favicon becomes:
+
+CTOS Sentinel Eyes
+
+---
+
+Visual Characteristics
+
+- Symmetrical
+- Minimal
+- Observant
+- Slightly robotic
+- Slightly organic
+
+---
+
+Design Keywords
+
+Observe
+
+Monitor
+
+Infrastructure
+
+Systems
+
+Awareness
+
+---
+
+# Favicon Architecture
+
+Layer 1
+
+Background Shape
+
+Optional.
+
+---
+
+Layer 2
+
+Left Eye
+
+---
+
+Layer 3
+
+Right Eye
+
+---
+
+Layer 4
+
+Pupils
+
+---
+
+Layer 5
+
+Signal Ring
+
+Optional.
+
+---
+
+# State System
+
+The favicon becomes state driven.
+
+---
+
+State 01
+
+Default
+
+Purpose:
+
+Normal browsing.
+
+Behavior:
+
+Eyes open.
+
+No motion.
+
+---
+
+State 02
+
+Blink
+
+Purpose:
+
+Show life.
+
+Behavior:
+
+Random blink.
+
+Frequency:
+
+15-45 seconds.
+
+Randomized.
+
+Never predictable.
+
+---
+
+State 03
+
+Observe Left
+
+Purpose:
+
+Awareness.
+
+Behavior:
+
+Pupils move left.
+
+Pause.
+
+Return.
+
+---
+
+State 04
+
+Observe Right
+
+Purpose:
+
+Awareness.
+
+Behavior:
+
+Pupils move right.
+
+Pause.
+
+Return.
+
+---
+
+State 05
+
+Focus
+
+Purpose:
+
+Deep attention.
+
+Behavior:
+
+Eyes narrow slightly.
+
+Pupils center.
+
+---
+
+State 06
+
+Sleep
+
+Purpose:
+
+Inactive state.
+
+Behavior:
+
+Eyes closed.
+
+Used when:
+
+- hidden tab
+- inactive session
+
+---
+
+# Animation Timing System
+
+Rule:
+
+Avoid loops.
+
+---
+
+Bad
+
+setInterval(5000)
+
+---
+
+Good
+
+Random timing windows.
+
+Examples:
+
+Blink:
+
+15-45s
+
+Observe:
+
+20-60s
+
+Micro movement:
+
+10-25s
+
+---
+
+# Behavior Philosophy
+
+The favicon should never appear busy.
+
+It should feel:
+
+Patient.
+
+Watching.
+
+Waiting.
+
+---
+
+# Browser Context Awareness
+
+## Active Tab
+
+Eyes open.
+
+---
+
+## Background Tab
+
+Reduced activity.
+
+---
+
+## Long Hidden Session
+
+Sleep mode.
+
+---
+
+## Return To Tab
+
+Wake-up animation.
+
+Sequence:
+
+Closed
+↓
+Half Open
+↓
+Open
+↓
+Focus
+
+---
+
+# Integration With Crab System
+
+The favicon should share the same behavior language as the CTOS Crab.
+
+---
+
+Crab Idle
+↕
+Favicon Blink
+
+---
+
+Crab Observe
+↕
+Favicon Eye Tracking
+
+---
+
+Crab Sleep
+↕
+Favicon Sleep
+
+---
+
+# Future Notification System
+
+Phase 2
+
+Optional.
+
+---
+
+Notification State
+
+Signal ring pulse.
+
+---
+
+New Visitor Milestone
+
+Subtle glow.
+
+---
+
+System Discovery
+
+Short signal flash.
+
+---
+
+# SVG Implementation Strategy
+
+Use:
+
+favicon.svg
+
+---
+
+Requirements:
+
+- Pure SVG
+- Minimal paths
+- Minimal DOM nodes
+- Crisp at 16px
+- Crisp at 32px
+
+---
+
+Target SVG Complexity
+
+Less than 4KB.
+
+---
+
+# Accessibility
+
+Respect reduced motion preferences.
+
+If motion is disabled:
+
+Static eyes.
+
+No blinking.
+
+---
+
+# Performance Budget
+
+Target Cost:
+
+Near Zero.
+
+---
+
+Avoid:
+
+Heavy scripting.
+
+Continuous animation loops.
+
+Large SVG filters.
+
+---
+
+# Success Criteria
+
+Users recognize CTOS from favicon alone.
+
+---
+
+Users notice subtle life-like behavior.
+
+---
+
+Users do not perceive the favicon as distracting.
+
+---
+
+The favicon feels connected to the CTOS Crab ecosystem.
+
+---
+
+# Final Vision
+
+The favicon becomes the smallest living component inside the CTOS ecosystem.
+
+A pair of sentinel eyes quietly observing.
+
+Simple enough to be recognized instantly.
+
+Alive enough to be remembered.
