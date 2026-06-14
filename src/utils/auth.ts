@@ -22,12 +22,12 @@ function bufferToHex(buffer: ArrayBuffer): string {
 export async function signPayload(payload: string, secret: string): Promise<string> {
   const key = await crypto.subtle.importKey(
     'raw',
-    stringToBuffer(secret),
+    stringToBuffer(secret) as any,
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign']
   );
-  const signature = await crypto.subtle.sign('HMAC', key, stringToBuffer(payload));
+  const signature = await crypto.subtle.sign('HMAC', key, stringToBuffer(payload) as any);
   return bufferToHex(signature);
 }
 
@@ -36,13 +36,13 @@ export async function verifySignature(payload: string, signatureHex: string, sec
   try {
     const key = await crypto.subtle.importKey(
       'raw',
-      stringToBuffer(secret),
+      stringToBuffer(secret) as any,
       { name: 'HMAC', hash: 'SHA-256' },
       false,
       ['verify']
     );
     const signatureBuffer = hexToBuffer(signatureHex);
-    return await crypto.subtle.verify('HMAC', key, signatureBuffer, stringToBuffer(payload));
+    return await crypto.subtle.verify('HMAC', key, signatureBuffer as any, stringToBuffer(payload) as any);
   } catch (e) {
     console.error('Signature verification error:', e);
     return false;

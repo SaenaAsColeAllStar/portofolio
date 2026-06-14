@@ -83,8 +83,11 @@ const props = defineProps({
   }
 });
 
+const fetchedCountries = ref([]);
+
 const processedCountries = computed(() => {
-  return props.countries.map(c => {
+  const source = props.countries.length > 0 ? props.countries : fetchedCountries.value;
+  return source.map(c => {
     const coords = getCountryCoords(c.countryCode);
     return {
       code: c.countryCode,
@@ -302,6 +305,26 @@ const drawCountryMarkers = (ctx) => {
 let resizeObserver = null;
 
 onMounted(() => {
+  if (props.countries.length === 0) {
+    fetch('/api/globe-data')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          fetchedCountries.value = data;
+        } else {
+          fetchedCountries.value = [
+            { countryCode: "ID", visits: 1, lastSeen: new Date() }
+          ];
+        }
+      })
+      .catch(e => {
+        console.error('Failed to fetch client globe data:', e);
+        fetchedCountries.value = [
+          { countryCode: "ID", visits: 1, lastSeen: new Date() }
+        ];
+      });
+  }
+
   const canvas = canvasRef.value;
   const ctx = canvas.getContext('2d');
   

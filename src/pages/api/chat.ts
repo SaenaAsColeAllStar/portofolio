@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }), { status: 500, headers: { 'content-type': 'application/json' } });
     }
 
-    const body = await request.json();
+    const body = await request.json() as any;
     const { messages, locale = 'en' } = body;
 
     const activeLocale = (locale === 'id' ? 'id' : 'en') as 'en' | 'id';
@@ -101,7 +101,7 @@ Instructions:
 `;
 
     // Execute the Llama 3.1 8B Instruct Fast model
-    const aiResponse = await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast', {
+    const aiResponse = await (env.AI as any).run('@cf/meta/llama-3.1-8b-instruct-fast', {
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages

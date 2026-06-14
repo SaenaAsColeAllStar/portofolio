@@ -18,7 +18,7 @@ export function getDb(env?: any) {
     connect_timeout: 5, // Timeout after 5 seconds
     // Hyperdrive handles the SSL connection to the DB, so we don't need manual SSL options when using it
     ssl: isHyperdrive ? undefined : { rejectUnauthorized: false }
-  });
+  } as any);
   
   return drizzle(client, { schema });
 }

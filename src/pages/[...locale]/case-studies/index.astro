@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseHead from "../../../components/layout/BaseHead.astro";
 import Footer from "../../../components/layout/Footer.astro";
 import Header from "../../../components/navigation/Header.astro";
+import MobileNav from "../../../components/navigation/MobileNav.astro";
 import { SITE_TITLE } from "../../../consts";
 import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
 
@@ -47,6 +48,7 @@ function getCleanSlug(id: string) {
 			</section>
 		</main>
 		<Footer />
+		<MobileNav />
 	</body>
 </html>
 

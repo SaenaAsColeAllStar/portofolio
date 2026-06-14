@@ -44,7 +44,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
 // POST increment view count for a path
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const { path } = body;
 
     if (!path) {

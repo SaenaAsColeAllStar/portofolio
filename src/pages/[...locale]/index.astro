@@ -13,6 +13,9 @@ import FeaturedProjects from "../../components/project/FeaturedProjects.astro";
 import NotesPreview from "../../components/notes/NotesPreview.astro";
 import CertificatesPreview from "../../components/certificate/CertificatesPreview.astro";
 import ContactCta from "../../components/contact/ContactCta.astro";
+import ArchitecturePhilosophy from "../../components/layout/ArchitecturePhilosophy.astro";
+import VisitorGlobe from "../../components/globe/VisitorGlobe.vue";
+import MobileNav from "../../components/navigation/MobileNav.astro";
 
 export async function getStaticPaths() {
 	return [
@@ -98,13 +101,18 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 
 			<FeaturedProjects locale={locale} />
 
+			<ArchitecturePhilosophy locale={locale} />
+
 			<NotesPreview locale={locale} />
 
 			<CertificatesPreview locale={locale} />
 
 			<ContactCta locale={locale} />
+
+			<VisitorGlobe client:visible />
 		</main>
 		<Footer />
+		<MobileNav />
 	</body>
 </html>
 

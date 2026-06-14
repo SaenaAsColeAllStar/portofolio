@@ -26,7 +26,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
     }
 
     // 2. Parse request parameters
-    const body = await request.json();
+    const body = await request.json() as any;
     const { id } = body;
 
     if (id === undefined || typeof id !== "number") {

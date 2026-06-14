@@ -1,0 +1,89 @@
+---
+import { architecturePhilosophy } from "../../data/philosophy";
+import { useTranslations } from "../../utils/i18n";
+
+interface Props {
+  locale: "en" | "id";
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const philosophies = architecturePhilosophy[locale];
+---
+
+<section class="section architecture-philosophy-section" data-animate="reveal">
+  <div class="section-header">
+    <p class="eyebrow">{locale === 'en' ? 'Core Beliefs' : 'Prinsip Utama'}</p>
+    <h2>{locale === 'en' ? 'Architecture Philosophy' : 'Filosofi Arsitektur'}</h2>
+    <p class="section-description">
+      {locale === 'en' 
+        ? 'Pragmatic system design rules guiding how I design, automate, and scale reliable digital platforms.'
+        : 'Aturan desain sistem pragmatis yang memandu cara saya merancang, mengotomatisasi, dan menskalakan platform digital.'}
+    </p>
+  </div>
+
+  <div class="grid grid-3 philosophy-grid">
+    {philosophies.map((p) => (
+      <article class="card philosophy-card" data-animate="card-hover">
+        <span class="pillar-indicator"></span>
+        <p class="card-tagline">{p.tagline}</p>
+        <h3>{p.title}</h3>
+        <p class="card-desc">{p.description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .architecture-philosophy-section {
+    margin-top: 4rem;
+  }
+  .section-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 2.5rem auto;
+  }
+  .section-description {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-top: 0.5rem;
+  }
+  .philosophy-grid {
+    margin-top: 1.5rem;
+  }
+  .philosophy-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    overflow: hidden;
+  }
+  .pillar-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 80%);
+  }
+  .card-tagline {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0;
+  }
+  h3 {
+    margin: 0.2rem 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .card-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>

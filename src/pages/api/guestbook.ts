@@ -45,7 +45,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }), { status: 429, headers: { 'content-type': 'application/json' } });
     }
 
-    const body = await request.json();
+    const body = await request.json() as any;
     const { name, message, 'cf-turnstile-response': turnstileResponse } = body;
 
     if (!name || !message) {
@@ -56,7 +56,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Turnstile verification
-    const turnstileSecret = env?.TURNSTILE_SECRET_KEY || '0x4AAAAAADkIU9mGAs4or8oWnnk0sQMomdo';
+    const turnstileSecret = (env as any)?.TURNSTILE_SECRET_KEY || '0x4AAAAAADkIU9mGAs4or8oWnnk0sQMomdo';
     const isVerified = await verifyTurnstile(turnstileResponse, turnstileSecret, ip);
 
     if (!isVerified) {

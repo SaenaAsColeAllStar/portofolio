@@ -2,6 +2,7 @@
 import BaseHead from "../../../components/layout/BaseHead.astro";
 import Footer from "../../../components/layout/Footer.astro";
 import Header from "../../../components/navigation/Header.astro";
+import MobileNav from "../../../components/navigation/MobileNav.astro";
 import { SITE_TITLE } from "../../../consts";
 import { socials } from "../../../data/socials";
 import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
@@ -71,6 +72,7 @@ const t = useTranslations(locale);
 			</section>
 		</main>
 		<Footer />
+		<MobileNav />
 	</body>
 </html>
 
