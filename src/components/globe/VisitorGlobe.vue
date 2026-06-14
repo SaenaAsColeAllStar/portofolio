@@ -116,7 +116,8 @@ const maxVisits = computed(() => {
 
 const canvasRef = ref(null);
 const containerRef = ref(null);
-const isRotating = ref(true);
+const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+const isRotating = ref(!isMobile);
 const highlightedCode = ref(null);
 
 const rotationY = ref(0);
@@ -233,22 +234,33 @@ function isPointInPolygon(latitude, longitude, polygon) {
 }
 
 const landPoints = [];
-for (let lat = -60; lat <= 80; lat += 3.5) {
-  const cosLat = Math.cos((lat * Math.PI) / 180);
-  const stepLng = 3.5 / cosLat;
-  for (let lng = -180; lng < 180; lng += stepLng) {
-    let isLand = false;
-    for (const poly of CONTINENTS) {
-      if (isPointInPolygon(lat, lng, poly)) {
-        isLand = true;
-        break;
+
+const initLandPoints = () => {
+  if (landPoints.length > 0) return;
+  const step = isMobile ? 7.5 : 3.5;
+  for (let lat = -60; lat <= 80; lat += step) {
+    const cosLat = Math.cos((lat * Math.PI) / 180);
+    const stepLng = step / cosLat;
+    for (let lng = -180; lng < 180; lng += stepLng) {
+      let isLand = false;
+      for (const poly of CONTINENTS) {
+        if (isPointInPolygon(lat, lng, poly)) {
+          isLand = true;
+          break;
+        }
+      }
+      if (isLand) {
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = (lng + 180) * (Math.PI / 180);
+        landPoints.push({
+          ux: -(Math.sin(phi) * Math.sin(theta)),
+          uy: Math.cos(phi),
+          uz: Math.sin(phi) * Math.cos(theta)
+        });
       }
     }
-    if (isLand) {
-      landPoints.push({ lat, lng });
-    }
   }
-}
+};
 
 let projectedCountriesList = [];
 
@@ -371,7 +383,7 @@ const drawLandMap = (ctx, drawFront) => {
     : (drawFront ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.03)');
 
   landPoints.forEach(pt => {
-    const v = latLngToVector3(pt.lat, pt.lng, radius);
+    const v = { x: pt.ux * radius, y: pt.uy * radius, z: pt.uz * radius };
     const rot = rotateVector(v, rotationX.value, rotationY.value);
     const isFront = rot.z >= 0;
 
@@ -442,6 +454,7 @@ watch(processedCountries, () => {
 }, { deep: true, immediate: true });
 
 onMounted(() => {
+  initLandPoints();
   updateTheme();
   window.addEventListener('theme-changed', updateTheme);
   // Fade-in entrance on scroll enter via IntersectionObserver on mount

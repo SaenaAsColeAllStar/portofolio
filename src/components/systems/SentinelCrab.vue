@@ -254,10 +254,11 @@ const { zone, distance, relativeCoords } = useCursorAwareness(crabRef, {
 
 // Reduced Motion Media Query ref
 const prefersReducedMotion = ref(false);
+const isMobile = ref(false);
 let mediaQueryList: MediaQueryList | null = null;
 
 const handleReduceMotionChange = (e: MediaQueryListEvent | MediaQueryList) => {
-  prefersReducedMotion.value = e.matches;
+  prefersReducedMotion.value = e.matches || isMobile.value;
 };
 
 // Unified Animation & Inactivity ticks
@@ -537,7 +538,12 @@ const tick = () => {
     }
   }
 
-  tickAnimFrame = requestAnimationFrame(tick);
+  const shouldLoop = !prefersReducedMotion.value || bubbleScale.value > 0.005;
+  if (shouldLoop) {
+    tickAnimFrame = requestAnimationFrame(tick);
+  } else {
+    tickAnimFrame = 0;
+  }
 };
 
 // Leg Style helper (with dynamic secondary motion body-tilt leg-compression compensation)
@@ -853,14 +859,25 @@ const handleCrabHover = () => {
   }
 };
 
+// Animation loop controller
+const startAnimationLoop = () => {
+  if (!tickAnimFrame) {
+    tickAnimFrame = requestAnimationFrame(tick);
+  }
+};
+
 // Bubble dialogue helper
 let bubbleClearTimer: any = null;
 const showBubble = (text: string) => {
   bubbleText.value = text;
   bubbleSpring.setTarget(1);
+  startAnimationLoop();
+
   clearTimeout(bubbleClearTimer);
   bubbleClearTimer = setTimeout(() => {
     bubbleSpring.setTarget(0);
+    startAnimationLoop();
+    
     setTimeout(() => {
       bubbleText.value = null;
     }, 300); // Wait for spring to settle scale to 0
@@ -1006,6 +1023,8 @@ const handleArchitectureExplorerStep = (e: any) => {
 onMounted(() => {
   // Media query checks
   if (typeof window !== 'undefined') {
+    isMobile.value = window.matchMedia('(max-width: 768px)').matches || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     mediaQueryList = window.matchMedia('(prefers-reduced-motion: reduce)');
     handleReduceMotionChange(mediaQueryList);
     mediaQueryList.addEventListener('change', handleReduceMotionChange);
