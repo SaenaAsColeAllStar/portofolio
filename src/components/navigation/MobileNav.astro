@@ -275,7 +275,8 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 		position: fixed;
 		bottom: 1.8rem;
 		left: 50%;
-		transform: translate(calc(-50% + var(--magnet-x, 0px)), var(--magnet-y, 0px)) scale(1);
+		translate: calc(-50% + var(--magnet-x, 0px)) var(--magnet-y, 0px);
+		scale: 1;
 		height: 54px;
 		max-width: 90vw;
 		width: max-content;
@@ -292,12 +293,12 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 		padding: 0.35rem;
 		z-index: 90;
 		transition: 
-			transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+			scale 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
 			opacity 0.4s ease,
 			background-color 0.4s,
 			border-color 0.4s,
 			width 0.4s;
-		will-change: transform;
+		will-change: translate, scale;
 	}
 
 	/* Light mode styles */
@@ -309,14 +310,14 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 
 	/* Scroll Shrink physics */
 	.mobile-bottom-nav.dock-scrolled {
-		transform: translate(calc(-50% + var(--magnet-x, 0px)), var(--magnet-y, 0px)) scale(0.82);
+		scale: 0.82;
 		opacity: 0.72;
 	}
 
 	.mobile-bottom-nav:hover,
 	.mobile-bottom-nav:focus-within {
 		opacity: 1 !important;
-		transform: translate(calc(-50% + var(--magnet-x, 0px)), var(--magnet-y, 0px)) scale(1) !important;
+		scale: 1 !important;
 	}
 
 	/* Navigation Item Styling */

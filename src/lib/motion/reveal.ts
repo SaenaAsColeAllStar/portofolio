@@ -10,6 +10,7 @@ function prefersReducedMotion() {
 
 // ─── Number counter animation ─────────────────────────────────────────────────
 function animateCounter(el: HTMLElement) {
+	el.style.opacity = '1';
 	const target = parseFloat(el.dataset.counterTarget || el.textContent || '0');
 	const duration = parseInt(el.dataset.animateDuration || '1500', 10);
 	const suffix = el.dataset.counterSuffix || '';
@@ -165,8 +166,12 @@ export function initRevealAnimations() {
 
 	document.querySelectorAll('[data-animate]').forEach(el => {
 		const animType = (el as HTMLElement).dataset.animate || '';
-		// Don't hide stagger parents — children will be set to opacity:0 on animate
-		if (animType !== 'stagger' && animType !== 'word-reveal') {
+		if (animType === 'stagger') {
+			// Pre-hide stagger children to prevent them from showing before intersection is triggered
+			Array.from((el as HTMLElement).children).forEach(child => {
+				(child as HTMLElement).style.opacity = '0';
+			});
+		} else {
 			(el as HTMLElement).style.opacity = '0';
 		}
 		observer.observe(el);
