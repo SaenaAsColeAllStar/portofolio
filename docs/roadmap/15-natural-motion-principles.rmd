@@ -1,0 +1,305 @@
+# CTOS Portfolio
+# 15 — Natural Motion Principles
+
+## Purpose
+
+This document focuses on solving two critical issues:
+
+- Crab blink feels robotic
+- Crab dance feels stiff and scripted
+
+The goal is not more animation.
+
+The goal is believable behavior.
+
+---
+
+# Core Principle
+
+Users do not remember animation.
+
+Users remember believable characters.
+
+---
+
+# Motion Quality Hierarchy
+
+Bad:
+
+Animation
+
+Better:
+
+Interaction
+
+Best:
+
+Behavior
+
+---
+
+# Problem 01 — Robotic Blink
+
+## Anti Pattern
+
+Blink every fixed interval.
+
+Example:
+
+Every 10 seconds.
+
+Result:
+
+The brain immediately detects the pattern.
+
+---
+
+## Target Blink System
+
+Type A — Normal Blink (70%)
+
+Close
+↓
+Open
+
+---
+
+Type B — Fast Blink (20%)
+
+Quick Close
+↓
+Quick Open
+
+---
+
+Type C — Double Blink (10%)
+
+Close
+↓
+Open
+↓
+Pause
+↓
+Close
+↓
+Open
+
+---
+
+## Timing Rules
+
+Blink Window:
+
+8–40 seconds
+
+Randomized.
+
+Never predictable.
+
+---
+
+# Problem 02 — Eye Tracking
+
+## Anti Pattern
+
+Left
+↓
+Right
+
+---
+
+## Natural Eye Motion
+
+Left
+↓
+Pause
+↓
+Center
+↓
+Pause
+↓
+Right
+
+Eyes should hesitate.
+
+Eyes should inspect.
+
+Eyes should observe.
+
+---
+
+# Problem 03 — Robotic Dance
+
+## Current Pattern
+
+Hover
+↓
+Dance
+↓
+Stop
+
+Feels like a button animation.
+
+---
+
+## Natural Pattern
+
+Notice
+↓
+Prepare
+↓
+Move
+↓
+Follow Through
+↓
+Recover
+↓
+Idle
+
+---
+
+# Problem 04 — No Secondary Motion
+
+When claws move:
+
+Body should react.
+
+Eyes should react.
+
+Legs should compensate.
+
+No movement should happen in isolation.
+
+---
+
+# Problem 05 — Symmetry
+
+Avoid:
+
+Both claws moving simultaneously.
+
+Both legs moving simultaneously.
+
+Perfectly mirrored behavior.
+
+---
+
+Use:
+
+Small delays.
+
+Small imperfections.
+
+Natural offsets.
+
+---
+
+# Problem 06 — Infinite Loops
+
+Avoid:
+
+5 second loops.
+
+10 second loops.
+
+Predictable loops.
+
+---
+
+Use:
+
+Behavior Pools.
+
+Idle A
+Idle B
+Idle C
+Idle D
+Idle E
+
+Weighted random selection.
+
+---
+
+# CTOS Crab Personality
+
+The crab is not primarily playful.
+
+The crab is a Sentinel.
+
+Priority Order:
+
+Observe
+↓
+Inspect
+↓
+Signal
+↓
+Guide
+↓
+Celebrate
+
+---
+
+# Claude Benchmark Analysis
+
+The Claude crab feels alive because:
+
+- anticipation exists
+- hesitation exists
+- randomness exists
+- secondary motion exists
+- imperfections exist
+
+Not because animations are complex.
+
+---
+
+# Favicon Motion Rules
+
+The favicon should be calmer than the mascot.
+
+Never pulse forever.
+
+Never blink forever.
+
+Never move continuously.
+
+---
+
+# Motion Ratio
+
+90% Stillness
+
+8% Micro Motion
+
+2% Meaningful Reaction
+
+---
+
+# Success Criteria
+
+Users stop noticing animation.
+
+Users start believing the character.
+
+The crab feels present.
+
+Not busy.
+
+The favicon feels aware.
+
+Not animated.
+
+---
+
+# Final Vision
+
+The CTOS Crab becomes a believable digital sentinel.
+
+It observes more than it performs.
+
+Its reactions are intentional.
+
+Its movements are subtle.
+
+Its presence is memorable because it feels alive.
