@@ -65,6 +65,11 @@
 
     <!-- Details Display Panel -->
     <div class="details-section">
+      <SentinelCrab 
+        variant="guide" 
+        :locale="locale" 
+        :hovered-node-id="activeStepId" 
+      />
       <transition name="slide" mode="out-in">
         <div :key="activeStep.id" class="details-card card">
           <div class="card-header">
@@ -103,6 +108,7 @@
 
 <script setup lang="ts">
 import { ref, computed, defineProps } from 'vue';
+import SentinelCrab from './SentinelCrab.vue';
 
 const props = defineProps<{
   locale: 'en' | 'id';

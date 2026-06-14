@@ -13,13 +13,20 @@
         aria-label="Command palette"
       >
         <div class="palette-container">
-          <CommandInput 
-            ref="inputComponentRef"
-            v-model="query" 
-            :placeholder="placeholderText"
-            @keydown="handleInputKeyDown"
-            @close="close"
-          />
+          <div class="palette-header" style="position: relative;">
+            <SentinelCrab 
+              variant="search"
+              :search-active="query.length > 0"
+              :locale="locale"
+            />
+            <CommandInput 
+              ref="inputComponentRef"
+              v-model="query" 
+              :placeholder="placeholderText"
+              @keydown="handleInputKeyDown"
+              @close="close"
+            />
+          </div>
           <CommandResults 
             :results="filteredResults" 
             :active-index="activeIndex" 
@@ -37,6 +44,7 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, defineProps } from 'vue';
 import CommandInput from './CommandInput.vue';
 import CommandResults from './CommandResults.vue';
+import SentinelCrab from '../systems/SentinelCrab.vue';
 import { search, type SearchItem } from '../../lib/search/search-engine';
 
 const props = defineProps<{
@@ -254,6 +262,10 @@ onUnmounted(() => {
 .palette-container {
   display: flex;
   flex-direction: column;
+}
+
+:deep(.sentinel-crab-container.search) {
+  right: 4.5rem;
 }
 
 /* Transitions — backdrop */

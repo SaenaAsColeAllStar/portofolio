@@ -1,6 +1,7 @@
 ---
 // MobileNav.astro - Floating System Dock navigation for mobile screens
 import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
+import SentinelCrab from "../systems/SentinelCrab.vue";
 const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
 const t = useTranslations(locale);
 
@@ -31,6 +32,7 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 <div class="mobile-nav-wrapper">
 	{isCaseStudyDetail ? (
 		<nav id="floating-system-dock" class="mobile-bottom-nav context-dock" aria-label="Case study navigation" data-transition-persist>
+			<SentinelCrab client:load variant="dock" locale={locale} />
 			<a href="#overview" class="nav-item dock-context-item active" data-page="overview">
 				<div class="active-indicator-bg" transition:name="active-dock-indicator"></div>
 				<!-- Icon Overview: Circle / Document -->
@@ -86,6 +88,7 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 		</nav>
 	) : (
 		<nav id="floating-system-dock" class="mobile-bottom-nav main-dock" aria-label="Mobile navigation" data-transition-persist>
+			<SentinelCrab client:load variant="dock" locale={locale} />
 			<a href={homeHref} class={`nav-item ${isHome ? 'active' : ''}`} data-page="home">
 				{isHome && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
 				<!-- Icon Home: Stylized ⌂ -->

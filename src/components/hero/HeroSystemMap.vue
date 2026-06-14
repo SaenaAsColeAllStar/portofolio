@@ -1,5 +1,12 @@
 <template>
   <div class="system-map-wrapper" ref="wrapperRef">
+    <SentinelCrab 
+      :hovered-node-id="hoveredNodeId" 
+      :active-node-id="activeNodeId" 
+      variant="hero"
+      :locale="locale"
+      class="hero-mascot"
+    />
     <!-- Interactive SVG Constellation -->
     <div class="svg-container">
       <svg 
@@ -134,6 +141,7 @@ import HeroNode from './HeroNode.vue';
 import HeroTooltip from './HeroTooltip.vue';
 import HeroStats from './HeroStats.vue';
 import HeroCTA from './HeroCTA.vue';
+import SentinelCrab from '../systems/SentinelCrab.vue';
 
 const props = defineProps<{
   locale: 'en' | 'id';
@@ -483,6 +491,15 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 2rem;
+}
+
+@media (min-width: 769px) {
+  .system-map-wrapper {
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+  }
 }
 
 .svg-container {
