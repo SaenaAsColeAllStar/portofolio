@@ -1,20 +1,18 @@
 # CTOS Portfolio Roadmap
-# 05 — Motion Layer (RMD v1.0)
+# 05 — Motion Layer (RMD v2.0)
 
 ## Objective
 
-Transform the portfolio from a professional website into a memorable interactive experience.
+Transform the portfolio from a professional website into a memorable system experience.
 
 Motion must:
-
 - Reinforce architecture thinking
-- Communicate system relationships
+- Explain relationships between systems
 - Guide attention
 - Improve comprehension
-- Strengthen branding
+- Strengthen personal branding
 
-Motion must NOT:
-
+Motion must never:
 - Distract users
 - Reduce performance
 - Harm accessibility
@@ -23,575 +21,354 @@ Motion must NOT:
 
 # Motion Philosophy
 
-Motion Has Purpose.
+Motion Is Information.
 
-Every animation must answer one question:
+Every animation must answer:
 
 Why does this animation exist?
 
 Valid reasons:
-
 - Explain
-- Guide
 - Reveal
+- Guide
 - Connect
 - Confirm
 - Delight
 
 ---
 
-# Current Assessment
+# CTOS Motion Formula
 
-Current Motion Score:
-
-6.5/10
-
-Current State:
-
-- Hover transitions
-- Tooltips
-- Basic card interactions
-- Reduced motion support
-
-Missing:
-
-- Storytelling motion
-- Architecture visualization
-- SVG morphing
-- System relationships
-- Signature interactions
+System Thinking
++
+Progressive Disclosure
++
+Physics-Based Motion
++
+Shared Element Transitions
++
+Morphing SVG
+=
+CTOS Motion System
 
 ---
 
-# Motion Success Criteria
+# New Motion Principles
 
-Motion Layer complete when:
+## Principle M-01
+Clarity Before Complexity
 
-- Motion system centralized
-- Hero becomes interactive
-- SVG morphing implemented
-- Scroll storytelling implemented
-- Signature interactions implemented
-- Lighthouse remains >= 90
+## Principle M-02
+Experience Before Animation
+
+## Principle M-03
+Architecture Before Decoration
+
+## Principle M-04
+Motion Must Explain
+
+## Principle M-05
+Performance Is A Feature
 
 ---
 
-# Motion Tokens
+# Signature Interaction System
 
-Fast
-120ms
+## SI-01 — Interactive System Graph Hero
 
-Normal
-220ms
+Purpose:
+Visualize expertise as a connected system.
 
-Slow
-400ms
+Nodes:
+- Cloudflare
+- Proxmox
+- Astro
+- Vue
+- AI
+- Infrastructure
 
-Reveal
-600ms
+Interactions:
+- Hover Glow
+- Connection Pulse
+- Metadata Reveal
+- Relationship Highlight
 
-Story
-800ms
+Rule:
+Never show all information immediately.
+Use progressive disclosure.
+
+---
+
+## SI-02 — Shared Element Project Expansion
+
+Inspired by premium product experiences.
+
+Flow:
+
+Project Card
+↓
+Expand
+↓
+Transform
+↓
+Case Study Viewer
+
+Rule:
+Do not open traditional modals.
+User should feel the same object is expanding.
+
+---
+
+## SI-03 — Floating System Dock
+
+Mobile Only.
+
+Items:
+- Home
+- Projects
+- AI Command
+- Case Studies
+- Notes
+
+Interactions:
+- Magnetic Attraction
+- Dock Expansion
+- SVG Morphing
+- Dynamic Resize
+
+---
+
+## SI-04 — Architecture Explorer
+
+Purpose:
+Visualize system relationships.
+
+Interactions:
+- Node Expansion
+- Relationship Reveal
+- Animated Graph Connections
+- Metadata Layer
+
+---
+
+## SI-05 — Dynamic Certificate Vault
+
+Interactions:
+- Folder Open
+- Certificate Preview
+- Verification Reveal
+- Fullscreen Expand
+
+---
+
+## SI-06 — AI Command Center
+
+Trigger:
+CTRL + K
+CMD + K
+
+Mobile:
+Dock Center Action
+
+Purpose:
+Primary navigation engine.
+
+---
+
+# Progressive Disclosure System
+
+Users should initially see:
+20%
+
+Remaining:
+80%
+
+revealed through interaction.
+
+Applications:
+- Hero
+- Projects
+- Certificates
+- Architecture Explorer
+- Case Studies
+
+---
+
+# Physics Motion System
+
+Hover Effects:
+- Magnetic Pull
+- Micro Translation
+- Dynamic Glow
+- Cursor Response
+
+Movement Range:
+2px–8px maximum.
+
+Rule:
+Objects should feel alive, not floating.
+
+---
+
+# Shared Element Transition Rules
+
+Allowed:
+- Project → Case Study
+- Certificate → Detail View
+- Note → Full Article
+
+Forbidden:
+- Every interaction
+- Every card
+
+Use only for high-value transitions.
+
+---
+
+# Motion Timing System
+
+Hover: 120ms
+Reveal: 180ms
+Expand: 250ms
+Section: 350ms
+Page: 450ms
+
+Rule:
+No animation longer than 600ms.
 
 ---
 
 # Easing Standards
 
-Default
+Default:
 
 cubic-bezier(0.22,1,0.36,1)
 
 ---
 
-# Sprint M1 — Motion Foundation
+# Motion Technology Stack
 
-## Goal
+Primary:
+- Motion
+- Motion for Vue
 
-Create reusable animation infrastructure.
+Secondary:
+- GSAP (Hero & Architecture Explorer only)
 
-### Modules
-
-lib/animations/
-
-hero.ts
-cards.ts
-cursor.ts
-navigation.ts
-reveal.ts
-svg.ts
-search.ts
+Avoid:
+- Heavy Lottie usage
+- Scroll hijacking
+- ThreeJS everywhere
 
 ---
 
-## Rules
+# Existing Motion Systems
 
-No animation logic inside pages.
-
-Reusable only.
-
-Composable only.
-
----
-
-# Sprint M2 — Reveal System
-
-## Goal
-
-Standardize content appearance.
-
-### Reveal Types
-
-Fade Up
-
-Fade In
-
-Scale Reveal
-
-Mask Reveal
-
-Line Reveal
-
-Word Reveal
+Maintain:
+- Reveal System
+- Navigation Motion
+- Hero Motion
+- SVG Motion
+- Cursor System
+- Card Interactions
+- Scroll Storytelling
+- Command Palette Motion
+- Certificate Vault Motion
+- Visitor Globe Motion
 
 ---
 
-### Usage Rules
+# Micro Interaction Inventory
 
-Hero
-
-Section Headers
-
-Metrics
-
-Case Study Sections
-
----
-
-## Forbidden
-
-Long paragraphs
-
-Entire articles
-
----
-
-# Sprint M3 — Navigation Motion
-
-## Goal
-
-Create premium navigation feel.
-
-### Desktop
-
-Hide on scroll down
-
-Reveal on scroll up
-
-Glass blur transition
-
----
-
-### Mobile
-
-Bottom navigation reveal
-
-Safe-area aware animation
-
----
-
-# Sprint M4 — Hero Motion System
-
-## Goal
-
-Create signature first impression.
-
-### Components
-
-Hero Nodes
-
-Hero Connections
-
-Hero Signals
-
-Hero Tooltips
-
----
-
-### Node Interactions
-
-Hover
-
-- scale
-- glow
-- metadata reveal
-
-Click
-
-- expand panel
-
----
-
-### Connection Motion
-
-Animated signal pulses
-
-Data flow visualization
-
----
-
-# Sprint M5 — SVG Motion System
-
-## Goal
-
-Build custom SVG ecosystem.
-
-### Animation Types
-
-Stroke Draw
-
-Path Reveal
-
-Node Pulse
-
-Gradient Shift
-
-Connection Pulse
-
----
-
-### Future Morph Chains
-
-Infrastructure
-→ Cloud
-→ Automation
-→ AI
-→ Architecture
-
-Certificate
-→ Knowledge
-→ Capability
-
-Project
-→ Case Study
-→ Documentation
-
----
-
-# Sprint M6 — Cursor System
-
-## Goal
-
-Create contextual interaction layer.
-
-### Cursor States
-
-Default
-
-Explore
-
-Open
-
-View Project
-
-View Case Study
-
-Download Resume
-
----
-
-### Rules
-
-Desktop only.
-
-Disable on touch devices.
-
----
-
-# Sprint M7 — Card Interaction System
-
-## Goal
-
-Increase perceived depth.
-
-### Effects
-
-Tilt
-
-Depth Shift
-
-Glow
-
-Metadata Reveal
-
----
-
-### Targets
-
-Project Cards
-
-Certificate Cards
-
-Case Study Cards
-
----
-
-# Sprint M8 — Scroll Storytelling
-
-## Goal
-
-Turn scrolling into narrative.
-
-### Targets
-
-Case Studies
-
-Architecture Sections
-
-Flagship Projects
-
----
-
-### Storytelling Effects
-
-Sequential Reveal
-
-Diagram Build-Up
-
-Metrics Activation
-
-Connection Highlighting
-
----
-
-# Sprint M9 — Command Palette Motion
-
-## Goal
-
-Premium keyboard-first interaction.
-
-### Animations
-
-Palette Expand
-
-Result Transition
-
-Focus Highlight
-
-Selection Transition
-
----
-
-### Constraints
-
-Under 100ms perceived latency.
-
----
-
-# Sprint M10 — Certificate Vault Motion
-
-## Goal
-
-Elevate certificate experience.
-
-### Interactions
-
-Folder Open
-
-Card Expand
-
-Metadata Reveal
-
-Credential Preview
-
----
-
-# Sprint M11 — Visitor Globe Motion
-
-## Goal
-
-Signature analytics interaction.
-
-### Interactions
-
-Rotate
-
-Country Hover
-
-Tooltip Reveal
-
-Country Focus
-
----
-
-### Constraints
-
-Lazy loaded.
-
-Never above fold.
-
----
-
-# Sprint M12 — Micro Interaction Inventory
-
-Required Minimum:
-
+Minimum Target:
 50+
 
-Core Inventory:
-
-01 Magnetic Button
-02 Dynamic Arrow
-03 Hover Glow
-04 Card Tilt
-05 Card Depth
-06 SVG Morph
-07 Scroll Reveal
-08 Line Reveal
-09 Word Reveal
-10 Number Counter
-11 Cursor Label
-12 Cursor Scale
-13 Navigation Hide
-14 Navigation Reveal
-15 Theme Morph
-16 Language Switch
-17 Project Filter
-18 Search Expand
-19 Search Suggestion
-20 Command Palette Open
-21 Command Palette Search
-22 Certificate Hover
-23 Certificate Open
-24 Case Study Reveal
-25 Architecture Diagram Animate
-26 Skill Card Hover
-27 Expertise Matrix Hover
-28 Timeline Progress
-29 Scroll Indicator
-30 Globe Rotation
-31 Globe Hover
-32 Visitor Counter
-33 Footer Reveal
-34 Contact Validation
-35 Contact Success
-36 Loading Skeleton
-37 Page Transition
-38 Route Transition
-39 Section Indicator
-40 CTA Pulse
-41 CTA Magnetic
-42 Signal Pulse
-43 Node Hover
-44 Node Expand
-45 Project Preview
-46 Metadata Reveal
-47 Dark Mode Morph
-48 Light Mode Morph
-49 Floating Action Expand
-50 Architecture Map Interaction
+Priority Additions:
+- Shared Element Expansion
+- Architecture Node Hover
+- Connection Pulse
+- Dock Morphing
+- Dock Physics
+- Metadata Reveal
+- Progressive Disclosure
+- SVG State Morphing
+- AI Command Activation
+- Project Expansion Viewer
 
 ---
 
 # Accessibility Rules
 
 Support:
-
 prefers-reduced-motion
 
----
-
 Disable:
-
-Parallax
-
-SVG Morphing
-
-Depth Motion
-
-Heavy Scroll Effects
-
----
+- Parallax
+- SVG Morphing
+- Depth Motion
+- Heavy Scroll Effects
 
 Keep:
-
-Opacity
-
-Fade
-
-Simple Reveal
+- Fade
+- Opacity
+- Simple Reveal
 
 ---
 
 # Performance Budget
 
-Target FPS
+Target FPS: 60fps
 
-60fps
+Frame Budget: 16ms
 
----
+INP: <200ms
 
-Animation Frame Budget
+Lighthouse: 95+
 
-16ms
-
----
-
-Lighthouse
-
-90+
-
----
-
-INP
-
-<200ms
+Initial Motion JS Budget:
+<150KB
 
 ---
 
 # AI Agent Rules
 
 Rule M-01
-
 Motion must support meaning.
 
 Rule M-02
-
 Never animate everything.
 
 Rule M-03
-
 Prioritize readability.
 
 Rule M-04
-
-SVG before Canvas.
+Use progressive disclosure.
 
 Rule M-05
-
-Canvas before ThreeJS.
+SVG before Canvas.
 
 Rule M-06
-
-Accessibility is mandatory.
+Canvas before ThreeJS.
 
 Rule M-07
+Performance before aesthetics.
 
-Performance takes priority over visual effects.
+Rule M-08
+Shared Element Transitions are preferred for premium interactions.
 
 ---
 
 # Definition of Done
 
-- Motion engine centralized.
-- Hero motion complete.
-- SVG motion complete.
-- Cursor system complete.
-- Scroll storytelling complete.
-- Certificate vault motion complete.
-- Visitor globe motion complete.
-- 50+ micro interactions implemented.
-- Reduced motion fully supported.
-- Lighthouse >= 90.
+- Motion engine centralized
+- Hero graph implemented
+- Shared element transitions implemented
+- Floating dock implemented
+- Architecture explorer implemented
+- SVG morphing implemented
+- 50+ micro interactions implemented
+- Reduced motion supported
+- Lighthouse >=95
 
 ---
 
