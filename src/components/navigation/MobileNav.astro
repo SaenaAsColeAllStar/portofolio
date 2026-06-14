@@ -243,6 +243,23 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 				if (el) observer.observe(el);
 			});
 		}
+
+		// 5. Optimistic Active State Transitions
+		const navItems = dock.querySelectorAll('.nav-item[href]');
+		navItems.forEach(item => {
+			item.addEventListener('click', () => {
+				const activeItem = dock.querySelector('.nav-item.active');
+				if (activeItem === item) return;
+
+				const activeIndicator = dock.querySelector('.active-indicator-bg');
+				activeItem?.classList.remove('active');
+				item.classList.add('active');
+
+				if (activeIndicator) {
+					item.insertBefore(activeIndicator, item.firstChild);
+				}
+			});
+		});
 	}
 
 	// Bootstrap mobile dock on page transitions and direct load
@@ -408,6 +425,11 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 		z-index: -1;
 		transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 		pointer-events: none;
+	}
+
+	:global([data-theme="light"]) .active-indicator-bg {
+		background: rgba(37, 99, 235, 0.08);
+		border: 1px solid rgba(37, 99, 235, 0.28);
 	}
 
 	/* Home: Circle Shape */

@@ -286,9 +286,9 @@ const formatDate = (dateStr) => {
   margin-bottom: 2rem;
 }
 .filter-tab {
-  background: var(--card-bg, #1a1f2c);
-  border: 1px solid var(--border, #242936);
-  color: var(--muted, #8ea0c4);
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
   padding: 0.5rem 1rem;
   border-radius: 999px;
   cursor: pointer;
@@ -297,9 +297,9 @@ const formatDate = (dateStr) => {
   transition: all 0.2s ease;
 }
 .filter-tab:hover, .filter-tab.active {
-  background: var(--hover-bg, #242d3d);
-  color: var(--text, #f0f4fc);
-  border-color: var(--accent, #4f8cff);
+  background: var(--btn-secondary-hover);
+  color: var(--text);
+  border-color: var(--accent);
 }
 .certificate-grid {
   margin-top: 1.5rem;
@@ -441,8 +441,8 @@ h3 {
   transition: all 0.2s ease;
 }
 .modal-close-btn:hover {
-  color: var(--text, #f0f4fc);
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  background: var(--hover-bg);
 }
 .modal-body {
   padding: 2.2rem;
@@ -508,9 +508,9 @@ h3 {
   gap: 0.4rem;
 }
 .skill-badge {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border, #242936);
-  color: var(--muted, #8ea0c4);
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
   font-size: 0.78rem;
   padding: 0.25rem 0.55rem;
   border-radius: 4px;
@@ -549,7 +549,7 @@ h3 {
   color: var(--text, #f0f4fc);
 }
 .button.secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--btn-secondary-hover);
 }
 .btn-arrow {
   font-size: 0.8rem;

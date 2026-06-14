@@ -37,9 +37,9 @@ defineEmits(['toggle-rotation', 'reset-orientation']);
   gap: 0.5rem;
 }
 .control-btn {
-  background: var(--card-bg, #1a1f2c);
-  border: 1px solid var(--border, #242936);
-  color: var(--muted, #8ea0c4);
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
   width: 32px;
   height: 32px;
   border-radius: 6px;
@@ -50,8 +50,8 @@ defineEmits(['toggle-rotation', 'reset-orientation']);
   transition: all 0.2s ease;
 }
 .control-btn:hover {
-  background: var(--hover-bg, #242d3d);
-  color: var(--text, #f0f4fc);
-  border-color: var(--accent, #4f8cff);
+  background: var(--btn-secondary-hover);
+  color: var(--text);
+  border-color: var(--accent);
 }
 </style>

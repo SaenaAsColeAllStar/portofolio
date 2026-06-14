@@ -76,6 +76,14 @@ import { latLngToVector3, rotateVector, getCountryCoords, formatRelativeTime } f
 import GlobeControls from './GlobeControls.vue';
 import CountryTooltip from './CountryTooltip.vue';
 
+const isLightMode = ref(false);
+
+const updateTheme = () => {
+  if (typeof document !== 'undefined') {
+    isLightMode.value = document.documentElement.getAttribute('data-theme') === 'light';
+  }
+};
+
 const props = defineProps({
   countries: {
     type: Array,
@@ -206,7 +214,9 @@ const drawGrid = (ctx, drawFront) => {
         else { ctx.lineTo(cx + rot.x, cy + rot.y); }
       } else { first = true; }
     }
-    ctx.strokeStyle = drawFront ? 'rgba(79, 140, 255, 0.08)' : 'rgba(79, 140, 255, 0.03)';
+    ctx.strokeStyle = isLightMode.value 
+      ? (drawFront ? 'rgba(37, 99, 235, 0.08)' : 'rgba(37, 99, 235, 0.03)')
+      : (drawFront ? 'rgba(79, 140, 255, 0.08)' : 'rgba(79, 140, 255, 0.03)');
     ctx.stroke();
   }
 
@@ -222,14 +232,16 @@ const drawGrid = (ctx, drawFront) => {
         else { ctx.lineTo(cx + rot.x, cy + rot.y); }
       } else { first = true; }
     }
-    ctx.strokeStyle = drawFront ? 'rgba(79, 140, 255, 0.08)' : 'rgba(79, 140, 255, 0.03)';
+    ctx.strokeStyle = isLightMode.value
+      ? (drawFront ? 'rgba(37, 99, 235, 0.08)' : 'rgba(37, 99, 235, 0.03)')
+      : (drawFront ? 'rgba(79, 140, 255, 0.08)' : 'rgba(79, 140, 255, 0.03)');
     ctx.stroke();
   }
 
   if (drawFront) {
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
-    ctx.strokeStyle = 'rgba(79, 140, 255, 0.2)';
+    ctx.strokeStyle = isLightMode.value ? 'rgba(37, 99, 235, 0.2)' : 'rgba(79, 140, 255, 0.2)';
     ctx.stroke();
   }
   ctx.restore();
@@ -255,7 +267,9 @@ const drawConnections = (ctx, idNode, drawFront) => {
 
       ctx.moveTo(startX, startY);
       ctx.quadraticCurveTo(ctrlX, ctrlY, endX, endY);
-      ctx.strokeStyle = drawFront ? 'rgba(79, 140, 255, 0.22)' : 'rgba(79, 140, 255, 0.06)';
+      ctx.strokeStyle = isLightMode.value
+        ? (drawFront ? 'rgba(37, 99, 235, 0.22)' : 'rgba(37, 99, 235, 0.06)')
+        : (drawFront ? 'rgba(79, 140, 255, 0.22)' : 'rgba(79, 140, 255, 0.06)');
       ctx.stroke();
 
       const t = (pulseTime + (node.country.visits * 0.2)) % 1;
@@ -264,7 +278,9 @@ const drawConnections = (ctx, idNode, drawFront) => {
 
       ctx.beginPath();
       ctx.arc(signalX, signalY, 2.5, 0, 2 * Math.PI);
-      ctx.fillStyle = drawFront ? 'var(--accent-glow, #6ba4ff)' : 'rgba(79, 140, 255, 0.3)';
+      ctx.fillStyle = isLightMode.value
+        ? (drawFront ? '#1d4ed8' : 'rgba(37, 99, 235, 0.3)')
+        : (drawFront ? '#6ba4ff' : 'rgba(79, 140, 255, 0.3)');
       ctx.fill();
     }
   });
@@ -285,8 +301,8 @@ const drawCountryMarkers = (ctx) => {
     const isHighlighted = highlightedCode.value === node.country.code;
     const isHost = node.country.code === 'ID';
 
-    ctx.fillStyle = isHost ? (isFront ? 'var(--gold, #F4C46A)' : 'rgba(244, 196, 106, 0.3)') : (isFront ? 'var(--accent, #4f8cff)' : 'rgba(79, 140, 255, 0.2)');
-    ctx.strokeStyle = isFront ? '#FFF' : 'rgba(255, 255, 255, 0.08)';
+    ctx.fillStyle = isHost ? (isFront ? '#F4C46A' : 'rgba(244, 196, 106, 0.3)') : (isFront ? 'var(--accent, #4f8cff)' : (isLightMode.value ? 'rgba(37, 99, 235, 0.15)' : 'rgba(79, 140, 255, 0.2)'));
+    ctx.strokeStyle = isFront ? '#FFF' : (isLightMode.value ? 'rgba(15, 23, 42, 0.08)' : 'rgba(255, 255, 255, 0.08)');
     ctx.lineWidth = 1;
     ctx.fill();
     ctx.stroke();
@@ -295,7 +311,7 @@ const drawCountryMarkers = (ctx) => {
       const pulseSize = baseRadius + (Math.sin(Date.now() * 0.005) + 1) * 4;
       ctx.beginPath();
       ctx.arc(node.sx, node.sy, pulseSize, 0, 2 * Math.PI);
-      ctx.strokeStyle = isHost ? 'rgba(244, 196, 106, 0.3)' : 'rgba(79, 140, 255, 0.3)';
+      ctx.strokeStyle = isHost ? 'rgba(244, 196, 106, 0.3)' : (isLightMode.value ? 'rgba(37, 99, 235, 0.3)' : 'rgba(79, 140, 255, 0.3)');
       ctx.stroke();
     }
   });
@@ -329,6 +345,8 @@ watch(processedCountries, () => {
 }, { deep: true, immediate: true });
 
 onMounted(() => {
+  updateTheme();
+  window.addEventListener('theme-changed', updateTheme);
   // Fade-in entrance on scroll enter via IntersectionObserver on mount
   const card = cardRef.value;
   if (card && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -437,6 +455,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  window.removeEventListener('theme-changed', updateTheme);
   if (animationId) cancelAnimationFrame(animationId);
   if (resizeObserver && containerRef.value) resizeObserver.unobserve(containerRef.value);
 });
@@ -481,9 +500,9 @@ h2 {
   position: relative;
   width: 100%;
   height: 340px;
-  background: radial-gradient(circle at center, rgba(16, 20, 28, 0.4) 0%, rgba(10, 12, 18, 0.8) 100%);
+  background: radial-gradient(circle at center, var(--accent-glow-1) 0%, var(--bg-soft) 100%);
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
   cursor: grab;
 }
 .canvas-container:active { cursor: grabbing; }

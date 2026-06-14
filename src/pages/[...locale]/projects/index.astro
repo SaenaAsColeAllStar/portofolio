@@ -163,6 +163,13 @@ const activeGithubRepos = githubRepos[locale];
 		font-family: inherit;
 		min-width: 200px;
 	}
+	@media (max-width: 580px) {
+		.filter-controls input, .filter-controls select {
+			width: 100%;
+			min-width: 0;
+			flex: none;
+		}
+	}
 	.filter-controls input:focus, .filter-controls select:focus {
 		outline: 2px solid var(--text);
 		outline-offset: 2px;

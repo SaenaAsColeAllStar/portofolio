@@ -40,9 +40,9 @@ defineProps({
 <style scoped>
 .globe-tooltip {
   position: absolute;
-  background: rgba(13, 17, 24, 0.95);
-  border: 1px solid var(--accent, #4f8cff);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
   border-radius: 6px;
   padding: 0.6rem 0.8rem;
   pointer-events: none;
@@ -54,19 +54,19 @@ defineProps({
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  border-bottom: 1px solid var(--border, #242936);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0.3rem;
   margin-bottom: 0.3rem;
 }
 .tooltip-header strong {
-  color: var(--text, #f0f4fc);
+  color: var(--text);
 }
 .tooltip-header .code {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--btn-secondary-bg);
   padding: 0.1rem 0.3rem;
   border-radius: 3px;
   font-size: 0.7rem;
-  color: var(--muted, #8ea0c4);
+  color: var(--muted);
 }
 .metric-row {
   display: flex;
