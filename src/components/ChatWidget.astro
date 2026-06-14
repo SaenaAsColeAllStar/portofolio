@@ -122,18 +122,22 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
     right: 2rem;
     width: 22rem;
     height: 30rem;
-    background: rgba(18, 26, 44, 0.82);
+    background: var(--card-bg-1);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--border);
     border-radius: 1.25rem;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     z-index: 999;
     overflow: hidden;
     transition: opacity 0.25s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
     transform-origin: bottom right;
+  }
+
+  :global([data-theme="light"]) .chat-window {
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.1);
   }
 
   .chat-window.hidden {
@@ -192,7 +196,7 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
   }
 
   .close-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--hover-bg);
     color: var(--text);
   }
 
@@ -236,7 +240,7 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
   }
 
   .message.assistant .message-bubble {
-    background: rgba(255, 255, 255, 0.035);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     color: var(--text);
     border-bottom-left-radius: 0.25rem;
@@ -304,19 +308,19 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
 
   /* Inline Code */
   .message-bubble :not(pre) > code {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--code-bg);
     padding: 0.15rem 0.35rem;
     border-radius: 4px;
     font-family: monospace;
     font-size: 0.82rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
     color: var(--accent, #4f8cff);
   }
 
   /* Code Block Styling */
   .chat-code-block {
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid var(--border);
+    background: rgba(10, 15, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     margin: 0.85rem 0;
     overflow: hidden;
@@ -324,12 +328,12 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
   }
 
   .chat-code-header {
-    background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 0.35rem 0.75rem;
     font-size: 0.7rem;
     font-family: monospace;
-    color: var(--muted);
+    color: #a7b0c3;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -358,11 +362,12 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
     flex-wrap: wrap;
     gap: 0.5rem;
     padding: 0.5rem 1.25rem;
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
   }
 
   .suggestion-pill {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--btn-secondary-bg);
     border: 1px solid var(--border);
     padding: 0.4rem 0.75rem;
     border-radius: 99px;
@@ -374,7 +379,7 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
   }
 
   .suggestion-pill:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--btn-secondary-hover);
     color: var(--text);
     border-color: var(--accent);
   }
@@ -390,7 +395,7 @@ const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
 
   .chat-input-form input {
     flex: 1;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 99px;
     color: var(--text);
