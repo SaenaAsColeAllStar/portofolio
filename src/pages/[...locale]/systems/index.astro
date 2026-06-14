@@ -1,0 +1,59 @@
+---
+import BaseHead from "../../../components/layout/BaseHead.astro";
+import Footer from "../../../components/layout/Footer.astro";
+import Header from "../../../components/navigation/Header.astro";
+import MobileNav from "../../../components/navigation/MobileNav.astro";
+import { SITE_TITLE } from "../../../consts";
+import { useTranslations } from "../../../utils/i18n";
+import ArchitectureExplorer from "../../../components/systems/ArchitectureExplorer.vue";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+
+const pageTitle = locale === 'en' ? `Systems Architecture Explorer | ${SITE_TITLE}` : `Eksplorasi Arsitektur Sistem | ${SITE_TITLE}`;
+const pageDesc = locale === 'en' 
+	? "Interactive dependency mapping and structural safeguards from ingress traffic to physical hypervisors." 
+	: "Pemetaan dependensi interaktif dan pengamanan struktural dari lalu lintas masuk hingga hypervisor fisik.";
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDesc} />
+	</head>
+	<body>
+		<Header />
+		<main class="systems-page">
+			<section class="page-hero">
+				<p class="eyebrow">{locale === 'en' ? 'System Topology' : 'Topologi Sistem'}</p>
+				<h1>{locale === 'en' ? 'Systems Architecture Explorer' : 'Eksplorasi Arsitektur Sistem'}</h1>
+				<p class="lede">
+					{locale === 'en' 
+						? 'Trace how data and requests flow down to bare-metal servers through network tunnels, hypervisors, and container isolation boundaries.' 
+						: 'Lacak bagaimana data dan permintaan mengalir ke server bare-metal melalui terowongan jaringan, hypervisor, dan batas isolasi kontainer.'}
+				</p>
+			</section>
+
+			<section class="section">
+				<ArchitectureExplorer client:load locale={locale} />
+			</section>
+		</main>
+		<Footer />
+		<MobileNav />
+	</body>
+</html>
+
+<style>
+	.systems-page {
+		max-width: 1120px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+</style>

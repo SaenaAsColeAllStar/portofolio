@@ -64,6 +64,7 @@ const staticActions = computed<any[]>(() => {
   const navs = [
     { name: 'Home', url: `${prefix || '/'}`, icon: '🏠', type: typeNav, description: props.locale === 'id' ? 'Kembali ke Beranda' : 'Go to homepage' },
     { name: 'Projects', url: `${prefix}/projects`, icon: '🚀', type: typeNav, description: props.locale === 'id' ? 'Lihat proyek profesional' : 'View professional projects' },
+    { name: 'Systems', url: `${prefix}/systems`, icon: '🕸️', type: typeNav, description: props.locale === 'id' ? 'Eksplorasi arsitektur sistem' : 'Interactive systems & dependency explorer' },
     { name: 'Case Studies', url: `${prefix}/case-studies`, icon: '📄', type: typeNav, description: props.locale === 'id' ? 'Studi kasus mendalam' : 'In-depth engineering write-ups' },
     { name: 'Notes', url: `${prefix}/notes`, icon: '📝', type: typeNav, description: props.locale === 'id' ? 'Catatan teknis dan ringkasan' : 'Technical notes and quick guides' },
     { name: 'Certificates', url: `${prefix}/certificates`, icon: '🏅', type: typeNav, description: props.locale === 'id' ? 'Kubah sertifikat terverifikasi' : 'Professional credentials vault' },

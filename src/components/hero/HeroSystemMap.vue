@@ -45,7 +45,7 @@
             :spoke-class="`spoke-${idx + 1}`"
           />
           <!-- Ring flow signal -->
-          <HeroSignal path-d="M 150 120 L 450 120 L 500 280 L 300 420 L 100 280 Z" />
+          <HeroSignal path-d="M 120 140 L 200 100 L 400 100 L 480 140 L 480 320 L 400 380 L 200 380 L 120 320 Z" />
         </g>
 
         <!-- Interactive Node Elements -->
@@ -144,57 +144,90 @@ const nodesData = {
   en: [
     {
       id: 'infrastructure',
-      x: 150,
-      y: 120,
-      title: "Infrastructure",
-      subtitle: "System Foundations",
-      desc: "Bare-metal management, virtualized container engines, and kernel-level configurations tailored for sustained server operations.",
-      stack: ["Linux (Ubuntu)", "Docker", "KVM Virtualization", "Systemd Services", "Networking Topology"],
-      metric: "99.9% Base Uptime",
+      x: 120,
+      y: 140,
+      title: "Infrastructure Layer",
+      subtitle: "Bare-Metal Core",
+      desc: "Custom bare-metal hosts and localized Linux servers running core containers and network proxies.",
+      stack: ["Debian Linux", "Docker Compose", "Nginx Proxy Manager", "Local DNS Resolver", "Cron Automation"],
+      metric: "99.98% Service Uptime",
       iconType: 'path'
     },
     {
-      id: 'cloud',
-      x: 450,
-      y: 120,
-      title: "Cloud & Edge Platforms",
-      subtitle: "Distributed Systems",
-      desc: "Serverless runtimes deployed globally at edge networks, edge caching routing, DNS management, and pooled database connectivity.",
-      stack: ["Cloudflare Workers", "Pages & Hyperdrive", "CDN Caching", "DNS Topology", "Resilient API Routes"],
+      id: 'proxmox',
+      x: 200,
+      y: 100,
+      title: "Proxmox VE VM Host",
+      subtitle: "Type-1 Hypervisor",
+      desc: "Enterprise virtualization platform managing KVM virtual machines, LXC containers, and internal networks.",
+      stack: ["Proxmox Hypervisor", "KVM Virtualization", "LXC Containers", "ZFS Storage Pools", "Backup Schedules"],
+      metric: "15-Min VM Recovery",
+      iconType: 'polygon'
+    },
+    {
+      id: 'cloudflare',
+      x: 400,
+      y: 100,
+      title: "Cloudflare Edge",
+      subtitle: "Edge Cloud Platform",
+      desc: "Global CDN caching, secure outbound tunnels, serverless Workers runtime, and pooled Hyperdrive routes.",
+      stack: ["Cloudflare Workers", "Pages & Hyperdrive", "Cloudflare Tunnels", "Zero Trust MFA", "WAF Security"],
       metric: "<50ms Global Latency",
       iconType: 'cloud'
     },
     {
       id: 'automation',
-      x: 100,
-      y: 280,
+      x: 480,
+      y: 140,
       title: "Automation & DevOps",
-      subtitle: "Continuous Integration",
-      desc: "Robust deployment pipelines, schema migration orchestration, shell scripting, and automated systems checkups to eliminate toil.",
-      stack: ["GitHub Actions", "Drizzle Kit", "Bash Scripting", "SSH Automation", "Security Auditing"],
-      metric: "Zero-Downtime Deploys",
+      subtitle: "Continuous Delivery",
+      desc: "Continuous integration pipelines, shell automation, database migrations, and remote SSH task orchestration.",
+      stack: ["GitHub Actions", "Bash Scripting", "Drizzle Kit Migrations", "Restic Backups", "Discord Webhooks"],
+      metric: "Zero-Downtime Deploy",
       iconType: 'arrow'
     },
     {
       id: 'ai',
-      x: 500,
-      y: 280,
-      title: "AI Workflows",
-      subtitle: "Edge AI Integration",
-      desc: "Edge-hosted large language models, structured vector contexts (RAG), multi-agent systems, and context-filtered assistant pipelines.",
-      stack: ["Workers AI (Llama 3.1)", "RAG Systems", "Vector Search", "Prompt Engineering", "Security Verification"],
-      metric: "Real-time edge responses",
+      x: 480,
+      y: 320,
+      title: "AI Systems",
+      subtitle: "Edge LLM Workflows",
+      desc: "Edge-native large language models, retrieval context pools, and autonomous multi-agent developer tasks.",
+      stack: ["Workers AI (Llama 3.1)", "Vectorize Databases", "RAG Pipeline Systems", "AGY Agent SDK", "Prompt Engineering"],
+      metric: "Real-time Edge Answers",
       iconType: 'brain'
     },
     {
-      id: 'product',
-      x: 300,
-      y: 420,
-      title: "Product Engineering",
-      subtitle: "Frontend & Portals",
-      desc: "Stunning glassmorphic user interfaces, responsive grids, cookie-based session engines, and admin dashboards with real-time statistics.",
-      stack: ["Astro Framework", "Vanilla CSS & HTML5", "Web Crypto API (HMAC)", "HTML5 Canvas (WebP)", "Session Managers"],
-      metric: "Lighthouse Score >= 90",
+      id: 'search',
+      x: 400,
+      y: 380,
+      title: "Search Engine",
+      subtitle: "Static Index Search",
+      desc: "Pre-compiled static JSON indexing, client-side Fuse.js query engine, and custom search weight algorithms.",
+      stack: ["Fuse.js Engine", "Pre-built JSON Index", "Bilingual Weighting", "Fuzzy Search Logic", "Instant Results Render"],
+      metric: "Sub-5ms Query Speed",
+      iconType: 'search'
+    },
+    {
+      id: 'astro',
+      x: 200,
+      y: 380,
+      title: "Astro Framework",
+      subtitle: "Static-First Engine",
+      desc: "Pre-rendered static pages, dynamic server-rendered endpoints, and strictly typed content collection validation.",
+      stack: ["Astro SSR & Hybrid", "Content Collections", "Astro View Transitions", "i18n Dynamic Routing", "Sitemap Generation"],
+      metric: "100% Lighthouse Score",
+      iconType: 'astro'
+    },
+    {
+      id: 'vue',
+      x: 120,
+      y: 320,
+      title: "Vue Islands",
+      subtitle: "Interactive UX",
+      desc: "Hydrated Vue client islands for search inputs, command consoles, certificate vault FINDERs, and 3D visitor globes.",
+      stack: ["Vue 3 Composition API", "Client-Side Hydration", "State Management (Pinia)", "Canvas Render Engine", "Interactive Tooltips"],
+      metric: "Zero Layout Shift",
       iconType: 'monitor'
     },
     {
@@ -202,8 +235,8 @@ const nodesData = {
       x: 300,
       y: 250,
       title: "System Architecture",
-      subtitle: "Orchestration & Design",
-      desc: "The coordinating system layer. Focuses on rate limiting, transactional database boundaries, caching topologies, and failure-tolerant code.",
+      subtitle: "Design & Orchestration",
+      desc: "The coordinating system layer. Focuses on rate limiting, database transactions, caching topologies, and security boundaries.",
       stack: ["Systems Thinking", "Rate Limiting", "Caching Strategies", "CA Certificates Security", "Observed Telemetry"],
       metric: "Architect-first Design",
       iconType: 'polygon'
@@ -212,57 +245,90 @@ const nodesData = {
   id: [
     {
       id: 'infrastructure',
-      x: 150,
-      y: 120,
-      title: "Infrastruktur",
-      subtitle: "Fondasi Sistem",
-      desc: "Pengelolaan bare-metal, mesin kontainer virtual, dan konfigurasi tingkat kernel yang disesuaikan untuk operasi server berkelanjutan.",
-      stack: ["Linux (Ubuntu)", "Docker", "KVM Virtualization", "Layanan Systemd", "Topologi Jaringan"],
-      metric: "99.9% Uptime Dasar",
+      x: 120,
+      y: 140,
+      title: "Lapisan Infrastruktur",
+      subtitle: "Inti Bare-Metal",
+      desc: "Host bare-metal khusus dan server Linux lokal yang menjalankan kontainer inti dan proxy jaringan.",
+      stack: ["Debian Linux", "Docker Compose", "Nginx Proxy Manager", "Local DNS Resolver", "Otomatisasi Cron"],
+      metric: "99,98% Uptime Layanan",
       iconType: 'path'
     },
     {
-      id: 'cloud',
-      x: 450,
-      y: 120,
-      title: "Platform Cloud & Edge",
-      subtitle: "Sistem Terdistribusi",
-      desc: "Runtime serverless yang di-deploy secara global di jaringan edge, perutean caching edge, manajemen DNS, dan pooling database.",
-      stack: ["Cloudflare Workers", "Pages & Hyperdrive", "CDN Caching", "Topologi DNS", "Rute API Tangguh"],
+      id: 'proxmox',
+      x: 200,
+      y: 100,
+      title: "Host VM Proxmox VE",
+      subtitle: "Hypervisor Tipe-1",
+      desc: "Platform virtualisasi perusahaan yang mengelola mesin virtual KVM, kontainer LXC, dan jaringan internal.",
+      stack: ["Proxmox Hypervisor", "Virtualisasi KVM", "Kontainer LXC", "ZFS Storage Pool", "Jadwal Pencadangan"],
+      metric: "Pemulihan VM 15 Menit",
+      iconType: 'polygon'
+    },
+    {
+      id: 'cloudflare',
+      x: 400,
+      y: 100,
+      title: "Edge Cloudflare",
+      subtitle: "Platform Cloud Edge",
+      desc: "Caching CDN global, terowongan keluar yang aman, runtime Workers serverless, dan rute Hyperdrive.",
+      stack: ["Cloudflare Workers", "Pages & Hyperdrive", "Cloudflare Tunnels", "Zero Trust MFA", "Keamanan WAF"],
       metric: "Latensi Global <50ms",
       iconType: 'cloud'
     },
     {
       id: 'automation',
-      x: 100,
-      y: 280,
+      x: 480,
+      y: 140,
       title: "Otomatisasi & DevOps",
-      subtitle: "Integrasi Berkelanjutan",
-      desc: "Pipa deployment yang kokoh, orkestrasi migrasi skema database, skrip shell, dan pemeriksaan sistem otomatis untuk menghilangkan pekerjaan berulang.",
-      stack: ["GitHub Actions", "Drizzle Kit", "Bash Scripting", "Otomatisasi SSH", "Audit Keamanan"],
+      subtitle: "Pengiriman Berkelanjutan",
+      desc: "Pipeline integrasi berkelanjutan, otomatisasi shell, migrasi database, dan orkestrasi tugas SSH jarak jauh.",
+      stack: ["GitHub Actions", "Scripting Bash", "Migrasi Drizzle Kit", "Pencadangan Restic", "Webhook Discord"],
       metric: "Deploy Tanpa Downtime",
       iconType: 'arrow'
     },
     {
       id: 'ai',
-      x: 500,
-      y: 280,
-      title: "Alur Kerja AI",
-      subtitle: "Integrasi AI Jaringan Edge",
-      desc: "Model bahasa besar yang di-host di jaringan edge, konteks vektor terstruktur (RAG), sistem multi-agen, dan asisten terfilter.",
-      stack: ["Workers AI (Llama 3.1)", "Sistem RAG", "Pencarian Vektor", "Prompt Engineering", "Verifikasi Keamanan"],
-      metric: "Respons edge real-time",
+      x: 480,
+      y: 320,
+      title: "Sistem AI",
+      subtitle: "Alur Kerja LLM Edge",
+      desc: "Model bahasa besar edge-native, pool konteks retrieval, dan tugas pengembang otonom multi-agen.",
+      stack: ["Workers AI (Llama 3.1)", "Database Vectorize", "Sistem RAG Pipeline", "AGY Agent SDK", "Prompt Engineering"],
+      metric: "Jawaban Edge Real-time",
       iconType: 'brain'
     },
     {
-      id: 'product',
-      x: 300,
-      y: 420,
-      title: "Rekayasa Produk",
-      subtitle: "Frontend & Portal Admin",
-      desc: "Antarmuka pengguna glassmorphic premium, kisi responsif, mesin sesi berbasis cookie, dan dashboard admin dengan statistik real-time.",
-      stack: ["Astro Framework", "Vanilla CSS & HTML5", "Web Crypto API (HMAC)", "HTML5 Canvas (WebP)", "Manajer Sesi"],
-      metric: "Skor Lighthouse >= 90",
+      id: 'search',
+      x: 400,
+      y: 380,
+      title: "Mesin Pencari",
+      subtitle: "Pencarian Indeks Statis",
+      desc: "Pengindeksan JSON statis yang dikompilasi sebelumnya, mesin kueri Fuse.js sisi klien, dan algoritma bobot.",
+      stack: ["Mesin Fuse.js", "Indeks JSON Statis", "Pembobotan Bilingual", "Logika Fuzzy Search", "Render Hasil Instan"],
+      metric: "Kecepatan Kueri <5ms",
+      iconType: 'search'
+    },
+    {
+      id: 'astro',
+      x: 200,
+      y: 380,
+      title: "Astro Framework",
+      subtitle: "Mesin Statis-Pertama",
+      desc: "Halaman statis yang dirender sebelumnya, endpoint dinamis, dan validasi koleksi konten terkompilasi.",
+      stack: ["Astro SSR & Hybrid", "Koleksi Konten", "Astro View Transitions", "Rute Dinamis i18n", "Generasi Sitemap"],
+      metric: "Skor Lighthouse 100%",
+      iconType: 'astro'
+    },
+    {
+      id: 'vue',
+      x: 120,
+      y: 320,
+      title: "Pulau Vue",
+      subtitle: "UX Interaktif",
+      desc: "Pulau klien Vue terhidrasi untuk input pencarian, konsol perintah, FINDER sertifikat, dan globe pengunjung 3D.",
+      stack: ["Vue 3 Composition API", "Hidrasi Sisi Klien", "Manajemen Status (Pinia)", "Mesin Render Canvas", "Tooltip Interaktif"],
+      metric: "Nol Layout Shift",
       iconType: 'monitor'
     },
     {
@@ -270,9 +336,9 @@ const nodesData = {
       x: 300,
       y: 250,
       title: "Arsitektur Sistem",
-      subtitle: "Orkestrasi & Desain",
-      desc: "Lapisan koordinasi sistem. Berfokus pada pembatasan laju (rate limiting), batas database transaksional, topologi caching, dan penanganan kegagalan.",
-      stack: ["Sistem Thinking", "Rate Limiting", "Strategi Caching", "Keamanan Sertifikat CA", "Telemetri Terobservasi"],
+      subtitle: "Desain & Orkestrasi",
+      desc: "Lapisan sistem koordinasi. Berfokus pada rate limiting, transaksi database, topologi caching, dan batas keamanan.",
+      stack: ["Systems Thinking", "Rate Limiting", "Strategi Caching", "Keamanan Sertifikat CA", "Telemetri Terobservasi"],
       metric: "Desain Berbasis Arsitektur",
       iconType: 'polygon'
     }
@@ -281,27 +347,37 @@ const nodesData = {
 
 const nodes = computed(() => nodesData[props.locale]);
 
-// SVG connection coordinates
+// SVG connection coordinates (8 spoke connections to center + 8 ring connections)
 const connections = [
-  { x1: 150, y1: 120, x2: 450, y2: 120 },
-  { x1: 450, y1: 120, x2: 500, y2: 280 },
-  { x1: 500, y1: 280, x2: 300, y2: 420 },
-  { x1: 300, y1: 420, x2: 100, y2: 280 },
-  { x1: 100, y1: 280, x2: 150, y2: 120 },
-  { x1: 150, y1: 120, x2: 300, y2: 250 },
-  { x1: 450, y1: 120, x2: 300, y2: 250 },
-  { x1: 500, y1: 280, x2: 300, y2: 250 },
-  { x1: 300, y1: 420, x2: 300, y2: 250 },
-  { x1: 100, y1: 280, x2: 300, y2: 250 }
+  { x1: 120, y1: 140, x2: 200, y2: 100 },
+  { x1: 200, y1: 100, x2: 400, y2: 100 },
+  { x1: 400, y1: 100, x2: 480, y2: 140 },
+  { x1: 480, y1: 140, x2: 480, y2: 320 },
+  { x1: 480, y1: 320, x2: 400, y2: 380 },
+  { x1: 400, y1: 380, x2: 200, y2: 380 },
+  { x1: 200, y1: 380, x2: 120, y2: 320 },
+  { x1: 120, y1: 320, x2: 120, y2: 140 },
+  // Center spokes
+  { x1: 120, y1: 140, x2: 300, y2: 250 },
+  { x1: 200, y1: 100, x2: 300, y2: 250 },
+  { x1: 400, y1: 100, x2: 300, y2: 250 },
+  { x1: 480, y1: 140, x2: 300, y2: 250 },
+  { x1: 480, y1: 320, x2: 300, y2: 250 },
+  { x1: 400, y1: 380, x2: 300, y2: 250 },
+  { x1: 200, y1: 380, x2: 300, y2: 250 },
+  { x1: 120, y1: 320, x2: 300, y2: 250 }
 ];
 
 // Spoke nodes specifically connecting to center node
 const spokes = [
-  { x1: 150, y1: 120, x2: 300, y2: 250 },
-  { x1: 450, y1: 120, x2: 300, y2: 250 },
-  { x1: 500, y1: 280, x2: 300, y2: 250 },
-  { x1: 300, y1: 420, x2: 300, y2: 250 },
-  { x1: 100, y1: 280, x2: 300, y2: 250 }
+  { x1: 120, y1: 140, x2: 300, y2: 250 },
+  { x1: 200, y1: 100, x2: 300, y2: 250 },
+  { x1: 400, y1: 100, x2: 300, y2: 250 },
+  { x1: 480, y1: 140, x2: 300, y2: 250 },
+  { x1: 480, y1: 320, x2: 300, y2: 250 },
+  { x1: 400, y1: 380, x2: 300, y2: 250 },
+  { x1: 200, y1: 380, x2: 300, y2: 250 },
+  { x1: 120, y1: 320, x2: 300, y2: 250 }
 ];
 
 // Reactive States
@@ -317,10 +393,13 @@ const drawerIconPathRef = ref<SVGPathElement | null>(null);
 
 const nodePaths = {
   infrastructure: 'M12 2L16 6H20V10L24 14V18H20V22H16L12 18L8 22H4V18H0V14L4 10V6H8L12 2Z',
-  cloud: 'M19.3 10C18.6 6.5 15.6 4 12 4 9.1 4 6.6 5.6 5.3 8 2.3 8.3 0 10.9 0 14c0 3.3 2.7 6 6 6h13c2.7 0 5-2.2 5-5 0-2.6-2-4.7-4.6-4.9Z',
+  proxmox: 'M12 2L22 12L12 22L2 12Z',
+  cloudflare: 'M19.3 10C18.6 6.5 15.6 4 12 4 9.1 4 6.6 5.6 5.3 8 2.3 8.3 0 10.9 0 14c0 3.3 2.7 6 6 6h13c2.7 0 5-2.2 5-5 0-2.6-2-4.7-4.6-4.9Z',
   automation: 'M12 4V1L8 5L12 9V6C15.3 6 18 8.6 18 12C18 13 17.7 13.9 17.3 14.8L18.8 16.3C19.5 15 20 13.5 20 12C20 7.5 16.4 4 12 4ZM12 18C8.6 18 6 15.3 6 12C6 11 6.2 10 6.7 9.2L5.2 7.7C4.4 8.9 4 10.4 4 12C4 16.4 7.5 20 12 20V23L16 19L12 15V18Z',
   ai: 'M12 2C6.4 2 2 6.4 2 12C2 17.5 6.4 22 12 22C17.5 22 22 17.5 22 12C22 6.4 17.5 2 12 2ZM12 19.8C7.7 19.8 4.2 16.3 4.2 12C4.2 7.7 7.7 4.2 12 4.2C16.3 4.2 19.8 7.7 19.8 12C19.8 16.3 16.3 19.8 12 19.8Z',
-  product: 'M20 18C21.1 18 22 17.1 22 16V6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V16C2 17.1 2.9 18 4 18H0V20H24V18H20ZM4 6H20V16H4V6Z',
+  search: 'M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M17 17l4 4',
+  astro: 'M12 2L22 20L2 20Z',
+  vue: 'M20 18C21.1 18 22 17.1 22 16V6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V16C2 17.1 2.9 18 4 18H0V20H24V18H20ZM4 6H20V16H4V6Z',
   architecture: 'M12 2L22 12L12 22L2 12Z'
 };
 

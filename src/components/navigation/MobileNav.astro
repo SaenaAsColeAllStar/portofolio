@@ -7,15 +7,15 @@ const t = useTranslations(locale);
 const pathname = Astro.url.pathname;
 const isHome = pathname === '/' || pathname === '/id' || pathname === '/id/';
 const isProjects = pathname.includes('/projects');
-const isCases = pathname.includes('/case-studies');
+const isSystems = pathname.includes('/systems');
 const isNotes = pathname.includes('/notes');
 
 // Context aware flag
-const isCaseStudyDetail = isCases && pathname.split('/').filter(Boolean).pop() !== 'case-studies';
+const isCaseStudyDetail = pathname.includes('/case-studies') && pathname.split('/').filter(Boolean).pop() !== 'case-studies';
 
 const homeHref = locale === 'en' ? '/' : '/id';
 const projectsHref = locale === 'en' ? '/projects' : '/id/projects';
-const casesHref = locale === 'en' ? '/case-studies' : '/id/case-studies';
+const systemsHref = locale === 'en' ? '/systems' : '/id/systems';
 const notesHref = locale === 'en' ? '/notes' : '/id/notes';
 const contactHref = locale === 'en' ? '/contact' : '/id/contact';
 
@@ -112,14 +112,14 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 				</svg>
 			</button>
 			
-			<a href={casesHref} class={`nav-item ${isCases ? 'active' : ''}`} data-page="cases">
-				{isCases && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
-				<!-- Icon Cases: Stylized △ -->
+			<a href={systemsHref} class={`nav-item ${isSystems ? 'active' : ''}`} data-page="systems">
+				{isSystems && <div class="active-indicator-bg" transition:name="active-dock-indicator"></div>}
+				<!-- Icon Systems: Stylized △ -->
 				<svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<polygon points="12 3 22 21 2 21"></polygon>
 					<polyline points="12 9 17 18 7 18"></polyline>
 				</svg>
-				<span class="nav-label">{t("nav.caseStudies")}</span>
+				<span class="nav-label">{t("nav.systems")}</span>
 			</a>
 			
 			<a href={notesHref} class={`nav-item ${isNotes ? 'active' : ''}`} data-page="notes">
@@ -445,8 +445,8 @@ const contactLabel = isId ? 'Kontak' : 'Contact';
 		border-radius: 0;
 	}
 
-	/* Cases: Triangle/Delta Shape */
-	.nav-item.active[data-page="cases"] .active-indicator-bg,
+	/* Systems: Triangle/Delta Shape */
+	.nav-item.active[data-page="systems"] .active-indicator-bg,
 	.nav-item.active[data-page="solution"] .active-indicator-bg {
 		clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 		border-radius: 0;

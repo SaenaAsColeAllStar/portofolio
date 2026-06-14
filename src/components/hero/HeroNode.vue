@@ -66,6 +66,18 @@
       <line x1="-3" y1="5" x2="3" y2="5" stroke="currentColor" stroke-width="1.5" />
     </g>
     
+    <!-- Search: Magnifying glass -->
+    <g v-else-if="data.iconType === 'search'" class="node-icon">
+      <circle cx="-1.5" cy="-1.5" r="3" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <line x1="1" y1="1" x2="5" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </g>
+
+    <!-- Astro: Rocket/A-symbol -->
+    <g v-else-if="data.iconType === 'astro'" class="node-icon">
+      <path d="M0 -7 L5 5 L-5 5 Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <line x1="0" y1="2" x2="0" y2="5" stroke="currentColor" stroke-width="1.5" />
+    </g>
+
     <!-- Center Architecture: Star diamond -->
     <polygon 
       v-else-if="data.iconType === 'polygon'" 
