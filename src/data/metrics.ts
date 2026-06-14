@@ -1,36 +1,36 @@
 export const proofSignals = {
   en: [
     {
-      label: "System Latency",
-      value: "< 50ms",
-      description: "Average API response window at edge network nodes.",
+      label: "Years of Experience",
+      value: "5+ Years",
+      description: "Designing, optimizing, and operating digital architectures.",
     },
     {
-      label: "Build Delivery",
-      value: "99.99%",
-      description: "Static content replication and availability score.",
+      label: "Projects Delivered",
+      value: "10+ Systems",
+      description: "From custom school LMS/CBT portals to cloud-edge pipelines.",
     },
     {
-      label: "Service Uptime",
-      value: "99.9%",
-      description: "Edge API processing runtime reliability quotient.",
+      label: "Infrastructure Scale",
+      value: "25+ Nodes",
+      description: "Virtualized Linux container servers managed and monitored.",
     },
   ],
   id: [
     {
-      label: "Latensi Sistem",
-      value: "< 50ms",
-      description: "Rata-rata jendela respons API di titik jaringan edge.",
+      label: "Tahun Pengalaman",
+      value: "5+ Tahun",
+      description: "Merancang, mengoptimalkan, dan mengoperasikan arsitektur digital.",
     },
     {
-      label: "Pengiriman Build",
-      value: "99.99%",
-      description: "Skor replikasi konten statis dan ketersediaan.",
+      label: "Sistem Terkirim",
+      value: "10+ Sistem",
+      description: "Dari portal LMS/CBT sekolah khusus hingga pipeline cloud-edge.",
     },
     {
-      label: "Uptime Layanan",
-      value: "99.9%",
-      description: "Koefisien keandalan runtime pemrosesan API edge.",
+      label: "Skala Infrastruktur",
+      value: "25+ Node",
+      description: "Server kontainer Linux virtual yang dikelola dan dipantau.",
     },
   ]
 } as const;

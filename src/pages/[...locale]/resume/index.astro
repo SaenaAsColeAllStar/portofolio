@@ -1,10 +1,12 @@
 ---
+import { getCollection } from "astro:content";
 import BaseHead from "../../../components/BaseHead.astro";
 import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.astro";
 import { SITE_TITLE } from "../../../consts";
 import { capabilityMatrix } from "../../../data/skills";
 import { positioning } from "../../../data/positioning";
+import { resumeData } from "../../../data/resume";
 import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
 
 export async function getStaticPaths() {
@@ -19,36 +21,204 @@ const t = useTranslations(locale);
 
 const activePositioning = positioning[locale];
 const activeCapabilityMatrix = capabilityMatrix[locale];
+const activeResumeData = resumeData[locale];
+
+const projects = (await getCollection("projects"))
+	.filter((p) => p.id.startsWith(locale + "/"))
+	.sort((a, b) => b.data.year - a.data.year);
+
+function getCleanSlug(id: string) {
+	const parts = id.split('/');
+	return parts.slice(1).join('/');
+}
 ---
 
 <!doctype html>
 <html lang={locale}>
-	<head><BaseHead title={`Resume | ${SITE_TITLE}`} description="Resume summary for a Digital Systems Architect focused on infrastructure, automation, AI workflows, and product engineering." /></head>
+	<head>
+		<BaseHead title={`Resume | ${SITE_TITLE}`} description="Resume summary for a Digital Systems Architect focused on infrastructure, automation, AI workflows, and product engineering." />
+	</head>
 	<body>
 		<Header />
 		<main>
+			<!-- Page Hero & Download CTA -->
 			<section class="page-hero">
 				<p class="eyebrow">{t("nav.resume")}</p>
 				<h1>{activePositioning.title}</h1>
 				<p class="lede">{activePositioning.recruiterSummary}</p>
 				<div class="button-row">
-					<a class="button" href="/resume.pdf" download data-track="resume-download">{locale === 'en' ? 'Download Resume' : 'Unduh Resume'}</a>
-					<a class="button secondary" href={getLocalizedUrl("/contact", locale)}>{t("btn.contact")}</a>
-					<a class="button secondary" href={getLocalizedUrl("/case-studies", locale)}>{locale === 'en' ? 'View Case Studies' : 'Lihat Studi Kasus'}</a>
+					<a class="button" href="/resume.pdf" download data-track="resume-download">
+						{locale === 'en' ? 'Download Resume' : 'Unduh Resume'}
+					</a>
+					<a class="button secondary" href={getLocalizedUrl("/contact", locale)}>
+						{t("btn.contact")}
+					</a>
+					<a class="button secondary" href={getLocalizedUrl("/case-studies", locale)}>
+						{locale === 'en' ? 'View Case Studies' : 'Lihat Studi Kasus'}
+					</a>
 				</div>
 			</section>
-			<section class="section grid grid-2">
-				<article class="card"><h2>{locale === 'en' ? 'Profile' : 'Profil'}</h2><p>{activePositioning.subheadline}</p></article>
-				<article class="card"><h2>{locale === 'en' ? 'Focus' : 'Fokus'}</h2><p>{locale === 'en' ? 'Infrastructure, AI workflows, automation, system architecture, and product engineering.' : 'Infrastruktur, alur kerja AI, otomatisasi, arsitektur sistem, dan rekayasa produk.'}</p></article>
-			</section>
+
+			<!-- Summary Section -->
 			<section class="section">
-				<p class="eyebrow">{locale === 'en' ? 'Capabilities' : 'Kemampuan'}</p>
-				<h2>{locale === 'en' ? 'Grouped by system responsibility.' : 'Dikelompokkan berdasarkan tanggung jawab sistem.'}</h2>
+				<p class="eyebrow">{locale === 'en' ? 'Summary' : 'Ringkasan'}</p>
+				<h2>{locale === 'en' ? 'Professional Profile' : 'Profil Profesional'}</h2>
+				<article class="card summary-card">
+					<p>{activePositioning.subheadline}</p>
+					<p style="margin-top: 1rem; color: var(--muted);">
+						{locale === 'en' 
+							? 'Combining systems thinking with practical hands-on implementation to deliver resilient infrastructures, scalable automation pipelines, secure data architectures, and user-centric product workflows.'
+							: 'Menggabungkan pemikiran sistem dengan implementasi praktis langsung untuk menghasilkan infrastruktur yang tangguh, alur otomatisasi yang skalabel, arsitektur data yang aman, dan alur kerja produk yang berpusat pada pengguna.'
+						}
+					</p>
+				</article>
+			</section>
+
+			<!-- Core Expertise / Capabilities -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Expertise' : 'Keahlian'}</p>
+				<h2>{locale === 'en' ? 'Core Capabilities' : 'Kapabilitas Utama'}</h2>
 				<div class="grid grid-3">
-					{activeCapabilityMatrix.map((capability) => <article class="card"><h3>{capability.name}</h3><p>{capability.description}</p></article>)}
+					{activeCapabilityMatrix.map((capability) => (
+						<article class="card">
+							<h3>{capability.name}</h3>
+							<p>{capability.description}</p>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<!-- Selected Projects -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Evidence' : 'Bukti Kerja'}</p>
+				<h2>{locale === 'en' ? 'Selected Projects' : 'Proyek Pilihan'}</h2>
+				<div class="grid grid-2">
+					{projects.map((project) => (
+						<article class="card project-resume-card">
+							<div class="project-resume-header">
+								<span class="badge">{project.data.category}</span>
+								<span class="project-year">{project.data.year}</span>
+							</div>
+							<h3>
+								<a href={getLocalizedUrl(`/projects/${getCleanSlug(project.id)}`, locale)}>
+									{project.data.title}
+								</a>
+							</h3>
+							<p>{project.data.excerpt}</p>
+							<div class="badge-row" style="margin-top: auto; padding-top: 1rem;">
+								{project.data.stack.map((tech) => (
+									<span class="badge secondary">{tech}</span>
+								))}
+							</div>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<!-- Achievements Section -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Impact' : 'Dampak'}</p>
+				<h2>{locale === 'en' ? 'Key Achievements' : 'Pencapaian Utama'}</h2>
+				<div class="grid grid-2">
+					{activeResumeData.achievements.map((achievement) => (
+						<article class="card">
+							<h3>{achievement.title}</h3>
+							<p>{achievement.description}</p>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<!-- Education Section -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Credentials' : 'Pendidikan'}</p>
+				<h2>{locale === 'en' ? 'Education' : 'Pendidikan'}</h2>
+				<div class="grid grid-1">
+					{activeResumeData.education.map((edu) => (
+						<article class="card education-card">
+							<div class="education-header">
+								<h3>{edu.degree}</h3>
+								<span class="education-period">{edu.period}</span>
+							</div>
+							<p class="education-institution">{edu.institution}</p>
+							<p style="margin-top: 0.5rem; color: var(--muted);">{edu.details}</p>
+						</article>
+					))}
 				</div>
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.summary-card {
+		line-height: 1.75;
+		font-size: 1.1rem;
+	}
+
+	.project-resume-card {
+		display: flex;
+		flex-direction: column;
+		min-height: 220px;
+	}
+
+	.project-resume-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.75rem;
+	}
+
+	.project-resume-card h3 a {
+		text-decoration: none;
+		color: inherit;
+		transition: color 0.2s;
+	}
+
+	.project-resume-card h3 a:hover {
+		color: var(--accent);
+	}
+
+	.project-year {
+		font-size: 0.9rem;
+		color: var(--subtle);
+		font-weight: 500;
+	}
+
+	.education-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.education-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.education-institution {
+		color: var(--accent);
+		font-weight: 600;
+	}
+
+	.education-period {
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--subtle);
+	}
+
+	.badge.secondary {
+		background: rgba(255, 255, 255, 0.05);
+	}
+
+	@media (max-width: 640px) {
+		.education-header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+</style>

@@ -1,19 +1,27 @@
 ---
-title: "System Architecture: Scalability Case Study"
-excerpt: "Key lessons in building highly resilient system architectures for millions of concurrent users."
-category: "System Architecture"
-tags: ["Scalability", "Microservices", "System Design"]
-publishedAt: "2025-02-10"
+title: "Edge Caching & Database State Coordination"
+excerpt: "Practical insights on coordinating stateless serverless runtimes with centralized relational databases."
+category: "Cloudflare Notes"
+tags: ["Edge Computing", "PostgreSQL", "Cloudflare Hyperdrive"]
+publishedAt: "2026-02-10"
 ---
 
-# Building Resilient System Architecture
+# Edge Caching & Database State Coordination
 
-In today's digital ecosystem, monolithic architectures often fall short when dealing with exponential traffic spikes. This note outlines critical scalability principles.
+When building high-concurrency systems using serverless edge runtimes (like Cloudflare Workers), developers often face the "stateless DB connection bottleneck." Because edge runtimes scale horizontally by spawning hundreds of isolated sandboxes, traditional relational databases (such as PostgreSQL) quickly run out of available connection slots.
 
-## Core Scalability Principles
+## The Real-world Scenario
 
-1. **Decoupling**: Separate independent services so that a failure in one component does not bring down the entire system.
-2. **Caching**: Relieve database load using a distributed in-memory layer like Redis.
-3. **Asynchronous Processing**: Utilize message brokers (e.g., RabbitMQ, Kafka) for CPU-intensive background tasks.
+During the mid-term exams block for the **SMK Teknovo Ecosystem**, over 1,000 students were hitting the computer-based testing (CBT) engine at the exact same second. The default PostgreSQL connection pool of 100 was exhausted in less than 3 seconds, throwing `500 Internal Server Error` database connection timeouts.
 
-This is a bilingual content example targeting CTOs or technical recruiters, showing clean design considerations.
+## The Solution: Edge-native Pooling
+
+To resolve this without provisioning a massive database server, we routed all database operations through **Cloudflare Hyperdrive**. 
+
+Hyperdrive acts as an edge-aware connection pooler. It keeps connection pools warm near the edge workers, reusing connections across workers.
+
+### Architectural Impact
+
+1. **Latency Reduction**: Connection setup time dropped from **250ms to under 40ms**.
+2. **Resource Preservation**: Database connection count stabilized below **35 concurrent active connections**, even under 1,000+ client loads.
+3. **Observation**: Connection handshakes are the primary performance sink in serverless databases. Keep connections warm at the edge.

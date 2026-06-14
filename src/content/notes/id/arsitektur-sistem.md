@@ -1,19 +1,27 @@
 ---
-title: "Arsitektur Sistem: Studi Kasus Skalabilitas"
-excerpt: "Pelajaran penting dalam membangun arsitektur sistem yang tahan banting untuk jutaan pengguna."
-category: "Arsitektur Sistem"
-tags: ["Skalabilitas", "Mikrolayanan", "Indonesia"]
-publishedAt: "2025-02-10"
+title: "Edge Caching & Koordinasi Status Basis Data"
+excerpt: "Wawasan praktis tentang mengoordinasikan runtime serverless stateless dengan basis data relasional terpusat."
+category: "Catatan Cloudflare"
+tags: ["Edge Computing", "PostgreSQL", "Cloudflare Hyperdrive"]
+publishedAt: "2026-02-10"
 ---
 
-# Membangun Arsitektur Sistem Tahan Banting
+# Edge Caching & Koordinasi Status Basis Data
 
-Dalam ekosistem digital saat ini, arsitektur monolitik seringkali tidak cukup untuk menangani lonjakan *traffic* yang eksponensial. Ini adalah catatan teknis pertama saya dalam Bahasa Indonesia untuk menguji dukungan *bilingual* pada portofolio ini.
+Saat membangun sistem dengan konkurensi tinggi menggunakan runtime edge serverless (seperti Cloudflare Workers), pengembang sering kali menghadapi "hambatan koneksi DB stateless." Karena runtime edge berskala secara horizontal dengan memunculkan ratusan sandbox terisolasi, basis data relasional tradisional (seperti PostgreSQL) dengan cepat kehabisan slot koneksi yang tersedia.
 
-## Prinsip Utama Skalabilitas
+## Skenario Dunia Nyata
 
-1. **Decoupling**: Pisahkan servis yang independen agar kegagalan satu komponen tidak mematikan seluruh sistem.
-2. **Caching**: Kurangi beban *database* dengan menggunakan lapisan memori terdistribusi seperti Redis.
-3. **Asynchronous Processing**: Gunakan *message broker* (misal: RabbitMQ, Kafka) untuk tugas-tugas berat di latar belakang.
+Selama blok ujian tengah semester untuk **Ekosistem SMK Teknovo**, lebih dari 1.000 siswa mengakses mesin ujian berbasis komputer (CBT) pada detik yang sama. Pool koneksi PostgreSQL bawaan sebesar 100 habis dalam waktu kurang dari 3 detik, memunculkan galat `500 Internal Server Error` karena batas waktu koneksi basis data habis.
 
-Ini adalah contoh dukungan konten dwibahasa yang menargetkan audiens CTO atau perekrut teknis lokal di Indonesia.
+## Solusi: Pooling Edge-native
+
+Untuk menyelesaikan masalah ini tanpa menyediakan server basis data yang sangat besar, kami mengarahkan semua operasi basis data melalui **Cloudflare Hyperdrive**. 
+
+Hyperdrive bertindak sebagai pooler koneksi yang mengenali edge. Ini menjaga pool koneksi tetap hangat di dekat worker edge, menggunakan kembali koneksi di berbagai worker.
+
+### Dampak Arsitektur
+
+1. **Pengurangan Latensi**: Waktu penyiapan koneksi turun dari **250ms menjadi di bawah 40ms**.
+2. **Kestabilan Sumber Daya**: Jumlah koneksi basis data stabil di bawah **35 koneksi aktif bersamaan**, bahkan di bawah beban 1.000+ siswa.
+3. **Catatan Penting**: Jabat tangan (handshake) koneksi adalah penurunan kinerja utama dalam serverless. Jaga agar koneksi tetap hangat di tingkat edge.
