@@ -1,0 +1,54 @@
+---
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.astro";
+import { SITE_TITLE } from "../../../consts";
+import { capabilityMatrix } from "../../../data/skills";
+import { positioning } from "../../../data/positioning";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+
+const activePositioning = positioning[locale];
+const activeCapabilityMatrix = capabilityMatrix[locale];
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head><BaseHead title={`Resume | ${SITE_TITLE}`} description="Resume summary for a Digital Systems Architect focused on infrastructure, automation, AI workflows, and product engineering." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{t("nav.resume")}</p>
+				<h1>{activePositioning.title}</h1>
+				<p class="lede">{activePositioning.recruiterSummary}</p>
+				<div class="button-row">
+					<a class="button" href="/resume.pdf" download data-track="resume-download">{locale === 'en' ? 'Download Resume' : 'Unduh Resume'}</a>
+					<a class="button secondary" href={getLocalizedUrl("/contact", locale)}>{t("btn.contact")}</a>
+					<a class="button secondary" href={getLocalizedUrl("/case-studies", locale)}>{locale === 'en' ? 'View Case Studies' : 'Lihat Studi Kasus'}</a>
+				</div>
+			</section>
+			<section class="section grid grid-2">
+				<article class="card"><h2>{locale === 'en' ? 'Profile' : 'Profil'}</h2><p>{activePositioning.subheadline}</p></article>
+				<article class="card"><h2>{locale === 'en' ? 'Focus' : 'Fokus'}</h2><p>{locale === 'en' ? 'Infrastructure, AI workflows, automation, system architecture, and product engineering.' : 'Infrastruktur, alur kerja AI, otomatisasi, arsitektur sistem, dan rekayasa produk.'}</p></article>
+			</section>
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Capabilities' : 'Kemampuan'}</p>
+				<h2>{locale === 'en' ? 'Grouped by system responsibility.' : 'Dikelompokkan berdasarkan tanggung jawab sistem.'}</h2>
+				<div class="grid grid-3">
+					{activeCapabilityMatrix.map((capability) => <article class="card"><h3>{capability.name}</h3><p>{capability.description}</p></article>)}
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

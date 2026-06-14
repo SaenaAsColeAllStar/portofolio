@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.astro";
+import { SITE_TITLE } from "../../../consts";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+
+const studies = (await getCollection("caseStudies")).filter((c) => c.id.startsWith(locale + "/"));
+
+function getCleanSlug(id: string) {
+	const parts = id.split('/');
+	return parts.slice(1).join('/');
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head><BaseHead title={`${t("nav.caseStudies")} | ${SITE_TITLE}`} description="Architecture-first case studies showing problems, decisions, implementation, results, and lessons learned." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{t("nav.caseStudies")}</p>
+				<h1>{locale === 'en' ? 'Long-form proof of systems thinking.' : 'Bukti panjang tentang pemikiran sistem.'}</h1>
+				<p class="lede">{locale === 'en' ? 'Each case study is structured around problem, requirements, architecture, decisions, results, and lessons learned.' : 'Setiap studi kasus disusun berdasarkan masalah, persyaratan, arsitektur, keputusan, hasil, dan pelajaran yang didapat.'}</p>
+			</section>
+			<section class="grid grid-2 section">
+				{studies.map((study) => (
+					<article class="card study-card">
+						<p class="eyebrow">{study.data.role} · {study.data.year}</p>
+						<h2><a href={getLocalizedUrl(`/case-studies/${getCleanSlug(study.id)}`, locale)}>{study.data.title}</a></h2>
+						<p>{study.data.excerpt}</p>
+						<p>{study.data.summary}</p>
+					</article>
+				))}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>.study-card{display:grid;gap:1rem}.study-card a{text-decoration:none}</style>

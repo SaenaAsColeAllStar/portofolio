@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { SITE_TITLE } from "../../../consts";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+
+const certificates = (await getCollection("certificates"))
+	.filter((cert) => cert.id.startsWith(locale + "/"))
+	.sort((a, b) => b.data.issuedAt.valueOf() - a.data.issuedAt.valueOf());
+
+function getCleanSlug(id: string) {
+	const parts = id.split('/');
+	return parts.slice(1).join('/');
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={`${locale === 'en' ? 'Certificates' : 'Sertifikat'} | ${SITE_TITLE}`} description="My certifications and credentials" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Certificate Vault' : 'Kubah Sertifikat'}</p>
+				<h2>{locale === 'en' ? 'Verified Credentials and Qualifications' : 'Kredensial dan Kualifikasi Terverifikasi'}</h2>
+				<ul class="certificate-list">
+					{
+						certificates.map((cert) => (
+							<li class="card certificate-card">
+								<div class="cert-content">
+									<h3><a href={getLocalizedUrl(`/certificates/${getCleanSlug(cert.id)}`, locale)}>{cert.data.title}</a></h3>
+									<p class="issuer">{cert.data.issuer}</p>
+									<p class="date">
+										{locale === 'en' ? 'Issued: ' : 'Diterbitkan: '} <FormattedDate date={cert.data.issuedAt} />
+									</p>
+								</div>
+								<div class="badge-row">
+									<span class="badge">{cert.data.category}</span>
+									{cert.data.skills.map(skill => <span class="badge secondary">{skill}</span>)}
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.certificate-list {
+		display: grid;
+		gap: 2rem;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		margin-top: 3rem;
+	}
+	.certificate-card {
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 220px;
+		background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+		backdrop-filter: blur(10px);
+		border: 1px solid rgba(255,255,255,0.1);
+	}
+	.certificate-card::before {
+		content: '';
+		position: absolute;
+		top: 0; right: 0; bottom: 0; left: 0;
+		background: radial-gradient(circle at top right, rgba(255,255,255,0.1), transparent 50%);
+		pointer-events: none;
+	}
+	.certificate-list li h3 a {
+		text-decoration: none;
+	}
+	.certificate-list li h3 a::after {
+		content: '';
+		position: absolute;
+		top: 0; right: 0; bottom: 0; left: 0;
+		z-index: 1;
+	}
+	.cert-content {
+		position: relative;
+		z-index: 2;
+	}
+	.issuer {
+		margin: 0.5rem 0;
+		font-weight: 500;
+		color: var(--accent);
+	}
+	.date {
+		margin-bottom: 1rem;
+		font-size: 0.9em;
+		opacity: 0.8;
+	}
+	.badge-row {
+		margin-top: auto;
+		position: relative;
+		z-index: 2;
+		padding-top: 1rem;
+	}
+	.badge.secondary {
+		background: rgba(255,255,255,0.05);
+	}
+</style>

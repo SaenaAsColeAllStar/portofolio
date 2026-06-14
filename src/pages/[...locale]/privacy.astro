@@ -1,0 +1,86 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head><BaseHead title={`${locale === 'en' ? 'Privacy Policy' : 'Kebijakan Privasi'} | ${SITE_TITLE}`} description="Privacy policy and analytics usage." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{locale === 'en' ? 'Legal' : 'Hukum'}</p>
+				<h1>{locale === 'en' ? 'Privacy Policy' : 'Kebijakan Privasi'}</h1>
+			</section>
+			
+			<section class="section prose card">
+				{locale === 'en' ? (
+					<>
+						<h2>Analytics and Tracking</h2>
+						<p>This portfolio uses a lightweight, custom, and cookieless analytics solution. The sole purpose of this tracking is to understand user engagement with specific call-to-action buttons (e.g., clicking on "View Resume" or "Contact").</p>
+						
+						<h3>What data is collected?</h3>
+						<ul>
+							<li>Click events on specific buttons or links.</li>
+							<li>Timestamp of the event.</li>
+							<li>Basic referrer information (if available).</li>
+						</ul>
+						
+						<h3>What data is NOT collected?</h3>
+						<ul>
+							<li>Personal Identifiable Information (PII) such as IP addresses.</li>
+							<li>Tracking cookies.</li>
+							<li>Cross-site tracking data.</li>
+						</ul>
+
+						<h2>Contact</h2>
+						<p>If you have any questions regarding this policy, feel free to reach out via the <a href={getLocalizedUrl("/contact", locale)}>contact page</a>.</p>
+					</>
+				) : (
+					<>
+						<h2>Analisis dan Pelacakan</h2>
+						<p>Portofolio ini menggunakan solusi analitik ringan, kustom, dan tanpa kuki (cookieless). Tujuan utama dari pelacakan ini adalah untuk memahami keterlibatan pengguna dengan tombol ajakan bertindak (CTA) tertentu (misalnya, mengklik "Lihat Resume" atau "Kontak").</p>
+						
+						<h3>Data apa yang dikumpulkan?</h3>
+						<ul>
+							<li>Peristiwa klik pada tombol atau tautan tertentu.</li>
+							<li>Stempel waktu peristiwa.</li>
+							<li>Informasi dasar perujuk (jika tersedia).</li>
+						</ul>
+						
+						<h3>Data apa yang TIDAK dikumpulkan?</h3>
+						<ul>
+							<li>Informasi Identitas Pribadi (PII) seperti alamat IP.</li>
+							<li>Kuki pelacakan.</li>
+							<li>Data pelacakan lintas situs.</li>
+						</ul>
+
+						<h2>Kontak</h2>
+						<p>Jika Anda memiliki pertanyaan mengenai kebijakan ini, silakan hubungi melalui <a href={getLocalizedUrl("/contact", locale)}>halaman kontak</a>.</p>
+					</>
+				)}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.prose a {
+		color: var(--accent);
+	}
+</style>

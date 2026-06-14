@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.astro";
+import { SITE_TITLE } from "../../../consts";
+import { useTranslations } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	const projects = await getCollection("projects");
+	return projects.map((project) => {
+		const [localePrefix, ...slugParts] = project.id.split('/');
+		const slug = slugParts.join('/');
+		const locale = localePrefix === 'en' ? undefined : 'id';
+		return {
+			params: { locale, slug },
+			props: { project }
+		};
+	});
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head><BaseHead title={`${project.data.title} | ${SITE_TITLE}`} description={project.data.excerpt} /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{project.data.category} · {project.data.year}</p>
+				<h1>{project.data.title}</h1>
+				<p class="lede">{project.data.excerpt}</p>
+				<div class="badge-row">{project.data.domains.map((domain) => <span class="badge">{domain}</span>)}</div>
+			</section>
+			<section class="grid grid-2 section">
+				<div class="card"><h2>{locale === 'en' ? 'Role' : 'Peran'}</h2><p>{project.data.role}</p></div>
+				<div class="card"><h2>Status</h2><p>{project.data.status}</p></div>
+				{project.data.impact && <div class="card"><h2>{locale === 'en' ? 'Impact' : 'Dampak'}</h2><p>{project.data.impact}</p></div>}
+				<div class="card"><h2>{locale === 'en' ? 'Stack' : 'Tumpukan'}</h2><div class="badge-row">{project.data.stack.map((item) => <span class="badge">{item}</span>)}</div></div>
+			</section>
+			<article class="prose section"><Content /></article>
+		</main>
+		<Footer />
+	</body>
+</html>

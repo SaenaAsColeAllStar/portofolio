@@ -1,0 +1,88 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { SITE_TITLE } from "../../../consts";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+
+const notes = (await getCollection("notes"))
+	.filter((note) => note.id.startsWith(locale + "/") && !note.data.draft)
+	.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+function getCleanSlug(id: string) {
+	const parts = id.split('/');
+	return parts.slice(1).join('/');
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head><BaseHead title={`${locale === 'en' ? 'Notes' : 'Catatan'} | ${SITE_TITLE}`} description="Technical notes and knowledge-base entries for infrastructure, AI workflows, automation, and lessons learned." /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{locale === 'en' ? 'Technical Notes' : 'Catatan Teknis'}</p>
+				<h1>{locale === 'en' ? 'Knowledge base and implementation logs.' : 'Basis pengetahuan dan log implementasi.'}</h1>
+				<p class="lede">{locale === 'en' ? 'Short-form writing on infrastructure, AI workflows, automation, and technical problem-solving.' : 'Tulisan singkat tentang infrastruktur, alur kerja AI, otomatisasi, dan pemecahan masalah teknis.'}</p>
+			</section>
+			
+			<section class="section">
+				<div class="notes-grid">
+					{notes.map((note) => (
+						<article class="card note-card">
+							<p class="eyebrow">{note.data.category}</p>
+							<h3><a href={getLocalizedUrl(`/notes/${getCleanSlug(note.id)}`, locale)}>{note.data.title}</a></h3>
+							<p class="date"><FormattedDate date={note.data.publishedAt} /></p>
+							<p>{note.data.excerpt}</p>
+							<div class="badge-row">
+								{note.data.tags.map((tag) => <span class="badge secondary">{tag}</span>)}
+							</div>
+						</article>
+					))}
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.notes-grid {
+		display: grid;
+		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		margin-top: 2rem;
+	}
+	.note-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+	.note-card a {
+		text-decoration: none;
+	}
+	.note-card h3 {
+		margin: 0;
+	}
+	.date {
+		font-size: 0.85em;
+		opacity: 0.7;
+		margin: 0;
+	}
+	.badge.secondary {
+		background: rgba(255,255,255,0.05);
+	}
+</style>

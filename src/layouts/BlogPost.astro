@@ -9,9 +9,10 @@ import { Image } from 'astro:assets';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
 ---
 
-<html lang="en">
+<html lang={locale}>
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
@@ -69,7 +70,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 							{
 								updatedDate && (
 									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
+										{locale === 'en' ? 'Last updated on' : 'Terakhir diperbarui pada'} <FormattedDate date={updatedDate} />
 									</div>
 								)
 							}

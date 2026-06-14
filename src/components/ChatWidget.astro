@@ -1,5 +1,6 @@
 ---
 // ChatWidget.astro - Floating AI Assistant Widget
+const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
 ---
 
 <!-- Floating Chat Button -->
@@ -11,13 +12,13 @@
 </button>
 
 <!-- Chat Window Wrapper -->
-<div id="chat-widget-window" class="chat-window hidden">
+<div id="chat-widget-window" class="chat-window hidden" data-locale={locale}>
   <!-- Window Header -->
   <div class="chat-header">
     <div class="header-info">
       <div class="glowing-status"></div>
       <div>
-        <h3>CTOS System Assistant</h3>
+        <h3>{locale === 'en' ? 'CTOS System Assistant' : 'Asisten Sistem CTOS'}</h3>
         <span class="status-subtext">Online &bull; Llama 3.1 Edge</span>
       </div>
     </div>
@@ -34,16 +35,18 @@
     <!-- Initial welcome message -->
     <div class="message assistant">
       <div class="message-bubble">
-        Hello! I am the CTOS System Assistant. Feel free to ask me about Saepul Husna's capabilities, projects, technical experience, or how to contact him.
+        {locale === 'en' 
+          ? "Hello! I am the CTOS System Assistant. Feel free to ask me about Saepul Husna's capabilities, projects, technical experience, or how to contact him." 
+          : "Halo! Saya adalah Asisten Sistem CTOS. Silakan tanya saya tentang kemampuan, proyek, pengalaman teknis Saepul Husna, atau cara menghubunginya."}
       </div>
     </div>
   </div>
 
   <!-- Quick Suggestions -->
   <div class="chat-suggestions" id="chat-suggestions-container">
-    <button class="suggestion-pill">What are your core capabilities?</button>
-    <button class="suggestion-pill">Tell me about your projects.</button>
-    <button class="suggestion-pill">How can I contact you?</button>
+    <button class="suggestion-pill">{locale === 'en' ? "What are your core capabilities?" : "Apa saja kemampuan utama Anda?"}</button>
+    <button class="suggestion-pill">{locale === 'en' ? "Tell me about your projects." : "Ceritakan tentang proyek Anda."}</button>
+    <button class="suggestion-pill">{locale === 'en' ? "How can I contact you?" : "Bagaimana cara menghubungi Anda?"}</button>
   </div>
 
   <!-- Chat Input -->
@@ -51,7 +54,7 @@
     <input 
       type="text" 
       id="chat-user-input" 
-      placeholder="Ask about CTOS architecture..." 
+      placeholder={locale === 'en' ? "Ask about CTOS architecture..." : "Tanya tentang arsitektur CTOS..."} 
       autocomplete="off" 
       required 
     />
@@ -483,6 +486,8 @@
 
     if (!trigger || !windowEl || !closeBtn || !form || !input || !messagesArea) return;
 
+    const locale = windowEl.dataset.locale || 'en';
+
     let chatHistory: Message[] = [];
 
     // Load history from SessionStorage if it exists
@@ -562,7 +567,7 @@
           headers: {
             'content-type': 'application/json'
           },
-          body: JSON.stringify({ messages: chatHistory })
+          body: JSON.stringify({ messages: chatHistory, locale })
         });
 
         // Hide typing indicator
@@ -581,7 +586,7 @@
 
       } catch (err: any) {
         typingIndicator.remove();
-        appendMessageBubble('assistant', err.message || 'Sorry, I encountered an issue connecting to my neural network. Please try again later.');
+        appendMessageBubble('assistant', err.message || (locale === 'en' ? 'Sorry, I encountered an issue connecting to my neural network. Please try again later.' : 'Maaf, saya mengalami masalah saat terhubung ke jaringan saraf saya. Silakan coba lagi nanti.'));
         console.error('Chat error:', err);
       } finally {
         scrollToBottom();

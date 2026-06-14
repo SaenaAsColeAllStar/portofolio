@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.astro";
+import { SITE_TITLE } from "../../../consts";
+import { useTranslations } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	const studies = await getCollection("caseStudies");
+	return studies.map((study) => {
+		const [localePrefix, ...slugParts] = study.id.split('/');
+		const slug = slugParts.join('/');
+		const locale = localePrefix === 'en' ? undefined : 'id';
+		return {
+			params: { locale, slug },
+			props: { study }
+		};
+	});
+}
+
+const { study } = Astro.props;
+const { Content } = await render(study);
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head><BaseHead title={`${study.data.title} | ${SITE_TITLE}`} description={study.data.excerpt} /></head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{locale === 'en' ? 'Case Study' : 'Studi Kasus'} · {study.data.year}</p>
+				<h1>{study.data.title}</h1>
+				<p class="lede">{study.data.summary}</p>
+			</section>
+			<section class="grid grid-2 section">
+				<div class="card"><h2>{locale === 'en' ? 'Problem' : 'Masalah'}</h2><p>{study.data.problem}</p></div>
+				<div class="card"><h2>{locale === 'en' ? 'Architecture' : 'Arsitektur'}</h2><p>{study.data.architecture}</p></div>
+				<div class="card"><h2>{locale === 'en' ? 'Requirements' : 'Persyaratan'}</h2><ul>{study.data.requirements.map((item) => <li>{item}</li>)}</ul></div>
+				<div class="card"><h2>{locale === 'en' ? 'Results' : 'Hasil'}</h2><ul>{study.data.results.map((item) => <li>{item}</li>)}</ul></div>
+			</section>
+			<article class="prose section"><Content /></article>
+		</main>
+		<Footer />
+	</body>
+</html>

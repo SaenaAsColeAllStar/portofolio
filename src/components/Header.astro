@@ -4,19 +4,33 @@ import { navigationItems } from "../data/navigation";
 import { SITE_TITLE } from "../consts";
 import Logo from "./Logo.astro";
 import SplashScreen from "./SplashScreen.astro";
+
+const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
+const activeNav = navigationItems[locale];
+
+const pathname = Astro.url.pathname;
+let alternateUrl = pathname;
+if (locale === 'en') {
+	alternateUrl = `/id${pathname === '/' ? '' : pathname}`;
+} else {
+	alternateUrl = pathname.replace(/^\/id/, '') || '/';
+}
 ---
 
 <SplashScreen />
 
 <header class="site-header">
 	<nav aria-label="Main navigation">
-		<a class="brand" href="/" aria-label={`${SITE_TITLE} home`}>
+		<a class="brand" href={locale === 'en' ? '/' : '/id'} aria-label={`${SITE_TITLE} home`}>
 			<Logo variant="navbar" size="95px" />
 		</a>
 		<div class="nav-actions">
 			<div class="internal-links">
-				{navigationItems.map((item) => <HeaderLink href={item.href}>{item.label}</HeaderLink>)}
+				{activeNav.map((item) => <HeaderLink href={item.href}>{item.label}</HeaderLink>)}
 			</div>
+			<a href={alternateUrl} class="lang-switch-btn" title={locale === 'en' ? "Terjemahkan ke Bahasa Indonesia" : "Translate to English"}>
+				{locale === 'en' ? 'ID' : 'EN'}
+			</a>
 			<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
 				<svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
 				<svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -133,6 +147,29 @@ import SplashScreen from "./SplashScreen.astro";
 	}
 
 	.theme-toggle:hover {
+		background: var(--btn-secondary-hover);
+		color: var(--text);
+	}
+
+	.lang-switch-btn {
+		align-items: center;
+		background: var(--btn-secondary-bg);
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		color: var(--muted);
+		cursor: pointer;
+		display: inline-flex;
+		height: 2.2rem;
+		justify-content: center;
+		transition: color 0.2s, background 0.2s;
+		width: 2.2rem;
+		flex-shrink: 0;
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.lang-switch-btn:hover {
 		background: var(--btn-secondary-hover);
 		color: var(--text);
 	}

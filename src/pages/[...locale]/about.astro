@@ -1,0 +1,305 @@
+---
+export const prerender = false;
+
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+import { positioning } from "../../data/positioning";
+import { capabilityMatrix } from "../../data/skills";
+import { technologies, technologyCategories } from "../../data/technologies";
+import { getDb } from "../../db";
+import { settings } from "../../db/schema";
+import { sql } from 'drizzle-orm';
+import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+
+const activePositioning = positioning[locale];
+const activeCapabilityMatrix = capabilityMatrix[locale];
+const activeTechnologies = technologies[locale];
+const activeTechCategories = technologyCategories[locale];
+
+const env = Astro.locals.runtime?.env;
+let profilePhoto: string | null = null;
+
+try {
+	const db = getDb(env);
+	const photoRow = await db.select().from(settings).where(sql`key = 'profile_photo'`).limit(1);
+	if (photoRow.length > 0) {
+		profilePhoto = photoRow[0].value;
+	}
+} catch (e) {
+	console.error('Failed to load profile photo:', e);
+}
+
+const groupedTech = Object.entries(activeTechCategories).map(([key, label]) => ({
+	category: key,
+	label,
+	items: activeTechnologies.filter((t) => t.category === key),
+})).filter((group) => group.items.length > 0);
+
+const philosophy = {
+	en: [
+		{ title: "Systems over stacks", text: "Technology choices follow architecture decisions, not the other way around. I evaluate tools by how well they serve the system's constraints — not by popularity or novelty." },
+		{ title: "Reliability as a feature", text: "Uptime, observability, and failure recovery are designed in from the start. A system that works in development but breaks under load is an incomplete system." },
+		{ title: "Automation with intent", text: "I automate to eliminate toil and reduce human error — not to add complexity. Every automated workflow should be explainable, debuggable, and reversible." },
+		{ title: "Clarity in communication", text: "Good documentation, clean interfaces, and honest timelines matter as much as good code. Engineering is a team activity, even when you're working solo." }
+	],
+	id: [
+		{ title: "Sistem sebelum teknologi", text: "Pilihan teknologi mengikuti keputusan arsitektur, bukan sebaliknya. Saya mengevaluasi alat dari seberapa baik mereka melayani batasan sistem — bukan berdasarkan popularitas atau kebaruan." },
+		{ title: "Keandalan sebagai fitur", text: "Uptime, observabilitas, dan pemulihan kegagalan dirancang sejak awal. Sistem yang berfungsi dalam pengembangan tetapi rusak di bawah beban adalah sistem yang tidak lengkap." },
+		{ title: "Otomatisasi dengan tujuan", text: "Saya mengotomatisasi untuk menghilangkan pekerjaan berulang dan mengurangi kesalahan manusia — bukan untuk menambah kompleksitas. Setiap alur kerja otomatis harus dapat dijelaskan, didebug, dan dibatalkan." },
+		{ title: "Kejelasan dalam komunikasi", text: "Dokumentasi yang baik, antarmuka yang bersih, dan linimasa yang jujur sangat penting seperti halnya kode yang baik. Teknik adalah aktivitas tim, bahkan saat Anda bekerja solo." }
+	]
+} as const;
+
+const activePhilosophy = philosophy[locale];
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={`About | ${SITE_TITLE}`} description={activePositioning.recruiterSummary} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- Page Hero -->
+			<section class="page-hero">
+				<p class="eyebrow">{t("nav.about")}</p>
+				<h1>{activePositioning.headline}</h1>
+				<p class="lede">{activePositioning.subheadline}</p>
+			</section>
+
+			<!-- Professional Summary -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Professional Summary' : 'Ringkasan Profesional'}</p>
+				<h2>{t("about.summaryHeadline")}</h2>
+				<div class="summary-split-layout">
+					<div class="prose summary-content">
+						{locale === 'en' ? (
+							<>
+								<p>
+									I'm a {activePositioning.title.toLowerCase()} focused on connecting infrastructure, automation, AI workflows, and product engineering into cohesive systems. My work sits at the intersection of reliability and iteration — designing architectures that support real users, real traffic, and real constraints.
+								</p>
+								<p>
+									Rather than chasing individual technologies, I focus on how components interact across a system. That means understanding deployment pipelines as well as user interfaces, database design as well as API contracts, and knowing when to automate a process versus when to simplify it entirely.
+								</p>
+								<p>
+									{activePositioning.recruiterSummary}
+								</p>
+							</>
+						) : (
+							<>
+								<p>
+									Saya adalah seorang {activePositioning.title.toLowerCase()} yang berfokus untuk menghubungkan infrastruktur, otomatisasi, alur kerja AI, dan rekayasa produk ke dalam sistem yang kohesif. Pekerjaan saya berada di persimpangan antara keandalan dan iterasi — merancang arsitektur yang mendukung pengguna nyata, lalu lintas nyata, dan batasan nyata.
+								</p>
+								<p>
+									Alih-alih mengejar teknologi individual, saya berfokus pada bagaimana komponen berinteraksi di seluruh sistem. Itu berarti memahami pipeline deployment serta antarmuka pengguna, desain basis data serta kontrak API, dan mengetahui kapan harus mengotomatisasi proses versus kapan harus menyederhanakannya sepenuhnya.
+								</p>
+								<p>
+									{activePositioning.recruiterSummary}
+								</p>
+							</>
+						)}
+					</div>
+					<div class="profile-photo-wrapper">
+						{profilePhoto ? (
+							<img src={profilePhoto} alt="Profile photo" class="profile-photo" />
+						) : (
+							<div class="profile-photo-placeholder">
+								<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+									<circle cx="12" cy="7" r="4"></circle>
+								</svg>
+							</div>
+						)}
+					</div>
+				</div>
+			</section>
+
+			<!-- Expertise Matrix -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Expertise Matrix' : 'Matriks Keahlian'}</p>
+				<h2>{t("about.expertiseHeadline")}</h2>
+				<div class="grid grid-3">
+					{activeCapabilityMatrix.map((capability) => (
+						<article class="card capability-card">
+							<div class="capability-icon" aria-hidden="true">
+								<span>{capability.name.charAt(0)}</span>
+							</div>
+							<h3>{capability.name}</h3>
+							<p>{capability.description}</p>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<!-- Philosophy / Approach -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Philosophy' : 'Filosofi'}</p>
+				<h2>{t("about.philosophyHeadline")}</h2>
+				<div class="grid grid-2">
+					{activePhilosophy.map((item) => (
+						<article class="card">
+							<h3>{item.title}</h3>
+							<p>{item.text}</p>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<!-- Technology Ecosystem -->
+			<section class="section">
+				<p class="eyebrow">{locale === 'en' ? 'Technology Ecosystem' : 'Ekosistem Teknologi'}</p>
+				<h2>{t("about.techHeadline")}</h2>
+				<div class="tech-ecosystem">
+					{groupedTech.map((group) => (
+						<div class="tech-group">
+							<h3 class="tech-group-label">{group.label}</h3>
+							<div class="badge-row">
+								{group.items.map((tech) => (
+									<span class="badge" title={tech.description}>{tech.name}</span>
+								))}
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<!-- Contact CTA -->
+			<section class="section cta card">
+				<div>
+					<p class="eyebrow">{locale === 'en' ? 'Get in Touch' : 'Hubungi Saya'}</p>
+					<h2>{t("about.ctaHeadline")}</h2>
+					<p>{t("about.ctaBody")}</p>
+				</div>
+				<div class="button-row">
+					<a class="button" href={getLocalizedUrl("/contact", locale)} data-track="about-contact-cta">{t("btn.contact")}</a>
+					<a class="button secondary" href={getLocalizedUrl("/resume", locale)} data-track="about-resume-cta">{t("btn.resume")}</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.summary-content {
+		max-width: 72ch;
+	}
+
+	.summary-content p {
+		color: var(--muted);
+		line-height: 1.75;
+	}
+
+	.summary-content p + p {
+		margin-top: 1rem;
+	}
+
+	.capability-card {
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.capability-icon {
+		width: 2.5rem;
+		height: 2.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 8px;
+		background: var(--surface-elevated);
+		border: 1px solid var(--border);
+		font-weight: 700;
+		font-size: 1rem;
+		color: var(--accent);
+	}
+
+	.tech-ecosystem {
+		display: grid;
+		gap: 2rem;
+		margin-top: 1.5rem;
+	}
+
+	.tech-group {
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.tech-group-label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--subtle);
+	}
+
+	.cta {
+		align-items: center;
+		display: flex;
+		gap: 1.5rem;
+		justify-content: space-between;
+	}
+
+	@media (max-width: 860px) {
+		.cta {
+			align-items: stretch;
+			flex-direction: column;
+		}
+	}
+
+	/* Profile Photo split styling */
+	.summary-split-layout {
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 3rem;
+		align-items: flex-start;
+		margin-top: 1.5rem;
+	}
+
+	.profile-photo-wrapper {
+		width: 280px;
+		height: 280px;
+		border-radius: 1rem;
+		overflow: hidden;
+		border: 1px solid var(--border);
+		background: var(--surface);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+		flex-shrink: 0;
+	}
+
+	.profile-photo {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.profile-photo-placeholder {
+		color: var(--muted);
+	}
+
+	@media (max-width: 768px) {
+		.summary-split-layout {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+		
+		.profile-photo-wrapper {
+			margin: 0 auto;
+		}
+	}
+</style>

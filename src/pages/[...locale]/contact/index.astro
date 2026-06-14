@@ -1,0 +1,389 @@
+---
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.astro";
+import { SITE_TITLE } from "../../../consts";
+import { socials } from "../../../data/socials";
+import { useTranslations, getLocalizedUrl } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { locale: undefined } },
+		{ params: { locale: "id" } }
+	];
+}
+
+const locale = (Astro.params.locale || 'en') as 'en' | 'id';
+const t = useTranslations(locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={`Contact | ${SITE_TITLE}`} description="Contact CTOS for professional opportunities, collaboration, or technical discussion." />
+		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer is:inline></script>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-hero">
+				<p class="eyebrow">{t("nav.contact")}</p>
+				<h1>{t("contact.headline")}</h1>
+				<p class="lede">{t("contact.subheadline")}</p>
+			</section>
+			<section class="grid grid-3 section">
+				{socials.map((social) => <article class="card"><p class="eyebrow">{social.label}</p><h2 class="social-username">{social.username}</h2><a class="button secondary" href={social.href}>{locale === 'en' ? `Open ${social.label}` : `Buka ${social.label}`}</a></article>)}
+			</section>
+
+			<section class="contact-form-section section">
+				<div class="form-header">
+					<p class="eyebrow">{locale === 'en' ? 'Send a Message' : 'Kirim Pesan'}</p>
+					<h2>{locale === 'en' ? 'Or reach out directly.' : 'Atau hubungi langsung.'}</h2>
+					<p class="form-subtitle">{locale === 'en' ? 'Fill out the form below and I\'ll get back to you as soon as possible.' : 'Isi formulir di bawah ini dan saya akan menghubungi Anda kembali secepatnya.'}</p>
+				</div>
+				<form id="contact-form" action="/api/contact" method="POST" data-locale={locale} data-security-check={t("contact.securityCheck")} novalidate>
+					<div class="form-group">
+						<label for="name">{t("contact.formName")}</label>
+						<input type="text" id="name" name="name" required placeholder={locale === 'en' ? 'Your full name' : 'Nama lengkap Anda'} autocomplete="name" />
+						<span class="error-message" data-for="name"></span>
+					</div>
+					<div class="form-group">
+						<label for="email">{t("contact.formEmail")}</label>
+						<input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+						<span class="error-message" data-for="email"></span>
+					</div>
+					<div class="form-group">
+						<label for="subject">{t("contact.formSubject")}</label>
+						<input type="text" id="subject" name="subject" required placeholder={locale === 'en' ? 'What is this regarding?' : 'Tentang apa pesan ini?'} />
+						<span class="error-message" data-for="subject"></span>
+					</div>
+					<div class="form-group">
+						<label for="message">{t("contact.formMessage")}</label>
+						<textarea id="message" name="message" required rows="6" placeholder={locale === 'en' ? 'Your message...' : 'Pesan Anda...'}></textarea>
+						<span class="error-message" data-for="message"></span>
+					</div>
+					<div class="form-group turnstile-group">
+						<div class="cf-turnstile" data-sitekey="0x4AAAAAADkIUxBJqfBfxBXy" data-theme="dark"></div>
+						<span class="error-message" data-for="turnstile"></span>
+					</div>
+					<button type="submit" class="button submit-button" data-sending-text={t("contact.formSending")}>{t("contact.formSubmit")}</button>
+				</form>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.contact-form-section {
+		max-width: 40rem;
+		margin: 0 auto;
+		padding-top: 2rem;
+		padding-bottom: 4rem;
+	}
+
+	.form-header {
+		display: grid;
+		gap: 0.5rem;
+		margin-bottom: 2rem;
+	}
+
+	.form-header h2 {
+		font-size: 1.5rem;
+		color: var(--text);
+	}
+
+	.form-subtitle {
+		color: var(--muted);
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	form {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.form-group {
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	label {
+		color: var(--muted);
+		font-size: 0.85rem;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		text-transform: uppercase;
+	}
+
+	input,
+	textarea {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 0.75rem;
+		color: var(--text);
+		font-family: inherit;
+		font-size: 0.95rem;
+		line-height: 1.5;
+		padding: 0.75rem 1rem;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+		width: 100%;
+	}
+
+	input::placeholder,
+	textarea::placeholder {
+		color: var(--subtle, #6e7890);
+		opacity: 1;
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: var(--accent);
+		box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.15);
+		outline: none;
+	}
+
+	input.invalid,
+	textarea.invalid {
+		border-color: var(--danger);
+		box-shadow: 0 0 0 3px rgba(255, 92, 108, 0.12);
+	}
+
+	input.invalid:focus,
+	textarea.invalid:focus {
+		border-color: var(--danger);
+		box-shadow: 0 0 0 3px rgba(255, 92, 108, 0.2);
+	}
+
+	textarea {
+		min-height: 8rem;
+		resize: vertical;
+	}
+
+	.error-message {
+		color: var(--danger);
+		font-size: 0.8rem;
+		min-height: 1.1em;
+	}
+
+	.turnstile-group {
+		margin: 0.5rem 0;
+	}
+
+	.success-banner {
+		background: rgba(46, 204, 113, 0.08);
+		border: 1px solid rgba(46, 204, 113, 0.25);
+		border-radius: 1rem;
+		padding: 2.5rem;
+		text-align: center;
+		color: var(--text);
+		display: grid;
+		gap: 1rem;
+		justify-items: center;
+		animation: fadeIn 0.4s ease-out;
+	}
+
+	.success-icon {
+		font-size: 2rem;
+		color: #2ecc71;
+		background: rgba(46, 204, 113, 0.15);
+		width: 4rem;
+		height: 4rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		font-weight: bold;
+	}
+
+	.success-banner h3 {
+		font-size: 1.3rem;
+		margin: 0;
+	}
+
+	.success-banner p {
+		color: var(--muted);
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(8px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	.submit-button {
+		background: var(--text);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 999px;
+		color: var(--bg);
+		cursor: pointer;
+		font-family: inherit;
+		font-size: 0.95rem;
+		font-weight: 700;
+		justify-self: start;
+		padding: 0.78rem 2rem;
+		transition: opacity 0.2s ease, transform 0.15s ease;
+	}
+
+	.submit-button:hover {
+		opacity: 0.88;
+	}
+
+	.submit-button:active {
+		transform: scale(0.97);
+	}
+
+	.social-username {
+		font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		word-break: break-word;
+		line-height: 1.2;
+		margin: 0.5rem 0 1rem;
+	}
+</style>
+
+<script>
+	function renderTurnstile() {
+		if ((window as any).turnstile) {
+			const containers = document.querySelectorAll('.cf-turnstile:not([data-rendered])');
+			containers.forEach(container => {
+				if (container.hasChildNodes()) return;
+				(window as any).turnstile.render(container, {
+					sitekey: container.getAttribute('data-sitekey') || '0x4AAAAAADkIUxBJqfBfxBXy',
+					theme: container.getAttribute('data-theme') || 'dark'
+				});
+				container.setAttribute('data-rendered', 'true');
+			});
+		}
+	}
+
+	// Bind global callback
+	(window as any).onloadTurnstileCallback = renderTurnstile;
+
+	document.addEventListener('astro:page-load', () => {
+		renderTurnstile();
+		
+		const form = document.getElementById('contact-form') as HTMLFormElement | null;
+		if (!form) return;
+
+		const fields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+			'input[required], textarea[required]'
+		);
+
+		const locale = form.dataset.locale || 'en';
+		const securityCheckMsg = form.dataset.securityCheck || 'Please complete the security check.';
+
+		const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		function validateField(field: HTMLInputElement | HTMLTextAreaElement): boolean {
+			const errorEl = form!.querySelector<HTMLSpanElement>(
+				`.error-message[data-for="${field.id}"]`
+			);
+			let message = '';
+
+			const value = field.value.trim();
+
+			if (!value) {
+				const labelText = field.previousElementSibling?.textContent || 'This field';
+				const requiredText = locale === 'en' ? 'is required.' : 'wajib diisi.';
+				message = `${labelText} ${requiredText}`;
+			} else if (field.type === 'email' && !EMAIL_REGEX.test(value)) {
+				message = locale === 'en' ? 'Please enter a valid email address.' : 'Silakan masukkan alamat email yang valid.';
+			}
+
+			if (errorEl) errorEl.textContent = message;
+
+			if (message) {
+				field.classList.add('invalid');
+				return false;
+			} else {
+				field.classList.remove('invalid');
+				return true;
+			}
+		}
+
+		// Real-time validation on blur and input
+		fields.forEach((field) => {
+			field.addEventListener('blur', () => validateField(field));
+			field.addEventListener('input', () => {
+				if (field.classList.contains('invalid')) {
+					validateField(field);
+				}
+			});
+		});
+
+		const submitBtn = form.querySelector('.submit-button') as HTMLButtonElement;
+		const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message';
+
+		// Validate all on submit
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			
+			let allValid = true;
+			fields.forEach((field) => {
+				if (!validateField(field)) allValid = false;
+			});
+
+			// Check Turnstile value
+			const turnstileInput = form.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null;
+			const turnstileError = form.querySelector('.error-message[data-for="turnstile"]') as HTMLSpanElement | null;
+			if (turnstileError) turnstileError.textContent = '';
+
+			if (!turnstileInput || !turnstileInput.value) {
+				allValid = false;
+				if (turnstileError) turnstileError.textContent = securityCheckMsg;
+			}
+
+			if (!allValid) {
+				const firstInvalid = form.querySelector<HTMLElement>('.invalid') || turnstileError;
+				firstInvalid?.focus();
+				return;
+			}
+
+			// Perform AJAX submit
+			try {
+				if (submitBtn) {
+					submitBtn.disabled = true;
+					submitBtn.textContent = submitBtn.dataset.sendingText || 'Sending...';
+				}
+
+				const formData = new FormData(form);
+				const res = await fetch('/api/contact', {
+					method: 'POST',
+					body: formData
+				});
+
+				const data = await res.json() as any;
+
+				if (res.ok && data.success) {
+					// Show success UI
+					form.innerHTML = `
+						<div class="success-banner">
+							<div class="success-icon">✓</div>
+							<h3>${locale === 'en' ? 'Message Sent Successfully!' : 'Pesan Berhasil Dikirim!'}</h3>
+							<p>${locale === 'en' ? "Thank you for reaching out. I'll get back to you as soon as possible." : 'Terima kasih telah menghubungi saya. Saya akan kembali secepat mungkin.'}</p>
+						</div>
+					`;
+				} else {
+					throw new Error(data.error || 'Failed to submit form.');
+				}
+			} catch (err: any) {
+				if (turnstileError) {
+					turnstileError.textContent = err.message || 'An error occurred. Please try again.';
+				}
+				if (submitBtn) {
+					submitBtn.disabled = false;
+					submitBtn.textContent = originalBtnText;
+				}
+				// Reset turnstile widget
+				if ((window as any).turnstile) {
+					(window as any).turnstile.reset();
+				}
+			}
+		});
+	});
+</script>

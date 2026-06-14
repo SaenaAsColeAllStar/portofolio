@@ -8,6 +8,13 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
 	site: "https://ctos.web.id",
+	i18n: {
+		defaultLocale: "en",
+		locales: ["en", "id"],
+		routing: {
+			prefixDefaultLocale: false,
+		},
+	},
 	integrations: [mdx(), sitemap()],
 	adapter: cloudflare({
 		imageService: "compile",
