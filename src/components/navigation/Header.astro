@@ -1,0 +1,135 @@
+---
+// Header.astro - Floating Desktop Navigation
+import HeaderLink from "../HeaderLink.astro";
+import { navigationItems } from "../../data/navigation";
+import { SITE_TITLE } from "../../consts";
+import Logo from "../Logo.astro";
+import SplashScreen from "../SplashScreen.astro";
+import ThemeSwitcher from "./ThemeSwitcher.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
+const activeNav = navigationItems[locale];
+---
+
+<SplashScreen />
+
+<header class="site-header" id="desktop-header">
+	<nav aria-label="Main navigation">
+		<a class="brand" href={locale === 'en' ? '/' : '/id'} aria-label={`${SITE_TITLE} home`}>
+			<Logo variant="navbar" size="95px" />
+		</a>
+		
+		<div class="nav-actions">
+			<div class="internal-links">
+				{activeNav.map((item) => <HeaderLink href={item.href}>{item.label}</HeaderLink>)}
+			</div>
+			<div class="switchers-group">
+				<LanguageSwitcher />
+				<ThemeSwitcher />
+			</div>
+		</div>
+	</nav>
+</header>
+
+<script>
+	function initHeaderScroll() {
+		let lastScrollY = window.scrollY;
+		const header = document.getElementById('desktop-header');
+		if (!header) return;
+
+		window.addEventListener('scroll', () => {
+			const currentScrollY = window.scrollY;
+			
+			// If scroll down and past 80px, hide header
+			if (currentScrollY > lastScrollY && currentScrollY > 80) {
+				header.classList.add('header-hidden');
+			} else {
+				// Scrolling up - reveal header
+				header.classList.remove('header-hidden');
+			}
+			lastScrollY = currentScrollY;
+		}, { passive: true });
+	}
+
+	document.addEventListener('astro:page-load', initHeaderScroll);
+</script>
+
+<style>
+	.site-header {
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+		background: var(--header-bg);
+		border-bottom: 1px solid var(--border);
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		transition: transform var(--duration-normal) var(--ease-standard);
+	}
+
+	/* Hidden state on scroll down */
+	.site-header.header-hidden {
+		transform: translateY(-100%);
+	}
+
+	nav {
+		align-items: center;
+		display: flex;
+		gap: 1rem;
+		justify-content: space-between;
+		margin: 0 auto;
+		min-height: 72px;
+		width: min(var(--container-max-width, 1120px), calc(100% - var(--spacing-xl, 2rem)));
+	}
+
+	.brand {
+		align-items: center;
+		display: inline-flex;
+		font-weight: var(--font-weight-bold);
+		gap: 0.75rem;
+		text-decoration: none;
+	}
+
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.internal-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-xxs, 0.3rem);
+		justify-content: flex-end;
+	}
+
+	.internal-links a {
+		border-radius: var(--radius-full);
+		color: var(--muted);
+		font-size: var(--font-size-sm);
+		padding: 0.45rem 0.7rem;
+		text-decoration: none;
+		transition: background var(--duration-fast), color var(--duration-fast);
+	}
+
+	.internal-links a:hover,
+	.internal-links a.active {
+		background: var(--hover-bg);
+		color: var(--text);
+	}
+
+	.switchers-group {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs, 0.5rem);
+	}
+
+	/* Mobile styles: hide header navigation links on handhelds */
+	@media (max-width: 768px) {
+		.internal-links {
+			display: none;
+		}
+	}
+</style>

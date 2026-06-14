@@ -1,0 +1,47 @@
+---
+// CommandInput.astro - Search Bar inside Command Palette
+---
+<div class="search-bar">
+	<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<circle cx="11" cy="11" r="8"></circle>
+		<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+	</svg>
+	<input type="text" id="command-input" placeholder="Type a command or search..." autocomplete="off" />
+	<button id="close-palette" aria-label="Close command palette">ESC</button>
+</div>
+
+<style>
+	.search-bar {
+		display: flex;
+		align-items: center;
+		padding: var(--spacing-md, 1rem);
+		border-bottom: 1px solid var(--border);
+		gap: var(--spacing-md, 1rem);
+	}
+	.search-bar svg {
+		opacity: 0.5;
+		color: var(--muted);
+	}
+	.search-bar input {
+		flex: 1;
+		background: transparent;
+		border: none;
+		color: inherit;
+		font-size: var(--font-size-md, 1.15rem);
+		outline: none;
+	}
+	.search-bar button {
+		background: var(--btn-secondary-bg);
+		border: 1px solid var(--border);
+		color: var(--muted);
+		font-size: var(--font-size-xs, 0.75rem);
+		padding: 0.25rem 0.5rem;
+		border-radius: var(--radius-sm, 4px);
+		cursor: pointer;
+		transition: background var(--duration-fast), color var(--duration-fast);
+	}
+	.search-bar button:hover {
+		background: var(--btn-secondary-hover);
+		color: var(--text);
+	}
+</style>

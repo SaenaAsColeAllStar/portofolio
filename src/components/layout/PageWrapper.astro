@@ -1,0 +1,29 @@
+---
+// PageWrapper.astro - The standard layout envelope for all pages
+import BaseHead from "../BaseHead.astro";
+import Header from "../Header.astro";
+import Footer from "../Footer.astro";
+import MobileNav from "../navigation/MobileNav.astro";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
+---
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<slot />
+		</main>
+		<Footer />
+		<MobileNav />
+	</body>
+</html>

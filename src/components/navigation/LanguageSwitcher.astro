@@ -1,0 +1,39 @@
+---
+// LanguageSwitcher.astro - Language Switch component
+const locale = (Astro.currentLocale || 'en') as 'en' | 'id';
+const pathname = Astro.url.pathname;
+let alternateUrl = pathname;
+if (locale === 'en') {
+	alternateUrl = `/id${pathname === '/' ? '' : pathname}`;
+} else {
+	alternateUrl = pathname.replace(/^\/id/, '') || '/';
+}
+---
+<a href={alternateUrl} class="lang-switch-btn" title={locale === 'en' ? "Terjemahkan ke Bahasa Indonesia" : "Translate to English"}>
+	{locale === 'en' ? 'ID' : 'EN'}
+</a>
+
+<style>
+	.lang-switch-btn {
+		align-items: center;
+		background: var(--btn-secondary-bg);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-full);
+		color: var(--muted);
+		cursor: pointer;
+		display: inline-flex;
+		height: 2.2rem;
+		justify-content: center;
+		transition: color var(--duration-fast), background var(--duration-fast);
+		width: 2.2rem;
+		flex-shrink: 0;
+		font-size: 0.78rem;
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+	}
+
+	.lang-switch-btn:hover {
+		background: var(--btn-secondary-hover);
+		color: var(--text);
+	}
+</style>

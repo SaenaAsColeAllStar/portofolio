@@ -1,0 +1,13 @@
+---
+// Container.astro - Standard Page Width Wrapper
+---
+<div class="container">
+	<slot />
+</div>
+
+<style>
+	.container {
+		width: min(var(--container-max-width, 1120px), calc(100% - var(--spacing-xl, 2rem)));
+		margin: 0 auto;
+	}
+</style>

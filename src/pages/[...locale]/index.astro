@@ -10,6 +10,7 @@ import { proofSignals } from "../../data/metrics";
 import { positioning } from "../../data/positioning";
 import { capabilityMatrix } from "../../data/skills";
 import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
+import HeroSystemMap from "../../components/HeroSystemMap.astro";
 
 export async function getStaticPaths() {
 	return [
@@ -63,14 +64,7 @@ const featuredCaseStudy = caseStudies.find((study) => getCleanSlug(study.id) ===
 						<a class="button secondary" href={getLocalizedUrl(activePositioning.secondaryCta.href, locale)} data-track="hero-secondary-cta">{activePositioning.secondaryCta.label}</a>
 					</div>
 				</div>
-				<div class="system-card card hero-nodes" aria-label="System capability map">
-					{activeCapabilityMatrix.slice(0, 5).map((capability) => (
-						<div class="node" data-tooltip={capability.description}>
-							<Icon name="node" size={20} class="node-icon" />
-							<span>{capability.name}</span>
-						</div>
-					))}
-				</div>
+				<HeroSystemMap />
 			</section>
 
 			<section class="section">

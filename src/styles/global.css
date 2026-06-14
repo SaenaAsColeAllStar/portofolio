@@ -1,66 +1,10 @@
-:root {
-	color-scheme: dark;
-	--bg: #050816;
-	--bg-soft: #0b1020;
-	--surface: #121a2c;
-	--surface-elevated: #18243a;
-	--border: rgba(167, 176, 195, 0.18);
-	--text: #ffffff;
-	--muted: #a7b0c3;
-	--subtle: #6e7890;
-	--accent: #4f8cff;
-	--accent-strong: #7d5fff;
-	--success: #00d26a;
-	--warning: #ffb648;
-	--danger: #ff5c6c;
-	--shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-	--header-bg: rgba(5, 8, 22, 0.78);
-	--bg-gradient-1: #050816;
-	--bg-gradient-2: #081020;
-	--bg-gradient-3: #050816;
-	--accent-glow-1: rgba(79, 140, 255, 0.18);
-	--accent-glow-2: rgba(125, 95, 255, 0.14);
-	--hover-bg: rgba(255, 255, 255, 0.08);
-	--card-bg-1: rgba(18, 26, 44, 0.92);
-	--card-bg-2: rgba(11, 16, 32, 0.92);
-	--card-hover-border: rgba(167, 176, 195, 0.3);
-	--card-hover-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
-	--btn-secondary-bg: rgba(255, 255, 255, 0.06);
-	--btn-secondary-hover: rgba(255, 255, 255, 0.12);
-	--code-bg: rgba(255, 255, 255, 0.08);
-}
+@import "./tokens/colors.css";
+@import "./tokens/spacing.css";
+@import "./tokens/radius.css";
+@import "./tokens/shadows.css";
+@import "./tokens/typography.css";
+@import "./tokens/motion.css";
 
-:root[data-theme="light"] {
-	color-scheme: light;
-	--bg: #f8fafc;
-	--bg-soft: #f1f5f9;
-	--surface: #ffffff;
-	--surface-elevated: #f8fafc;
-	--border: rgba(15, 23, 42, 0.08);
-	--text: #0f172a;
-	--muted: #475569;
-	--subtle: #94a3b8;
-	--accent: #2563eb;
-	--accent-strong: #4f46e5;
-	--success: #16a34a;
-	--warning: #d97706;
-	--danger: #dc2626;
-	--shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-	--header-bg: rgba(248, 250, 252, 0.78);
-	--bg-gradient-1: #f8fafc;
-	--bg-gradient-2: #f1f5f9;
-	--bg-gradient-3: #e2e8f0;
-	--accent-glow-1: rgba(37, 99, 235, 0.06);
-	--accent-glow-2: rgba(79, 70, 229, 0.04);
-	--hover-bg: rgba(15, 23, 42, 0.06);
-	--card-bg-1: rgba(255, 255, 255, 0.95);
-	--card-bg-2: rgba(248, 250, 252, 0.95);
-	--card-hover-border: rgba(37, 99, 235, 0.18);
-	--card-hover-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
-	--btn-secondary-bg: rgba(15, 23, 42, 0.05);
-	--btn-secondary-hover: rgba(15, 23, 42, 0.1);
-	--code-bg: rgba(15, 23, 42, 0.06);
-}
 
 @font-face {
 	font-family: "Atkinson";

@@ -1,0 +1,82 @@
+---
+// SearchResults.astro - Search Results List inside Command Palette
+---
+<ul id="command-results" class="palette-results">
+	<!-- Results populated dynamically by JavaScript -->
+</ul>
+
+<style>
+	.palette-results {
+		list-style: none;
+		margin: 0;
+		padding: var(--spacing-xs, 0.5rem);
+		max-height: 350px;
+		overflow-y: auto;
+	}
+	
+	.palette-results :global(li a) {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--spacing-sm, 0.75rem);
+		padding: var(--spacing-sm, 0.75rem) var(--spacing-md, 1rem);
+		color: inherit;
+		text-decoration: none;
+		border-radius: var(--radius-sm, 6px);
+		transition: background var(--duration-fast);
+	}
+	
+	.palette-results :global(li a:hover),
+	.palette-results :global(li a:focus) {
+		background: var(--hover-bg);
+		outline: none;
+	}
+	
+	.palette-results :global(.icon) {
+		font-size: var(--font-size-md, 1.15rem);
+		margin-top: 0.1rem;
+	}
+	
+	.palette-results :global(.result-details) {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: var(--spacing-xxs, 0.2rem);
+	}
+	
+	.palette-results :global(.result-header) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		gap: var(--spacing-xs, 0.5rem);
+	}
+	
+	.palette-results :global(.name) {
+		font-weight: var(--font-weight-medium);
+		font-size: var(--font-size-sm);
+		color: var(--text);
+	}
+	
+	.palette-results :global(.badge-type) {
+		font-size: var(--font-size-xs, 0.75rem);
+		padding: 0.1rem 0.4rem;
+		background: var(--surface-elevated);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-xs, 4px);
+		color: var(--accent);
+		font-weight: var(--font-weight-semibold);
+	}
+	
+	.palette-results :global(.description) {
+		font-size: var(--font-size-xs);
+		color: var(--muted);
+		line-height: var(--line-height-normal);
+	}
+	
+	.palette-results :global(.empty-state) {
+		padding: var(--spacing-lg, 1.5rem);
+		text-align: center;
+		color: var(--muted);
+		font-size: var(--font-size-sm);
+	}
+</style>

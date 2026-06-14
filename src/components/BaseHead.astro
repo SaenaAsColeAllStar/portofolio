@@ -166,3 +166,18 @@ const websiteSchema = {
 
 	document.addEventListener('astro:page-load', initAnimatedFavicon);
 </script>
+
+<!-- Motion Foundation Engine -->
+<script>
+	import { initRevealAnimations } from '../lib/animations/reveal';
+	import { initCardAnimations } from '../lib/animations/cards';
+	import { initNavigationAnimations } from '../lib/animations/navigation';
+
+	function initMotionEngine() {
+		initRevealAnimations();
+		initCardAnimations();
+		initNavigationAnimations();
+	}
+
+	document.addEventListener('astro:page-load', initMotionEngine);
+</script>
