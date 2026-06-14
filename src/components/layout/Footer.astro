@@ -1,9 +1,9 @@
 ---
-import { socials } from "../data/socials";
-import { SITE_TITLE } from "../consts";
-import CommandPalette from "./CommandPalette.astro";
-import PageView from "./PageView.astro";
-import ChatWidget from "./ChatWidget.astro";
+import { socials } from "../../data/socials";
+import { SITE_TITLE } from "../../consts";
+import CommandPalette from "../command/CommandPalette.astro";
+import PageView from "../analytics/PageView.astro";
+import ChatWidget from "../contact/ChatWidget.astro";
 
 const today = new Date();
 ---
@@ -26,7 +26,7 @@ const today = new Date();
 <ChatWidget />
 
 <script>
-	import { initAnalytics } from "../utils/analytics";
+	import { initAnalytics } from "../../utils/analytics";
 	document.addEventListener("astro:page-load", initAnalytics);
 </script>
 

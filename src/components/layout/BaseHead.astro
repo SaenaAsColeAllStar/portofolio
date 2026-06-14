@@ -1,10 +1,10 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
+import '../../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import { positioning } from '../data/positioning';
-import { socials } from '../data/socials';
+import { positioning } from '../../data/positioning';
+import { socials } from '../../data/socials';
 
 interface Props {
 	title: string;
@@ -169,14 +169,16 @@ const websiteSchema = {
 
 <!-- Motion Foundation Engine -->
 <script>
-	import { initRevealAnimations } from '../lib/animations/reveal';
-	import { initCardAnimations } from '../lib/animations/cards';
-	import { initNavigationAnimations } from '../lib/animations/navigation';
+	import { initRevealAnimations } from '../../lib/motion/reveal';
+	import { initCardAnimations } from '../../lib/motion/cards';
+	import { initNavigationAnimations } from '../../lib/motion/navigation';
+	import { initCursorTracking } from '../../lib/motion/cursor';
 
 	function initMotionEngine() {
 		initRevealAnimations();
 		initCardAnimations();
 		initNavigationAnimations();
+		initCursorTracking();
 	}
 
 	document.addEventListener('astro:page-load', initMotionEngine);

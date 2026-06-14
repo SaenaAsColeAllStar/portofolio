@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
+
+interface Props {
+  locale: 'en' | 'id';
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const notes = (await getCollection("notes"))
+	.filter((n) => n.id.startsWith(locale + "/"))
+	.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+	.slice(0, 3);
+
+function getCleanSlug(id: string) {
+	const parts = id.split('/');
+	return parts.slice(1).join('/');
+}
+---
+
+{notes.length > 0 && (
+	<section class="section">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow">{locale === 'en' ? 'Technical Notes' : 'Catatan Teknis'}</p>
+				<h2>{t("home.notesHeadline")}</h2>
+			</div>
+			<a href={getLocalizedUrl("/notes", locale)}>{t("btn.viewAll")}</a>
+		</div>
+		<div class="grid grid-3">
+			{notes.map((note) => (
+				<article class="card note-card">
+					<p class="eyebrow">{note.data.category}</p>
+					<h3><a href={getLocalizedUrl(`/notes/${getCleanSlug(note.id)}`, locale)}>{note.data.title}</a></h3>
+					<p>{note.data.excerpt}</p>
+				</article>
+			))}
+		</div>
+	</section>
+)}
+
+<style>
+	.section-heading {
+		margin-top: 1.5rem;
+		align-items: center;
+		display: flex;
+		gap: 1.5rem;
+		justify-content: space-between;
+	}
+	.section-heading a {
+		text-decoration: none;
+	}
+	.note-card {
+		display: grid;
+		gap: 1rem;
+	}
+	.note-card a {
+		text-decoration: none;
+	}
+	@media (max-width: 860px) {
+		.section-heading {
+			align-items: stretch;
+			flex-direction: column;
+		}
+	}
+</style>

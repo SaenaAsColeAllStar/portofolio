@@ -1,0 +1,162 @@
+[
+  {
+    "title": "CTOS Portfolio Platform",
+    "excerpt": "A content-first personal branding platform for demonstrating infrastructure, AI workflows, automation, and product engineering capability.",
+    "url": "/projects/ctos-portfolio-platform",
+    "type": "Project",
+    "locale": "en",
+    "tags": [],
+    "category": "Personal Branding Platform"
+  },
+  {
+    "title": "SMK Teknovo Ecosystem",
+    "excerpt": "Designed and integrated a complete educational ecosystem connecting learning operations, CBT exams, and edge infrastructure.",
+    "url": "/projects/smk-teknovo-ecosystem",
+    "type": "Project",
+    "locale": "en",
+    "tags": [],
+    "category": "Education Technology"
+  },
+  {
+    "title": "Platform Portofolio CTOS",
+    "excerpt": "Platform penjenamaan personal berbasis konten untuk mendemonstrasikan kapabilitas infrastruktur, alur kerja AI, otomatisasi, dan rekayasa produk.",
+    "url": "/id/projects/ctos-portfolio-platform",
+    "type": "Proyek",
+    "locale": "id",
+    "tags": [],
+    "category": "Platform Penjenamaan Personal"
+  },
+  {
+    "title": "Ekosistem SMK Teknovo",
+    "excerpt": "Merancang dan mengintegrasikan ekosistem pendidikan lengkap yang menghubungkan operasional pembelajaran, ujian CBT, dan infrastruktur edge.",
+    "url": "/id/projects/smk-teknovo-ecosystem",
+    "type": "Proyek",
+    "locale": "id",
+    "tags": [],
+    "category": "Pendidikan & Teknologi"
+  },
+  {
+    "title": "CTOS Portfolio Platform",
+    "excerpt": "How the portfolio itself becomes a credibility system for a Digital Systems Architect positioning.",
+    "url": "/case-studies/ctos-portfolio-platform",
+    "type": "Case Study",
+    "locale": "en",
+    "tags": [],
+    "category": ""
+  },
+  {
+    "title": "SMK Teknovo Ecosystem",
+    "excerpt": "A flagship case study for building an education-oriented digital ecosystem with architecture-first storytelling.",
+    "url": "/case-studies/smk-teknovo-ecosystem",
+    "type": "Case Study",
+    "locale": "en",
+    "tags": [],
+    "category": ""
+  },
+  {
+    "title": "Platform Portofolio CTOS",
+    "excerpt": "Bagaimana portofolio itu sendiri menjadi sistem kredibilitas untuk penempatan posisi Arsitek Sistem Digital.",
+    "url": "/id/case-studies/ctos-portfolio-platform",
+    "type": "Studi Kasus",
+    "locale": "id",
+    "tags": [],
+    "category": ""
+  },
+  {
+    "title": "Ekosistem SMK Teknovo",
+    "excerpt": "Studi kasus unggulan untuk membangun ekosistem digital berorientasi pendidikan dengan penceritaan yang mengutamakan arsitektur.",
+    "url": "/id/case-studies/smk-teknovo-ecosystem",
+    "type": "Studi Kasus",
+    "locale": "id",
+    "tags": [],
+    "category": ""
+  },
+  {
+    "title": "Edge Caching & Database State Coordination",
+    "excerpt": "Practical insights on coordinating stateless serverless runtimes with centralized relational databases.",
+    "url": "/notes/arsitektur-sistem",
+    "type": "Technical Note",
+    "locale": "en",
+    "tags": [
+      "Edge Computing",
+      "PostgreSQL",
+      "Cloudflare Hyperdrive"
+    ],
+    "category": "Cloudflare Notes"
+  },
+  {
+    "title": "Terraform State Locking & Resilient CI/CD Dry-runs",
+    "excerpt": "Practical troubleshooting notes on avoiding state corruption during concurrent GitHub Actions workflow runs.",
+    "url": "/notes/infrastructure-as-code",
+    "type": "Technical Note",
+    "locale": "en",
+    "tags": [
+      "Terraform",
+      "AWS",
+      "GitHub Actions"
+    ],
+    "category": "Infrastructure Notes"
+  },
+  {
+    "title": "Edge Caching & Koordinasi Status Basis Data",
+    "excerpt": "Wawasan praktis tentang mengoordinasikan runtime serverless stateless dengan basis data relasional terpusat.",
+    "url": "/id/notes/arsitektur-sistem",
+    "type": "Catatan Teknis",
+    "locale": "id",
+    "tags": [
+      "Edge Computing",
+      "PostgreSQL",
+      "Cloudflare Hyperdrive"
+    ],
+    "category": "Catatan Cloudflare"
+  },
+  {
+    "title": "Penguncian State Terraform & Dry-run CI/CD yang Tangguh",
+    "excerpt": "Catatan pemecahan masalah praktis tentang menghindari kerusakan state selama alur kerja GitHub Actions berjalan bersamaan.",
+    "url": "/id/notes/infrastructure-as-code",
+    "type": "Catatan Teknis",
+    "locale": "id",
+    "tags": [
+      "Terraform",
+      "AWS",
+      "GitHub Actions"
+    ],
+    "category": "Catatan Infrastruktur"
+  },
+  {
+    "title": "AWS Certified Solutions Architect – Associate",
+    "excerpt": "",
+    "url": "/certificates/aws-architect",
+    "type": "Certificate",
+    "locale": "en",
+    "tags": [],
+    "category": "Cloud"
+  },
+  {
+    "title": "Certified Kubernetes Application Developer (CKAD)",
+    "excerpt": "",
+    "url": "/certificates/ckad-kubernetes",
+    "type": "Certificate",
+    "locale": "en",
+    "tags": [],
+    "category": "Operations"
+  },
+  {
+    "title": "AWS Certified Solutions Architect – Associate",
+    "excerpt": "",
+    "url": "/id/certificates/aws-architect",
+    "type": "Sertifikat",
+    "locale": "id",
+    "tags": [],
+    "category": "Cloud"
+  },
+  {
+    "title": "Certified Kubernetes Application Developer (CKAD)",
+    "excerpt": "",
+    "url": "/id/certificates/ckad-kubernetes",
+    "type": "Sertifikat",
+    "locale": "id",
+    "tags": [],
+    "category": "Operations"
+  }
+]

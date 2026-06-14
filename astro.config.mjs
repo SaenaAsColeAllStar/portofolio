@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import vue from "@astrojs/vue";
 
 import cloudflare from "@astrojs/cloudflare";
 
@@ -15,7 +16,7 @@ export default defineConfig({
 			prefixDefaultLocale: false,
 		},
 	},
-	integrations: [mdx(), sitemap()],
+	integrations: [mdx(), sitemap(), vue()],
 	adapter: cloudflare({
 		imageService: "compile",
 		platformProxy: {
@@ -23,3 +24,4 @@ export default defineConfig({
 		},
 	}),
 });
+

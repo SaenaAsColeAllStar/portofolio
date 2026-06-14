@@ -16,11 +16,14 @@
 		"@astrojs/mdx": "4.3.13",
 		"@astrojs/rss": "4.0.14",
 		"@astrojs/sitemap": "3.6.1",
+		"@astrojs/vue": "^6.0.1",
 		"astro": "5.16.9",
 		"drizzle-orm": "^0.45.2",
+		"fuse.js": "^7.4.2",
 		"pg": "^8.21.0",
 		"postgres": "^3.4.9",
-		"typescript": "5.9.3"
+		"typescript": "5.9.3",
+		"vue": "^3.5.38"
 	},
 	"devDependencies": {
 		"@types/pg": "^8.20.0",
@@ -37,12 +40,12 @@
 	"private": true,
 	"scripts": {
 		"astro": "astro",
-		"build": "astro build",
+		"build": "node src/lib/search/build-index.js && astro build",
 		"cf-typegen": "wrangler types",
-		"check": "astro build && tsc && wrangler deploy --dry-run",
+		"check": "node src/lib/search/build-index.js && astro build && tsc && wrangler deploy --dry-run",
 		"deploy": "wrangler deploy",
-		"dev": "astro dev",
-		"preview": "astro build && wrangler dev",
+		"dev": "node src/lib/search/build-index.js && astro dev",
+		"preview": "node src/lib/search/build-index.js && astro build && wrangler dev",
 		"test": "vitest run"
 	},
 	"type": "module"

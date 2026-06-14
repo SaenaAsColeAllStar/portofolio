@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import { useTranslations, getLocalizedUrl } from "../../utils/i18n";
+
+interface Props {
+  locale: 'en' | 'id';
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const projects = (await getCollection("projects")).filter((p) => p.id.startsWith(locale + "/"));
+const featuredProjects = projects.filter((project) => project.data.featured).slice(0, 3);
+
+function getCleanSlug(id: string) {
+	const parts = id.split('/');
+	return parts.slice(1).join('/');
+}
+---
+
+<section class="section">
+	<div class="section-heading">
+		<div>
+			<p class="eyebrow">{locale === 'en' ? 'Selected Projects' : 'Proyek Pilihan'}</p>
+			<h2>{t("home.projectsHeadline")}</h2>
+		</div>
+		<a href={getLocalizedUrl("/projects", locale)}>{t("btn.viewAll")}</a>
+	</div>
+	<div class="grid grid-2">
+		{featuredProjects.map((project) => (
+			<article class="card project-card">
+				<p class="eyebrow">{project.data.category}</p>
+				<h3><a href={getLocalizedUrl(`/projects/${getCleanSlug(project.id)}`, locale)}>{project.data.title}</a></h3>
+				<p>{project.data.excerpt}</p>
+				<div class="badge-row">
+					{project.data.domains.map((domain) => <span class="badge">{domain}</span>)}
+				</div>
+			</article>
+		))}
+	</div>
+</section>
+
+<style>
+	.section-heading {
+		margin-top: 1.5rem;
+		align-items: center;
+		display: flex;
+		gap: 1.5rem;
+		justify-content: space-between;
+	}
+	.section-heading a {
+		text-decoration: none;
+	}
+	.project-card {
+		display: grid;
+		gap: 1rem;
+	}
+	.project-card a {
+		text-decoration: none;
+	}
+	@media (max-width: 860px) {
+		.section-heading {
+			align-items: stretch;
+			flex-direction: column;
+		}
+	}
+</style>

@@ -1,6 +1,5 @@
 // reveal.ts - Scroll Reveal animations utilizing Web Animations API
 export function initRevealAnimations() {
-	// Respect user reduced-motion preference
 	if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 		const animatedElements = document.querySelectorAll('[data-animate="reveal"]');
 		animatedElements.forEach(el => {

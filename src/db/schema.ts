@@ -55,5 +55,11 @@ export const rateLimits = pgTable('rate_limits', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const countryViews = pgTable('country_views', {
+  countryCode: text('country_code').primaryKey(),
+  visits: integer('visits').default(0).notNull(),
+  lastSeen: timestamp('last_seen').defaultNow().notNull(),
+});
+
 
 

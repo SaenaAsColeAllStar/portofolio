@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { getDb } from '../../db';
-import { pageViews } from '../../db/schema';
+import { pageViews, countryViews } from '../../db/schema';
 import { eq, sql } from 'drizzle-orm';
 
 // GET view count for a path
@@ -67,6 +67,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .returning({ count: pageViews.count });
 
     const count = result[0]?.count || 1;
+
+    // Track client country views
+    const countryCode = request.headers.get('cf-ipcountry') || request.headers.get('CF-IPCountry') || (request as any).cf?.country || 'US';
+    
+    await db.insert(countryViews)
+      .values({ countryCode, visits: 1, lastSeen: new Date() })
+      .onConflictDoUpdate({
+        target: countryViews.countryCode,
+        set: { visits: sql`${countryViews.visits} + 1`, lastSeen: sql`now()` },
+      });
 
     return new Response(JSON.stringify({ count }), {
       status: 200,
