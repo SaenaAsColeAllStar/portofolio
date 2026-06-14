@@ -1,0 +1,409 @@
+# CTOS Portfolio
+# 11 — Crab Identity System Roadmap
+
+## Purpose
+
+Create a signature identity system for CTOS Portfolio.
+
+This roadmap introduces a custom crab mascot inspired by the Cancer zodiac while remaining completely distinct from Claude's Hermit Crab.
+
+The goal is not to create a mascot.
+
+The goal is to create a living interaction system that becomes part of the CTOS brand.
+
+---
+
+# Design Principles
+
+## Rule 01
+
+Not a Hermit Crab.
+
+Avoid:
+
+- Shell house concept
+- Claude visual language
+- Rounded cartoon proportions
+- Copying existing mascot behavior
+
+---
+
+## Rule 02
+
+Represent Systems Thinking.
+
+The mascot should symbolize:
+
+- Infrastructure
+- Connections
+- Adaptability
+- Observation
+- Exploration
+- System orchestration
+
+---
+
+## Rule 03
+
+Premium SVG First.
+
+Requirements:
+
+- Fully vector based
+- 4K ready
+- Dark mode optimized
+- Motion-ready architecture
+- Layered SVG structure
+
+---
+
+# Mascot Concept
+
+## Project Name
+
+CTOS Sentinel Crab
+
+---
+
+## Personality
+
+The Sentinel Crab is:
+
+- Curious
+- Intelligent
+- Observant
+- Technical
+- Calm
+- Playful when interacted with
+
+---
+
+## Visual Direction
+
+Combine:
+
+- Deep sea crab anatomy
+- Futuristic geometry
+- Infrastructure-inspired details
+- Clean premium aesthetics
+
+Avoid:
+
+- Cute mascot style
+- Children's illustration style
+- Meme style
+
+---
+
+# SVG Architecture
+
+## Layer Structure
+
+Layer 01
+
+Body Core
+
+---
+
+Layer 02
+
+Eyes
+
+---
+
+Layer 03
+
+Claws
+
+---
+
+Layer 04
+
+Legs
+
+---
+
+Layer 05
+
+Antenna Signals
+
+---
+
+Layer 06
+
+Infrastructure Particles
+
+---
+
+Layer 07
+
+Glow Effects
+
+---
+
+# Motion System
+
+## Idle State
+
+The crab should never be completely static.
+
+Animations:
+
+- Breathing motion
+- Eye blinking
+- Tiny claw movement
+- Antenna oscillation
+
+Duration:
+
+4–8 seconds randomized
+
+---
+
+## Hover State
+
+Behavior:
+
+The crab notices the user.
+
+Interactions:
+
+- Eyes track cursor
+- Body raises slightly
+- Claws react
+- Antennas activate
+
+Goal:
+
+Create emotional response.
+
+---
+
+## Active State
+
+When hovering over important interface elements.
+
+Examples:
+
+- Projects
+- Case Studies
+- Architecture Nodes
+
+The crab reacts contextually.
+
+---
+
+# Context-Aware Interactions
+
+## Cloudflare Node
+
+Crab emits signal pulse.
+
+---
+
+## Astro Node
+
+Crab points toward node.
+
+---
+
+## Vue Node
+
+Eyes follow animation.
+
+---
+
+## AI Node
+
+Signal antenna becomes active.
+
+---
+
+## Proxmox Node
+
+Claw expands toward node.
+
+---
+
+# Hero Integration
+
+## Layout
+
+Left:
+
+CTOS Sentinel Crab
+
+Right:
+
+Interactive System Graph
+
+---
+
+## Interaction Flow
+
+Hover Node
+↓
+Graph Highlights
+↓
+Crab Reacts
+↓
+Metadata Appears
+
+---
+
+# Motion Layer Integration
+
+## Progressive Disclosure
+
+Visible:
+
+20%
+
+Discovered:
+
+80%
+
+---
+
+## Hidden Behaviors
+
+The crab occasionally:
+
+- Waves
+- Looks around
+- Inspects graph nodes
+- Reacts to scrolling
+
+---
+
+# Easter Egg System
+
+## Level 01
+
+10 hovers
+
+Special animation unlocked.
+
+---
+
+## Level 02
+
+Visit architecture explorer.
+
+New reaction unlocked.
+
+---
+
+## Level 03
+
+Open command center.
+
+Signal animation unlocked.
+
+---
+
+# Architecture Explorer Integration
+
+The mascot becomes a guide.
+
+Responsibilities:
+
+- Highlight relationships
+- Explain dependencies
+- Introduce systems
+
+The crab acts as a navigator.
+
+---
+
+# AI Command Center Integration
+
+When Command Center opens:
+
+The crab becomes active.
+
+Possible actions:
+
+- Search reaction
+- Loading animation
+- Success animation
+
+---
+
+# Mobile Experience
+
+## Floating Dock Companion
+
+The crab should partially appear above the dock.
+
+Interactions:
+
+- Peek animation
+- Notification reaction
+- Context awareness
+
+Goal:
+
+Create a signature mobile identity.
+
+---
+
+# Technical Requirements
+
+## SVG
+
+- Custom built
+- Not AI-generated stock SVG
+- Optimized paths
+- Layered animation structure
+
+---
+
+## Animation
+
+Preferred Stack:
+
+- Motion for Vue
+- Native CSS Animation
+- SVG Path Animation
+
+Avoid:
+
+- Heavy Lottie dependencies
+- Video assets
+
+---
+
+# Success Metrics
+
+Visitors remember:
+
+"The CTOS Crab"
+
+Before they remember:
+
+"The technologies used."
+
+---
+
+Recruiter Reaction:
+
+"This portfolio has a unique identity."
+
+---
+
+Awwwards Readiness:
+
+Increase visual memorability and emotional engagement.
+
+---
+
+# Final Vision
+
+The CTOS Sentinel Crab becomes a living interface element.
+
+Not decoration.
+
+Not a mascot.
+
+A recognizable digital companion that guides visitors through systems, projects, architecture, and technical stories across the entire portfolio experience.
