@@ -1,0 +1,529 @@
+# CTOS Portfolio
+# 12 — Interaction Behavior System
+
+## Purpose
+
+This roadmap defines the next evolution of the CTOS interaction system.
+
+Previous phases focused on:
+
+- UI
+- UX
+- Motion
+- Architecture
+- Identity
+
+This phase focuses on:
+
+Behavior.
+
+The goal is to move from animated interfaces to living interfaces.
+
+---
+
+# Core Philosophy
+
+Animation is not behavior.
+
+Motion is not behavior.
+
+Behavior is the ability for an interface element to react with intent.
+
+---
+
+# Current State
+
+Portfolio Status:
+
+- Strong visual foundation
+- Strong architecture
+- Strong motion system
+- Strong authority layer
+
+Missing:
+
+- Character behavior
+- Interaction memory
+- Context awareness
+- Attention systems
+
+---
+
+# CTOS Interaction Maturity Model
+
+Level 1
+
+Static UI
+
+---
+
+Level 2
+
+Animated UI
+
+---
+
+Level 3
+
+Interactive UI
+
+---
+
+Level 4
+
+Context Aware UI
+
+---
+
+Level 5
+
+Living Interface System
+
+Target:
+
+Level 5
+
+---
+
+# Architecture
+
+## Folder Structure
+
+src/components/animation/
+
+├── behaviors/
+├── state-machine/
+├── interactions/
+├── physics/
+├── svg/
+└── orchestration/
+
+---
+
+# Behavior Engine
+
+## Purpose
+
+Provide reusable interaction logic.
+
+Behaviors must be independent from UI components.
+
+---
+
+# Core Behaviors
+
+## Curious Behavior
+
+Purpose:
+
+Explore nearby activity.
+
+Flow:
+
+Observe
+↓
+Pause
+↓
+Inspect
+↓
+Idle
+
+---
+
+## Sentinel Behavior
+
+Purpose:
+
+Monitor important systems.
+
+Flow:
+
+Observe
+↓
+Highlight
+↓
+Signal
+↓
+Return
+
+---
+
+## Playful Behavior
+
+Purpose:
+
+Reward interaction.
+
+Flow:
+
+Notice
+↓
+React
+↓
+Bounce
+↓
+Settle
+
+---
+
+## Focus Behavior
+
+Purpose:
+
+Guide user attention.
+
+Flow:
+
+Highlight
+↓
+Emphasize
+↓
+Reveal
+
+---
+
+# State Machine System
+
+## Principle
+
+Every major interactive element should have states.
+
+---
+
+## Standard States
+
+Idle
+
+Aware
+
+Focused
+
+Active
+
+Completed
+
+Returning
+
+---
+
+# Cursor Awareness System
+
+## Purpose
+
+Create anticipation.
+
+---
+
+## Detection Zones
+
+Zone 1
+
+Far
+
+No reaction.
+
+---
+
+Zone 2
+
+Nearby
+
+Awareness begins.
+
+---
+
+Zone 3
+
+Hover
+
+Interaction starts.
+
+---
+
+Zone 4
+
+Active
+
+Full response.
+
+---
+
+# Attention System
+
+## Goal
+
+Guide user exploration.
+
+---
+
+Elements may:
+
+- Observe
+- Highlight
+- Pulse
+- Reveal
+
+---
+
+Never:
+
+- Flash aggressively
+- Compete for attention
+
+---
+
+# Context Awareness System
+
+## Principle
+
+Components should react differently depending on context.
+
+---
+
+Cloudflare
+
+Signal pulse.
+
+---
+
+Proxmox
+
+Infrastructure expansion.
+
+---
+
+Astro
+
+Orbit animation.
+
+---
+
+Vue
+
+Reactive ripple.
+
+---
+
+AI Systems
+
+Signal scan.
+
+---
+
+# Interaction Memory System
+
+## Purpose
+
+Allow the interface to remember interactions.
+
+---
+
+Examples
+
+Visited case studies.
+
+Viewed architecture nodes.
+
+Unlocked mascot reactions.
+
+Completed discoveries.
+
+---
+
+# Reward Loop System
+
+## Principle
+
+Every meaningful interaction should provide feedback.
+
+---
+
+Examples
+
+Hover
+↓
+Reaction
+
+Click
+↓
+Expansion
+
+Discovery
+↓
+New behavior
+
+---
+
+# CTOS Sentinel Crab Integration
+
+## Role
+
+The mascot becomes a behavior controller.
+
+---
+
+Responsibilities
+
+- Observe users
+- React to navigation
+- Respond to system nodes
+- Guide exploration
+
+---
+
+# Crab State Machine
+
+Idle
+
+Observe
+
+Inspect
+
+Signal
+
+Celebrate
+
+Return
+
+---
+
+# Hero System Integration
+
+Hover Node
+↓
+Graph Responds
+↓
+Crab Notices
+↓
+Metadata Appears
+↓
+Signal Pulse
+
+---
+
+# Architecture Explorer Integration
+
+The mascot becomes a guide.
+
+Possible actions:
+
+- Pointing
+- Observing
+- Explaining
+- Highlighting dependencies
+
+---
+
+# Floating Dock Integration
+
+Dock becomes context aware.
+
+---
+
+Interactions
+
+Resize
+
+Morph
+
+Expand
+
+Signal
+
+Respond
+
+---
+
+# Premium Interaction Targets
+
+Target Count:
+
+100+ meaningful micro interactions.
+
+---
+
+Focus Areas
+
+Hero
+
+Navigation
+
+Dock
+
+Case Studies
+
+Architecture Explorer
+
+Certificates
+
+Command Center
+
+---
+
+# Performance Rules
+
+Behavior must not reduce responsiveness.
+
+---
+
+Target:
+
+60 FPS
+
+INP < 200ms
+
+---
+
+Avoid:
+
+Heavy continuous calculations.
+
+---
+
+# Accessibility Rules
+
+Respect:
+
+prefers-reduced-motion
+
+---
+
+Provide:
+
+Alternative feedback mechanisms.
+
+---
+
+# Success Metrics
+
+Users describe the portfolio as:
+
+- Alive
+- Interactive
+- Memorable
+- Unique
+
+Instead of:
+
+- Animated
+- Modern
+
+---
+
+Recruiters remember:
+
+The CTOS experience.
+
+Not only the projects.
+
+---
+
+# Final Vision
+
+The portfolio should behave like a living digital system.
+
+Every interaction should feel intentional.
+
+Every response should feel meaningful.
+
+Every motion should feel connected to a larger behavioral architecture.
