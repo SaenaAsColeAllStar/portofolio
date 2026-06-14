@@ -173,15 +173,22 @@ try {
 
   input,
   textarea {
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 0.75rem;
     color: var(--text);
     font-family: inherit;
     font-size: 0.95rem;
+    line-height: 1.5;
     padding: 0.75rem 1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     width: 100%;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--subtle, #6e7890);
+    opacity: 1;
   }
 
   input:focus,
@@ -194,6 +201,13 @@ try {
   input.invalid,
   textarea.invalid {
     border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(255, 92, 108, 0.12);
+  }
+
+  input.invalid:focus,
+  textarea.invalid:focus {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(255, 92, 108, 0.2);
   }
 
   textarea {
