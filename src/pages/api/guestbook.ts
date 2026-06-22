@@ -56,7 +56,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Turnstile verification
-    const turnstileSecret = (env as any)?.TURNSTILE_SECRET_KEY || '0x4AAAAAADkIU9mGAs4or8oWnnk0sQMomdo';
+    const turnstileSecret = (env as any)?.TURNSTILE_SECRET_KEY || 'x';
     const isVerified = await verifyTurnstile(turnstileResponse, turnstileSecret, ip);
 
     if (!isVerified) {
